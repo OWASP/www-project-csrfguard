@@ -1,20 +1,23 @@
 ---
 
 layout: col-sidebar
-title: OWASP csrfguard
-tags: example-tag
+title: CSFRGuard
+site_side: true
+tags: csrfguard
+project: true
 level: 4
-type: code
+type: tool
 
 ---
+<!-- rebuild 40 -->
 
-This is an example of a Project or Chapter Page.  Please change these items to indicate the actual information you wish to present.  In addition to this information, the 'front-matter' above this text should be modified to reflect your actual information.  An explanation of each of the front-matter items is below:
+The OWASP CSRFGuard is one of the world’s most popular free security tools and is actively maintained by a pool of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. Its also a great tool for experienced pentesters to use for manual security testing.
 
-layout: This is the layout used by project and chapter pages.  You should leave this value as col-sidebar
+Welcome to the home of the OWASP CSRFGuard Project! OWASP CSRFGuard is a library that implements a variant of the synchronizer token pattern to mitigate the risk of Cross-Site Request Forgery (CSRF) attacks. 
 
-title: This is the title of your project or chapter page, usually the name.  For example, OWASP Zed Attack Proxy or OWASP Baltimore
+The OWASP CSRFGuard library is integrated through the use of a JavaEE Filter and exposes various automated and manual ways to integrate per-session or pseudo-per-request tokens into HTML. When a user interacts with this HTML, CSRF prevention tokens (i.e. cryptographically random synchronizer tokens) are submitted with the corresponding HTTP request. 
 
-tags: This is a space-delimited list of tags you associate with your project or chapter.  If you are using tabs, at least one of these tags should be unique in order to be used in the tabs files (an example tab is included in this repo) 
+It is the responsibility of OWASP CSRFGuard to ensure the token is present and is valid for the current HTTP request. 
 
-level: For projects, this is your project level (2 - Incubator, 3 - Lab, 4 - Flagship)
-
+Any attempt to submit a request to a protected resource without the correct corresponding token is viewed as a CSRF attack in progress and is discarded. Prior to discarding the request, CSRFGuard can be configured to take one or more actions such as logging aspects of the request and redirecting the user to a landing page. 
+The latest release enhances this strategy to support the optional verification of HTTP requests submitted using Ajax as well as the optional verification of referrer headers.
