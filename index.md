@@ -1,7 +1,7 @@
 ---
 
 layout: col-sidebar
-title: CSFRGuard
+title: OWASP CSFRGuard
 site_side: true
 tags: csrfguard
 project: true
