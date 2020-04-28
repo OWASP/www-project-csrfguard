@@ -15,7 +15,9 @@ We need first to create a complete set of installation guide for various Java Ap
 
 # CSRFGuard 4.0 features
 
-After we work on the roadmap including the following enhancement:
+CSRFGuard 4.0 is under developpement. If you are Java développer and want to help as OWASP voloneteer please contact the project leader.
+
+## The following roadmap will remove the following CSRFGuard limitations:
 
 - CSRF Guard utilizes the external interface of Tomcat web server; it may not provide adequate protection for other web server applications (e.g. Internet Information Server IIS).
 - CSRF Guard can provide adequate protection against CSRF attacks; however, it can be compromised by server side vulnerabilities such as cross site scripting or client side vulnerabilities (session hijacking or clickjacking) or unintentional leverage token by unauthorized parties.
