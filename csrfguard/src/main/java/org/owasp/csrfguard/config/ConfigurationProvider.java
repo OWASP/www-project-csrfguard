@@ -152,6 +152,13 @@ public interface ConfigurationProvider {
     /**
      * TODO document
      *
+     * @return whether or not the legacy Synchronous AJAX requests are enabled
+     */
+    boolean isForceSynchronousAjax();
+
+    /**
+     * TODO document
+     *
      * @return
      */
     Set<String> getProtectedPages();

@@ -128,6 +128,11 @@ public final class NullConfigurationProvider implements ConfigurationProvider {
     }
 
     @Override
+    public boolean isForceSynchronousAjax() {
+        return false;
+    }
+
+    @Override
     public Set<String> getProtectedPages() {
         return Collections.emptySet();
     }

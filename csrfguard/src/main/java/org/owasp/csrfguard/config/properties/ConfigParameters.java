@@ -44,6 +44,7 @@ public final class ConfigParameters {
     public static final SimpleBooleanConfigParameter CSRFGUARD_ENABLED = new SimpleBooleanConfigParameter("org.owasp.csrfguard.Enabled", true);
     public static final SimpleBooleanConfigParameter AJAX_ENABLED = new SimpleBooleanConfigParameter("org.owasp.csrfguard.Ajax", false);
     public static final SimpleBooleanConfigParameter CSRFGUARD_PROTECT = new SimpleBooleanConfigParameter("org.owasp.csrfguard.Protect", false);
+    public static final SimpleBooleanConfigParameter FORCE_SYNCHRONOUS_AJAX = new SimpleBooleanConfigParameter("org.owasp.csrfguard.forceSynchronousAjax", false);
 
     public static final SimpleIntConfigParameter TOKEN_LENGTH = new SimpleIntConfigParameter("org.owasp.csrfguard.TokenLength", 32);
     public static final SimpleDurationParameter PAGE_TOKEN_SYNCHRONIZATION_TOLERANCE = new SimpleDurationParameter("org.owasp.csrfguard.PageTokenSynchronizationTolerance", Duration.of(2, ChronoUnit.SECONDS));

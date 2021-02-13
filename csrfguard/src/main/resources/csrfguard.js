@@ -526,7 +526,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
         function requestPageTokens(tokenName, tokenValue, callback) {
             const xhr = window.XMLHttpRequest ? new window.XMLHttpRequest : new window.ActiveXObject('Microsoft.XMLHTTP');
 
-            xhr.open('POST', '%SERVLET_PATH%');
+            xhr.open('POST', '%SERVLET_PATH%', '%ASYNC_XHR%');
 
             /* if AJAX is enabled, the token header will be automatically added, no need to set it again */
             if ('%INJECT_XHR%' !== true) {
