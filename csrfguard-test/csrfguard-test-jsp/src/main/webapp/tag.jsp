@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%-- FIXME the TLD path is not correct, should be WEB-INF/csrfguard.tld or something --%>
 <%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -21,6 +20,7 @@
 </ul>
 <br/>
 <h3>Test Form(s)</h3>
+<b>Used token rotation is not supported with JSPs<b>.
 <form id="formTest1" name="formTest1" action="protect.html">
 	<input type="text" name="text" value="text"/>
 	<input type="submit" name="submit" value="submit"/>

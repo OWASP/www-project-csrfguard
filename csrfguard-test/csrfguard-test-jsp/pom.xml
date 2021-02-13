@@ -54,7 +54,6 @@
     </dependencies>
 
     <build>
-        <!-- TODO move the TAGS extension TLD file under the WEB-INF/csrfguard.tld when creating the war -->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
