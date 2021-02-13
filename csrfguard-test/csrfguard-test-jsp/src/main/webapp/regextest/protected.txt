@@ -1,0 +1,11 @@
+Everything under /regextest/ that starts with protected should be protected unless it's .txt
+
+see: isProtectEnabled()
+
+protected:
+^/regextest/protected\..*$
+^/regextest/.*/protected\.html$
+
+unprotected:
+^/regextest/.*\.txt$
+^/regextest/.*/.*\.txt$
