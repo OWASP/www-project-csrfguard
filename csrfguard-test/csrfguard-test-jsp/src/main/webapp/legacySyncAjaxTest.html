@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page for testing legacy synchronous AJAX requests</title>
+</head>
+<body>
+    <h2>Important note: </h2>
+    <p>
+        The current approach of the OWASP CSRFGuard relies on JavaScript logic for injecting CSRF tokens into HTML elements or XHR requests.
+        Forcing synchronous loading of the AJAX requests has been disabled, since they were
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests#synchronous_request">deprecated</a>
+        due to their negative impact on the user experience. For this reason, protecting resources that would load
+        before or in parallel with the JavaScript logic (e.g. references IFrames or IMG tags) is not possible.
+        In most cases this should not be a problem, because usually GET requests should not facilitate state-changing operations.
+        If this last condition cannot be fulfilled (e.g. for legacy applications), backwards compatibility can be achieved by enabling the
+        "forceSynchronousAjax" property within the configurations, until there is browser support for it.
+    </p>
+    <h3>IFrame</h3>
+    <p>Aims to test token injection for referenced protected pages that are loaded before user interaction.<p>
+    <iframe src="/protect.html"></iframe>
+    <br/><br/>
+
+    <h3>Image Tag</h3>
+    <p>Aims to test token injection for referenced protected pages that are loaded before user interaction.<p>
+    <img src="owasp_logo.png" alt="OWASP logo"/>
+</body>
+</html>

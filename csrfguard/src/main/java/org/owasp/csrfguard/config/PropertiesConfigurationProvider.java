@@ -98,6 +98,8 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 
 	private boolean protect;
 
+	private boolean forceSynchronousAjax;
+
 	private String domainOrigin;
 
 	private Duration pageTokenSynchronizationTolerance;
@@ -168,6 +170,7 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 				this.printConfig = PropertyUtils.getProperty(properties, ConfigParameters.PRINT_ENABLED);
 
 				this.protect = PropertyUtils.getProperty(properties, ConfigParameters.CSRFGUARD_PROTECT);
+				this.forceSynchronousAjax = PropertyUtils.getProperty(properties, ConfigParameters.FORCE_SYNCHRONOUS_AJAX);
 
 				this.newTokenLandingPage = PropertyUtils.getProperty(properties, ConfigParameters.NEW_TOKEN_LANDING_PAGE);
 				this.useNewTokenLandingPage = PropertyUtils.getProperty(properties, ConfigParameters.getUseNewTokenLandingPage(this.newTokenLandingPage));
@@ -247,6 +250,11 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 	@Override
 	public boolean isProtectEnabled() {
 		return this.protect;
+	}
+
+	@Override
+	public boolean isForceSynchronousAjax() {
+		return this.forceSynchronousAjax;
 	}
 
 	@Override
@@ -531,7 +539,7 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 			// FIXME implement in the JS logic (calculatePageTokenForUri)
 			this.logger.log(LogLevel.Warning, "'Extension' and 'partial path wildcard' matching for page tokens is not supported properly yet! " +
 											  "Every resource will be assigned a new unique token instead of using the defined resource matcher token. " +
-											  "Although this is not a security issue, in case of a large REST application it can have an impact on performance." +
+											  "Although this is not a security issue, in case of a large REST application it can have an impact on performance. " +
 											  "Consider using regular expressions instead.");
 		}
 

@@ -21,7 +21,7 @@
 	<listener>
 		<listener-class>org.owasp.csrfguard.CsrfGuardHttpSessionListener</listener-class>
 	</listener>
-	
+
 	<filter>
 		<filter-name>CSRFGuard</filter-name>
 		<filter-class>org.owasp.csrfguard.CsrfGuardFilter</filter-class>

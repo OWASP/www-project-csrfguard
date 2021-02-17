@@ -133,6 +133,10 @@ public class CsrfGuard {
         return config().isAjaxEnabled();
     }
 
+    public boolean isForceSynchronousAjax() {
+        return config().isForceSynchronousAjax();
+    }
+
     /**
      * @see ConfigurationProvider#isProtectEnabled()
      */

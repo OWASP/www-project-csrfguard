@@ -26,4 +26,4 @@ Thanks to Trent Schmidt and Joel Orlina (JIRA) for there help.
 
 ### Licensing
 
-OWASP CSRFGuard 3.1.0 is offered under the [BSD license](http://www.opensource.org/licenses/bsd-license.php)
+OWASP CSRFGuard 4.0.0 is offered under the [BSD license](http://www.opensource.org/licenses/bsd-license.php)
