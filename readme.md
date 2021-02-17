@@ -1,8 +1,8 @@
 # IMPORTANT NOTICE
 
-We are working on new version of CSRFGuard including a lot of merge request with goood proposals and also a new code to fix known issues on XSS attacks that bypass CSRFGuard.
+We are working on a new version of CSRFGuard including a lot of merge request with good proposals and new code to fix known issues on XSS attacks that bypass CSRFGuard.
 
-## Target date for the new relase 4.0 : end of Q2 2020
+## Target date for the new release 4.0 : 2021
 
 ## We need your help. If you want to give few hours of your time to help us please contact me.
 
@@ -38,12 +38,12 @@ OWASP CSRFGuard 3.1.0 will be available on Maven Central.  Add the following dep
 
 ## Building the code
 
-1. Make sure that you have [Apache Maven](http://maven.apache.org/) 3.0.4 or higher installed;
-2. Make sure that you have [GPG](http://www.gnupg.org/) installed and a secret key generated with it;
-3. Clone this repository locally;
-4. Build the ```csrfguard``` project first as ```cd csrfguard``` followed by ```mvn clean install```;
-5. Build and run the ```csrfguard-test``` project as ```cd ../csrfguard-test``` followed by ```mvn clean package tomcat7:run```;
-6. Use a web browser to access ```http://localhost:8000``` to open the home page of the test project.
+1. Make sure you have [Apache Maven](http://maven.apache.org/) 3.0.4 or higher installed
+2. Clone this repository locally
+3. Build the project by running ```mvn clean install``` in the project root directory
+4. Build and run the test JSP web application by running ```mvn pre-integration-test -Pdeploy-jsp-webapp -pl csrfguard-test/csrfguard-test-jsp``` or ```mvn -Pdeploy-jsp-webapp -pl csrfguard-test/csrfguard-test-jsp tomcat7:run```
+5. Optional: you can use ```mvnDebug``` to enable remote debugging, then connect your IDE to it (default port is 8000)
+6. Use a web browser to access ```http://localhost:8080``` to open the home page of the test project
 
 ## Uploading to the Maven Central repository
 
@@ -74,4 +74,14 @@ https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~
 
 Thanks to Trent Schmidt and Joel Orlina (JIRA)  for there help.
 
+## CSRFGuard integration with a JSF application
 
+Yi SONG create for CSRFGuard project a simple example to demostrate the CSRFGuard integration with a JSF application.
+
+The original JSF project is taken from https://mkyong.com/jsf2/jsf-2-0-hello-world-example/
+
+After integrating with csrfguard, the project has been tested on netbean 8.2 with glassfish 4.1.1
+
+### Yi SONG Bio:
+Yi SONG received my master of engineering in China in 2006. Then I start work for Axalto, then Gemalto  and then Thales till now.
+He has 3 years experience on smartcard development, 10 years experience on cryptography and hardware security module. Since end of 2018, his work is focusing on web application and cloud.

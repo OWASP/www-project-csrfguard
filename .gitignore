@@ -1,3 +1,48 @@
-__pycache__
-env
-.vscode
+## Directory-based project format:
+.idea/
+!.idea/copyright
+!.idea/dataSources.xml
+
+## File-based project format:
+*.ipr
+*.iws
+*.iml
+
+# Output directories
+target/
+/build/
+/dist/
+bin/
+*.class
+
+# Eclipse metadata
+.metadata
+.project
+.recommenders
+.settings
+.classpath
+.loadpath
+
+# NetBeans specific
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# SonarGraph metadata
+*.sonargraph
+
+# Overlays
+*overlays/
+
+# MacOS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

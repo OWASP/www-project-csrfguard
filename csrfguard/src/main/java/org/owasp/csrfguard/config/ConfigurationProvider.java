@@ -1,19 +1,19 @@
-/**
+/*
  * The OWASP CSRFGuard Project, BSD License
- * Eric Sheridan (eric@infraredsecurity.com), Copyright (c) 2011 
+ * Copyright (c) 2011, Eric Sheridan (eric@infraredsecurity.com)
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- *    1. Redistributions of source code must retain the above copyright notice,
- *       this list of conditions and the following disclaimer.
- *    2. Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *    3. Neither the name of OWASP nor the names of its contributors may be used
- *       to endorse or promote products derived from this software without specific
- *       prior written permission.
+ *     1. Redistributions of source code must retain the above copyright notice,
+ *        this list of conditions and the following disclaimer.
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *     3. Neither the name of OWASP nor the names of its contributors may be used
+ *        to endorse or promote products derived from this software without specific
+ *        prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -26,124 +26,299 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package org.owasp.csrfguard.config;
 
+import org.owasp.csrfguard.action.IAction;
+import org.owasp.csrfguard.log.ILogger;
+import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
+import org.owasp.csrfguard.token.storage.TokenHolder;
+
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.owasp.csrfguard.action.IAction;
-import org.owasp.csrfguard.log.ILogger;
-
+/**
+ * TODO document
+ */
 public interface ConfigurationProvider {
 
-	/** @return true when this configuration provider can be cached for a minute, i.e. it is all setup */
-	boolean isCacheable();
-	
-	boolean isPrintConfig();
-	
-	ILogger getLogger();
+    /**
+     * TODO document
+     *
+     * @return true when this configuration provider can be cached for a minute, i.e. it is all setup
+     */
+    boolean isCacheable();
 
-	String getTokenName();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    boolean isPrintConfig();
 
-	/**
-	 * If csrf guard filter should check even if there is no session for the user
-	 * Note: this changed around 2014/04, the default behavior used to be to 
-	 * not check if there is no session.  If you want the legacy behavior (if your app
-	 * is not susceptible to CSRF if the user has no session), set this to false
-	 * @return true when validation is performed even when no session exists
-	 */
-	public boolean isValidateWhenNoSessionExists();
-	
-	int getTokenLength();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    ILogger getLogger();
 
-	boolean isRotateEnabled();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    String getTokenName();
 
-	boolean isTokenPerPageEnabled();
+    /**
+     * If csrf guard filter should check even if there is no session for the user
+     * Note: this changed around 2014/04, the default behavior used to be to
+     * not check if there is no session.  If you want the legacy behavior (if your app
+     * is not susceptible to CSRF if the user has no session), set this to false
+     *
+     * @return true when validation is performed even when no session exists
+     */
+    boolean isValidateWhenNoSessionExists();
 
-	boolean isTokenPerPagePrecreateEnabled();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    int getTokenLength();
 
-	SecureRandom getPrng();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    boolean isRotateEnabled();
 
-	String getNewTokenLandingPage();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    boolean isTokenPerPageEnabled();
 
-	boolean isUseNewTokenLandingPage();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    boolean isTokenPerPagePrecreateEnabled();
 
-	boolean isAjaxEnabled();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    SecureRandom getPrng();
 
-	boolean isProtectEnabled();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    String getNewTokenLandingPage();
 
-	String getSessionKey();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    boolean isUseNewTokenLandingPage();
 
-	Set<String> getProtectedPages();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    boolean isAjaxEnabled();
 
-	Set<String> getUnprotectedPages();
+    /**
+     * The default behavior of CSRFGuard is to protect all pages. Pages marked as unprotected will not be protected.<br>
+     * If the Protect property is enabled, this behavior is reversed. Pages must be marked as protected to be protected.
+     * All other pages will not be protected. This is useful when the CsrfGuardFilter is aggressively mapped (ex: /*),
+     * but you only want to protect a few pages.
+     *
+     * @return false if all pages are protected, true if pages are required to be explicit protected
+     */
+    boolean isProtectEnabled();
 
-	Set<String> getProtectedMethods();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    Set<String> getProtectedPages();
 
-	/**
-	 * if there are methods here, then all other HTTP methods are protected and these (e.g. GET) are unprotected
-	 * @return the unprotected methods
-	 */
-	Set<String> getUnprotectedMethods();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    Set<String> getUnprotectedPages();
 
-	/**
-	 * if the filter is enabled
-	 * @return is csrf guard filter is enabled
-	 */
-	boolean isEnabled();
-	
-	List<IAction> getActions();
-	
-	String getJavascriptSourceFile();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    Set<String> getProtectedMethods();
 
-	boolean isJavascriptDomainStrict();
-	
-	String getDomainOrigin();
+    /**
+     * if there are methods here, then all other HTTP methods are protected and these (e.g. GET) are unprotected
+     *
+     * @return the unprotected methods
+     */
+    Set<String> getUnprotectedMethods();
 
-	String getJavascriptCacheControl();
+    /**
+     * if the filter is enabled
+     *
+     * @return is csrf guard filter is enabled
+     */
+    boolean isEnabled();
 
-	Pattern getJavascriptRefererPattern();
-	 
- 	/**
-	 * if the token should be injected in GET forms (which will be on the URL)
-	 * if the HTTP method GET is unprotected, then this should likely be false
-	 * @return true if the token should be injected in GET forms via Javascript
-	 */
-	boolean isJavascriptInjectGetForms();
- 	
-	/**
-	 * if the token should be injected in the action in forms
-	 * note, if injectIntoForms is true, then this might not need to be true
-	 * @return if inject
-	 */
-	boolean isJavascriptInjectFormAttributes();
-	
-	boolean isJavascriptInjectIntoForms();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    List<IAction> getActions();
 
-	/**
-	 * if the referer to the javascript must match match the protocol of the domain
-	 * @return true if the javascript must match the protocol of the domain
-	 */
-	boolean isJavascriptRefererMatchProtocol();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    String getJavascriptSourceFile();
 
-	/**
-	 * if the referer to the javascript must match domain
-	 * @return true if the javascript must match domain
-	 */
-	boolean isJavascriptRefererMatchDomain();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    boolean isJavascriptDomainStrict();
 
-	boolean isJavascriptInjectIntoAttributes();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    String getDomainOrigin();
 
-	String getJavascriptXrequestedWith();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    String getJavascriptCacheControl();
 
-	String getJavascriptTemplateCode();
-	
-	/**
-	 * example:"js,css,gif,png,ico,jpg"
-	 * @return
-	 */
-	String getJavascriptUnprotectedExtensions();
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    Pattern getJavascriptRefererPattern();
 
+    /**
+     * if the token should be injected in GET forms (which will be on the URL)
+     * if the HTTP method GET is unprotected, then this should likely be false
+     *
+     *  @return true if the token should be injected in GET forms via Javascript
+     */
+    boolean isJavascriptInjectGetForms();
+
+    /**
+     * if the token should be injected in the action in forms
+     * note, if injectIntoForms is true, then this might not need to be true
+     *
+     * @return if inject
+     */
+    boolean isJavascriptInjectFormAttributes();
+
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    boolean isJavascriptInjectIntoForms();
+
+    /**
+     * if the referer to the javascript must match match the protocol of the domain
+     *
+     * @return true if the javascript must match the protocol of the domain
+     */
+    boolean isJavascriptRefererMatchProtocol();
+
+    /**
+     * if the referer to the javascript must match domain
+     *
+     *  @return true if the javascript must match domain
+     */
+    boolean isJavascriptRefererMatchDomain();
+
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    boolean isJavascriptInjectIntoAttributes();
+
+    /**
+     * TODO
+     * @return
+     */
+    boolean isJavascriptInjectIntoDynamicallyCreatedNodes();
+
+    /**
+     * TODO
+     * @return
+     */
+    String getJavascriptDynamicNodeCreationEventName();
+
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    String getJavascriptXrequestedWith();
+
+    /**
+     * TODO document
+     *
+     * @return
+     */
+    String getJavascriptTemplateCode();
+
+    /**
+     * TODO document
+     * example: "js,css,gif,png,ico,jpg"
+     *
+     * @return
+     */
+    String getJavascriptUnprotectedExtensions();
+
+    /**
+     * TODO document
+     * @return
+     */
+    TokenHolder getTokenHolder();
+
+    /**
+     * TODO document
+     * @return
+     */
+    LogicalSessionExtractor getLogicalSessionExtractor();
+
+    /**
+     * TODO document
+     * @return
+     */
+    Duration getPageTokenSynchronizationTolerance();
 }
