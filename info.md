@@ -17,12 +17,12 @@ Thanks to Trent Schmidt and Joel Orlina (JIRA) for there help.
 
 ### Code Repository
 
-* [CSFRGuard](https://github.com/aramrami/OWASP-CSRFGuard)
+* [CSFRGuard](https://github.com/OWASP/www-project-csrfguard)
 
 
 ### Change Log
 
-* [CSRFGuard](https://github.com/aramrami/OWASP-CSRFGuard/commits)
+* [CSRFGuard](https://github.com/OWASP/www-project-csrfguard/commits)
 
 ### Licensing
 
