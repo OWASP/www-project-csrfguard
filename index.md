@@ -1,14 +1,12 @@
 ---
-
 layout: col-sidebar
 title: CSFRGuard
-site_side: true
-tags: csrfguard
-project: true
-
+tags: csrfguard defenders breakers vulnerability-management
+level: 4
 type: tool
-
+project: true
 ---
+
 <!-- rebuild 40 -->
 
 The OWASP CSRFGuard is one of the world’s most popular free security tools and is actively maintained by a pool of international volunteers*. It can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. It's also a great tool for experienced pentesters to use for manual security testing.
