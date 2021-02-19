@@ -16,7 +16,6 @@
 
     <modules>
         <module>csrfguard-test-jsp</module>
-        <module>csrfguard-test-jsf</module>
     </modules>
 
     <dependencyManagement>
