@@ -7,18 +7,17 @@
 
 ![Tool Project](assets/images/owasp_tool_project.png)
 
-### Downloads CSRFGuard in Maven Central
+### Maven repository
 
-You can download a binary version from Maven Central here:
+You can download a pre-compiled version from the OSS Sonatype Nexus repository here:
 
-https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~
+[https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~](https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~)
 
 Thanks to Trent Schmidt and Joel Orlina (JIRA) for there help.
 
 ### Code Repository
 
-* [CSFRGuard](https://github.com/OWASP/www-project-csrfguard)
-
+* [CSRFGuard](https://github.com/OWASP/www-project-csrfguard)
 
 ### Change Log
 

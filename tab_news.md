@@ -12,14 +12,4 @@ We are working on a new version of CSRFGuard including a lot of merge request wi
 
 ## Target date for the new release 4.0 : 2021
 
-We need your help. If you want to give few hours of your time to help us please contact me.
-
-## Important Security Fix
-
-An important security fix has been applied to the CSRFGuard version 3.0.
-
-Do a token pre-fetch on every page.
-
-Instead of hard coding the CSRF token, we send a POST request to fetch the token and populate the JS variable.
-
-Thanks to Ahamed Nafeez ahamednafeez@gmail.com for this fix.
+We need your help. If you want to give few hours of your time please reach out to us.

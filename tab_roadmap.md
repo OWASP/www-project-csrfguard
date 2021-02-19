@@ -15,7 +15,7 @@ We need first to create a complete set of installation guide for various Java Ap
 
 # CSRFGuard 4.0 features
 
-CSRFGuard 4.0 is under developpement. If you are Java développer and want to help as OWASP voloneteer please contact the project leader.
+CSRFGuard 4.0 is under development. If you are Java developer and want to help as OWASP volunteer please contact the project leaders.
 We will remove all CSRFGuard 3.1.0 limitations and release CSRFGuard 4.0
 
 ### The following roadmap will remove the following CSRFGuard 3.1.0 limitations:
@@ -28,4 +28,4 @@ ensure the web application implements countermeasures to defense against cross s
 - Enhance Token Injection Process 
 - Add protection against Clickjacking
 - Add protection against Session Hijacking bypassing CSRFGuard
-- Add protection against XSS by passing CSFRGuard
+- Add protection against XSS by passing CSRFGuard
