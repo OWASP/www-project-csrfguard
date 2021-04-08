@@ -98,7 +98,7 @@ public final class JavaScriptServlet extends HttpServlet {
 
     /* MIME Type constants */
     private static final String JSON_MIME_TYPE = "application/json";
-    private static final String JAVASCRIPT_MIME_TYPE = "text/javascript";
+    private static final String JAVASCRIPT_MIME_TYPE = "text/javascript; charset=utf-8";
 
     /**
      * whitelist the javascript servlet from csrf errors
