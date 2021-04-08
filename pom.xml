@@ -57,6 +57,25 @@
             <id>esheri3</id>
             <name>Eric Sheridan</name>
             <email>eric@infraredsecurity.com</email>
+            <roles>
+                <role>Project Inventor</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>aramrami</id>
+            <name>Azzeddine Ramrami</name>
+            <email>azzeddine.ramrami@owasp.org</email>
+            <roles>
+                <role>Project Co-leader</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Istvan Albert-Toth</name>
+            <email>istvan.alberttoth@owasp.org</email>
+            <roles>
+                <role>Project Co-leader</role>
+                <role>Creator of major release v4.0</role>
+            </roles>
         </developer>
     </developers>
 
@@ -67,9 +86,26 @@
     </modules>
 
     <scm>
-        <url>https://github.com/OWASP/www-project-csrfguard</url>
         <connection>scm:git:git://github.com/OWASP/www-project-csrfguard.git</connection>
+        <developerConnection>scm:git:git@github.com:OWASP/www-project-csrfguard.git</developerConnection>
+        <url>https://github.com/OWASP/www-project-csrfguard</url>
     </scm>
+
+    <issueManagement>
+        <system>GitHub Issue Tracking</system>
+        <url>https://github.com/OWASP/www-project-csrfguard/issues</url>
+    </issueManagement>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id> <!-- Must match the serverId from the settings.xml -->
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id> <!-- Must match the serverId from the settings.xml -->
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -89,6 +125,12 @@
         <maven-source-plugin.version>3.2.0</maven-source-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+        <maven-scm-plugin.version>1.11.2</maven-scm-plugin.version>
+        <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
+        <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
+
+        <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 
         <commons-lang3.version>3.11</commons-lang3.version>
         <commons-io.version>2.7</commons-io.version>
@@ -237,10 +279,83 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <version>${maven-scm-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${maven-release-plugin.version}</version>
+                    <configuration>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <localCheckout>true</localCheckout>
+                        <pushChanges>false</pushChanges>
+                        <mavenExecutorId>forked-path</mavenExecutorId>
+                        <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>${nexus-staging-maven-plugin.version}</version>
+                    <extensions>true</extensions>
+                    <executions>
+                        <execution>
+                            <id>default-deploy</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>deploy</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <serverId>ossrh</serverId> <!-- Must match the serverId from the settings.xml -->
+                        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                        <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <!-- GPG Signature on release -->
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
