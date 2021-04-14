@@ -1,11 +1,3 @@
-# IMPORTANT NOTICE
-
-We are working on a new version of CSRFGuard including a lot of merge request with good proposals and new code to fix known issues on XSS attacks that bypass CSRFGuard.
-
-## Target date for the new release 4.0 : 2021
-
-## We need your help. If you want to give few hours of your time please reach out to us.
-
 # OWASP CSRFGuard 4.0.0 
 
 [http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project](http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project)
@@ -22,16 +14,30 @@ The CSRFGuard project is run by [Azzeddine RAMRAMI](mailto:azzeddine.ramrami@owa
 
 ## License
 
-OWASP CSRFGuard 4.0.0 is offered under the [BSD license](http://www.opensource.org/licenses/bsd-license.php)
+OWASP CSRFGuard is offered under the [BSD license](http://www.opensource.org/licenses/bsd-license.php)
 
 ## Using with Maven
-OWASP CSRFGuard 4.0.0 will be available on the Maven Central Repository. Add the following dependency to your Maven POM file to use the library:
+Add the following dependency to your Maven POM file to use the library:
 
-```maven
+```xml
 <dependency>
     <groupId>org.owasp</groupId>
     <artifactId>csrfguard</artifactId>
     <version>4.0.0</version>
+</dependency>
+
+<!-- Stateful web application support -->
+<dependency>
+	<groupId>org.owasp</groupId>
+	<artifactId>csrfguard-extension-session</artifactId>
+	<version>4.0.0</version>
+</dependency>
+
+<!-- JSP TAG support -->
+<dependency>
+	<groupId>org.owasp</groupId>
+	<artifactId>csrfguard-jsp-tags</artifactId>
+	<version>4.0.0</version>
 </dependency>
 ```
 
@@ -44,25 +50,24 @@ OWASP CSRFGuard 4.0.0 will be available on the Maven Central Repository. Add the
 5. Optional: you can use ```mvnDebug``` to enable remote debugging, then connect your IDE to it (default port is 8000)
 6. Use a web browser to access ```http://localhost:8080``` to open the home page of the test project
 
-## Uploading to the Maven Central repository
+## Uploading to the Maven Central repository (for project leaders)
 
 1. Follow the [Sonatype Open-Source Project Maven Repository Usage Guide](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide) to create a Sonatype user account;
 2. Next, [open a support request](https://issues.sonatype.org/browse/OSSRH) to get your newly created username added to the Maven groupId ```org.owasp```;
-3. Once the support request has been completed, follow the instructions in the Sonatype Maven repository usage guide mentioned above to upload new versions to the Maven Central repository.
+3. The ticket must be approved by a CSRFGuard project leader or someone who already has permissions to deploy under the group and artifactId.
+4. Once the support request has been completed, follow the instructions in the Sonatype Maven repository usage guide mentioned above to upload new versions to the Maven Central repository.
 
-### Maven Central repository
+### Maven repositories
 
-You can download a pre-compiled version from the OSS Sonatype Nexus repository here:
-
-[https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~](https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~)
-
-Thanks to Trent Schmidt and Joel Orlina (JIRA) for there help.
+You can download pre-compiled versions from:
+* [Maven Central repository](https://search.maven.org/search?q=csrfguard)
+* [OSS Sonatype Nexus repository](https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~)
 
 ## Email List
 
 You can sign up for the OWASP CSRFGuard email list [here](https://lists.owasp.org/mailman/listinfo/owasp-csrfguard).
 
-## CSRFGuard 4.0 Release Notes:
+## CSRFGuard 4.0.0 Release Notes:
 
 * [Support for stateless web applications](https://github.com/aramrami/OWASP-CSRFGuard/issues/122)
 * [Apply "TokenPerPage" approach to AJAX](https://github.com/aramrami/OWASP-CSRFGuard/issues/123)
@@ -87,5 +92,3 @@ You can sign up for the OWASP CSRFGuard email list [here](https://lists.owasp.or
 * Heavily refactored, improved and more optimized code-base
 * Documentation update and typo fixes.
 * Copyright update and unification.
-
-The 4.0.0 release candidate can be downloaded from the [releases](https://github.com/OWASP/www-project-csrfguard/releases) section.
