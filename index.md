@@ -5,6 +5,7 @@ tags: csrfguard defenders breakers vulnerability-management
 level: 4
 type: tool
 project: true
+pitch: OWASP CSRFGuard is a library that implements a variant of the synchronizer token pattern to mitigate the risk of Cross-Site Request Forgery (CSRF) attacks.
 ---
 ![Tool Project](assets/images/owasp_tool_project.png)
 
