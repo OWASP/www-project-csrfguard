@@ -1,6 +1,6 @@
 ---
 layout: col-sidebar
-title: CSRFGuard
+title: OWASP CSRFGuard
 tags: csrfguard defenders breakers vulnerability-management
 level: 4
 type: tool
