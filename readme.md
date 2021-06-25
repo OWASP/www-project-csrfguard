@@ -1,8 +1,11 @@
-# OWASP CSRFGuard 4.0.0 
+<center>
+	<img src="csrfguard-test/csrfguard-test-jsp/src/main/webapp/owasp_logo.png"/>
+</center>
 
-[http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project](http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project)
-
-BSD License, All rights reserved.
+# [OWASP CSRFGuard 4.0.0](https://owasp.org/www-project-csrfguard)
+[![License](https://img.shields.io/badge/license-BSD-4EB1BA.svg)](http://www.opensource.org/licenses/bsd-license.php)
+[![GitHub release](https://img.shields.io/github/release/OWASP/www-project-csrfguard)](https://github.com/OWASP/www-project-csrfguard/releases)
+[![OWASP Flagship](https://img.shields.io/badge/owasp-flagship-brightgreen.svg)](https://owasp.org/projects#div-flagships)
 
 ## Overview
 
@@ -11,10 +14,6 @@ Welcome to the home of the OWASP CSRFGuard Project! OWASP CSRFGuard is a library
 ## Project Leads
 
 The CSRFGuard project is run by [Azzeddine RAMRAMI](mailto:azzeddine.ramrami@owasp.org) and [Istvan ALBERT-TOTH](mailto:istvan.alberttoth@owasp.org).
-
-## License
-
-OWASP CSRFGuard is offered under the [BSD license](http://www.opensource.org/licenses/bsd-license.php)
 
 ## Using with Maven
 Add the following dependency to your Maven POM file to use the library:
@@ -62,10 +61,6 @@ Add the following dependency to your Maven POM file to use the library:
 You can download pre-compiled versions from:
 * [Maven Central repository](https://search.maven.org/search?q=csrfguard)
 * [OSS Sonatype Nexus repository](https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~)
-
-## Email List
-
-You can sign up for the OWASP CSRFGuard email list [here](https://lists.owasp.org/mailman/listinfo/owasp-csrfguard).
 
 ## CSRFGuard 4.0.0 Release Notes:
 
