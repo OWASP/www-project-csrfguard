@@ -45,9 +45,15 @@ Add the following dependency to your Maven POM file to use the library:
 1. Make sure you have [Apache Maven](http://maven.apache.org/) 3.0.4+ and JDK 1.8+ installed
 2. Clone this repository locally
 3. Build the project by running ```mvn clean install``` in the project root directory
-4. Build and run the test JSP web application by running ```mvn pre-integration-test -Pdeploy-jsp-webapp -pl csrfguard-test/csrfguard-test-jsp``` or ```mvn -Pdeploy-jsp-webapp -pl csrfguard-test/csrfguard-test-jsp tomcat7:run```
-5. Optional: you can use ```mvnDebug``` to enable remote debugging, then connect your IDE to it (default port is 8000)
-6. Use a web browser to access ```http://localhost:8080``` to open the home page of the test project
+4. Build and run the test JSP web application by running one of the following commands:
+   ```shell
+   mvn pre-integration-test -Pdeploy-jsp-webapp -pl csrfguard-test/csrfguard-test-jsp
+   ```
+   ```bash
+   mvn -Pdeploy-jsp-webapp -pl csrfguard-test/csrfguard-test-jsp tomcat7:run
+   ```
+6. Optional: you can use ```mvnDebug``` to enable remote debugging, then connect your IDE to it (default port is 8000)
+7. Use a web browser to access ```http://localhost:8080``` to open the home page of the test project
 
 ## Uploading to the Maven Central repository (for project leaders)
 
