@@ -42,7 +42,7 @@ public final class TokenNameTag extends TagSupport {
 	public int doStartTag() {
 		final CsrfGuard csrfGuard = CsrfGuard.getInstance();
 
-		if(csrfGuard.isEnabled()) {
+		if (csrfGuard.isEnabled()) {
 			try {
 				final String tokenName = csrfGuard.getTokenName();
 				this.pageContext.getOut().write(tokenName);
