@@ -40,14 +40,16 @@ public final class TokenNameTag extends TagSupport {
 
 	@Override
 	public int doStartTag() {
-		final String tokenName = CsrfGuard.getInstance().getTokenName();
+		final CsrfGuard csrfGuard = CsrfGuard.getInstance();
 
-		try {
-			this.pageContext.getOut().write(tokenName);
-		} catch (final IOException e) {
-			this.pageContext.getServletContext().log(e.getLocalizedMessage(), e);
+		if (csrfGuard.isEnabled()) {
+			try {
+				final String tokenName = csrfGuard.getTokenName();
+				this.pageContext.getOut().write(tokenName);
+			} catch (final IOException e) {
+				this.pageContext.getServletContext().log(e.getLocalizedMessage(), e);
+			}
 		}
-
 		return SKIP_BODY;
 	}
 }
