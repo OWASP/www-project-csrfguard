@@ -45,6 +45,10 @@ public final class TokenValueTag extends AbstractUriTag {
 		final CsrfGuard csrfGuard = CsrfGuard.getInstance();
 
 		if (csrfGuard.isEnabled()) {
+			if (csrfGuard.isTokenPerPageEnabled() && Objects.isNull(getUri())) {
+				throw new IllegalStateException("Must define 'uri' attribute when token per page is enabled");
+			}
+
 			final LogicalSession logicalSession = csrfGuard.getLogicalSessionExtractor().extract((HttpServletRequest) this.pageContext.getRequest());
 			final String tokenValue = Objects.nonNull(logicalSession) ? csrfGuard.getTokenService().getTokenValue(logicalSession.getKey(), getUri()) : null;
 
@@ -54,9 +58,7 @@ public final class TokenValueTag extends AbstractUriTag {
 				this.pageContext.getServletContext().log(e.getLocalizedMessage(), e);
 			}
 		}
-		else if (csrfGuard.isTokenPerPageEnabled() && Objects.isNull(getUri())) {
-			throw new IllegalStateException("Must define 'uri' attribute when token per page is enabled");
-		}
+
 		return SKIP_BODY;
 	}
 }
