@@ -70,7 +70,7 @@ public abstract class ConfigPropertiesCascadeBase {
 
 		if (configSingletonFromClass == null) {
 			configSingletonFromClass = 
-					new HashMap<>();
+					new HashMap<Class<? extends ConfigPropertiesCascadeBase>, ConfigPropertiesCascadeBase>();
 		}
 
 		ConfigPropertiesCascadeBase configPropertiesCascadeBase = configSingletonFromClass.get(configClass);
@@ -108,17 +108,17 @@ public abstract class ConfigPropertiesCascadeBase {
 	 */
 	public Map<String, String> propertiesThreadLocalOverrideMap() {
 		if (propertiesThreadLocalOverrideMap == null) {
-			propertiesThreadLocalOverrideMap = new ThreadLocal<>();
+			propertiesThreadLocalOverrideMap = new ThreadLocal<Map<Class<? extends ConfigPropertiesCascadeBase>, Map<String, String>>>();
 		}
 
 		Map<Class<? extends ConfigPropertiesCascadeBase>, Map<String, String>> overrideMap = propertiesThreadLocalOverrideMap.get();
 		if (overrideMap == null) {
-			overrideMap = new HashMap<>();
+			overrideMap = new HashMap<Class<? extends ConfigPropertiesCascadeBase>, Map<String, String>>();
 			propertiesThreadLocalOverrideMap.set(overrideMap);
 		}
 		Map<String, String> propertiesOverrideMapLocal = overrideMap.get(this.getClass());
 		if (propertiesOverrideMapLocal == null) {
-			propertiesOverrideMapLocal = new HashMap<>();
+			propertiesOverrideMapLocal = new HashMap<String, String>();
 			overrideMap.put(this.getClass(), propertiesOverrideMapLocal);
 		}
 		return propertiesOverrideMapLocal;
@@ -136,11 +136,11 @@ public abstract class ConfigPropertiesCascadeBase {
 	public Map<String, String> propertiesOverrideMap() {
 		if (propertiesOverrideMap == null) {
 			propertiesOverrideMap 
-			= new LinkedHashMap<>();
+			= new LinkedHashMap<Class<? extends ConfigPropertiesCascadeBase>, Map<String, String>>();
 		}
 		Map<String, String> overrideMap = propertiesOverrideMap.get(this.getClass());
 		if (overrideMap == null) {
-			overrideMap = new LinkedHashMap<>();
+			overrideMap = new LinkedHashMap<String, String>();
 			propertiesOverrideMap.put(this.getClass(), overrideMap);
 		}
 		return overrideMap;
@@ -491,7 +491,7 @@ public abstract class ConfigPropertiesCascadeBase {
 		//lets get this into a comma separated list
 		List<String> overrideConfigStringList = ConfigPropertiesCascadeUtils.splitTrimToList(overrideFullConfig, ",");
 
-		result.configFiles = new ArrayList<>();
+		result.configFiles = new ArrayList<ConfigFile>();
 
 		for (String overrideConfigString : overrideConfigStringList) {
 
@@ -572,7 +572,7 @@ public abstract class ConfigPropertiesCascadeBase {
 	 */
 	protected ConfigPropertiesCascadeBase retrieveFromConfigFileOrCache() {
 
-		Map<String, Object> debugMap = new LinkedHashMap<>();
+		Map<String, Object> debugMap = new LinkedHashMap<String, Object>();
 
 		try {
 
@@ -582,7 +582,7 @@ public abstract class ConfigPropertiesCascadeBase {
 				}
 
 				configFileCache = 
-						new HashMap<>();
+						new HashMap<Class<? extends ConfigPropertiesCascadeBase>, ConfigPropertiesCascadeBase>();
 			}
 
 			ConfigPropertiesCascadeBase configObject = configFileCache.get(this.getClass());
