@@ -70,8 +70,8 @@ public final class ConfigParameters {
     public static final String ACTION_PREFIX = "org.owasp.csrfguard.action.";
     public static final String ACTION_ATTRIBUTE_NAME = "AttributeName";
 
-    public final static String PROTECTED_PAGE_PREFIX = "org.owasp.csrfguard.protected.";
-    public final static String UNPROTECTED_PAGE_PREFIX = "org.owasp.csrfguard.unprotected.";
+    public static final String PROTECTED_PAGE_PREFIX = "org.owasp.csrfguard.protected.";
+    public static final String UNPROTECTED_PAGE_PREFIX = "org.owasp.csrfguard.unprotected.";
 
     private ConfigParameters() {}
 

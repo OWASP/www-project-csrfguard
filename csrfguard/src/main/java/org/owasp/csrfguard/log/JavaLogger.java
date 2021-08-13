@@ -36,7 +36,7 @@ public class JavaLogger implements ILogger {
 
 	private static final long serialVersionUID = -4857601483759096197L;
 	
-	private final static Logger LOGGER = Logger.getLogger("Owasp.CsrfGuard");
+	private static final Logger LOGGER = Logger.getLogger("Owasp.CsrfGuard");
 
 	@Override
 	public void log(final String msg) {
