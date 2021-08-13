@@ -35,7 +35,7 @@ import java.security.SecureRandom;
 
 public final class RandomGenerator {
 
-	private final static char[] CHARSET = new char[] { 'A', 'B', 'C', 'D', 'E',
+	private static final char[] CHARSET = new char[] { 'A', 'B', 'C', 'D', 'E',
 			'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
 			'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4',
 			'5', '6', '7', '8', '9' };
