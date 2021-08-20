@@ -3,19 +3,26 @@
 </center>
 
 # [OWASP CSRFGuard 4.0.0](https://owasp.org/www-project-csrfguard)
+
 [![License](https://img.shields.io/badge/license-BSD-4EB1BA.svg)](http://www.opensource.org/licenses/bsd-license.php)
 [![GitHub release](https://img.shields.io/github/release/OWASP/www-project-csrfguard)](https://github.com/OWASP/www-project-csrfguard/releases)
 [![OWASP Flagship](https://img.shields.io/badge/owasp-flagship-brightgreen.svg)](https://owasp.org/projects#div-flagships)
 
 ## Overview
 
-Welcome to the home of the OWASP CSRFGuard Project! OWASP CSRFGuard is a library that implements a variant of the synchronizer token pattern to mitigate the risk of Cross-Site Request Forgery (CSRF) attacks. The OWASP CSRFGuard library is integrated through the use of a JavaEE Filter and exposes various automated and manual ways to integrate per-session or pseudo-per-request tokens into HTML. When a user interacts with this HTML, CSRF prevention tokens (i.e. cryptographically random synchronizer tokens) are submitted with the corresponding HTTP request. It is the responsibility of OWASP CSRFGuard to ensure the token is present and is valid for the current HTTP request. Any attempt to submit a request to a protected resource without the correct corresponding token is viewed as a CSRF attack in progress and is discarded. Prior to discarding the request, CSRFGuard can be configured to take one or more actions such as logging aspects of the request and redirecting the user to a landing page. The latest release enhances this strategy to support the optional verification of HTTP requests submitted using Ajax as well as the optional verification of referrer headers.
+Welcome to the home of the OWASP CSRFGuard Project! OWASP CSRFGuard is a library that implements a variant of the synchronizer token pattern to mitigate the risk of Cross-Site Request Forgery (CSRF) attacks.
+The OWASP CSRFGuard library is integrated through the use of a JavaEE Filter and exposes various automated and manual ways to integrate per-session or pseudo-per-request tokens into HTML. When a user interacts
+with this HTML, CSRF prevention tokens (i.e. cryptographically random synchronizer tokens) are submitted with the corresponding HTTP request. It is the responsibility of OWASP CSRFGuard to ensure the token is
+present and is valid for the current HTTP request. Any attempt to submit a request to a protected resource without the correct corresponding token is viewed as a CSRF attack in progress and is discarded. Prior
+to discarding the request, CSRFGuard can be configured to take one or more actions such as logging aspects of the request and redirecting the user to a landing page. The latest release enhances this strategy to
+support the optional verification of HTTP requests submitted using Ajax as well as the optional verification of referrer headers.
 
 ## Project Leads
 
 The CSRFGuard project is run by [Azzeddine RAMRAMI](mailto:azzeddine.ramrami@owasp.org) and [Istvan ALBERT-TOTH](mailto:istvan.alberttoth@owasp.org).
 
 ## Using with Maven
+
 Add the following dependency to your Maven POM file to use the library:
 
 ```xml
@@ -62,13 +69,89 @@ Add the following dependency to your Maven POM file to use the library:
 3. The ticket must be approved by a CSRFGuard project leader or someone who already has permissions to deploy under the group and artifactId.
 4. Once the support request has been completed, follow the instructions in the Sonatype Maven repository usage guide mentioned above to upload new versions to the Maven Central repository.
 
+### GPG Key generation and distribution
+See: https://central.sonatype.org/publish/requirements/gpg/
+
+```shell
+gpg --full-gen-key
+gpg --list-keys
+gpg --keyserver keys.gnupg.net --send-key <your_public_key_here> # you can define other supported key servers as well
+```
+
+### Example `.m2/settings.xml` snippet required for releasing:
+
+```xml
+<settings xmlns="https://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="https://maven.apache.org/SETTINGS/1.0.0
+                      https://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+        <server>
+            <id>ossrh</id> <!-- the id must match with the repository id defined in distributionManagement -->
+            <username><!--your_oss_sonatype_username--></username>
+            <password><!--your_oss_sonatype_password--></password>
+        </server>
+    </servers>
+
+    <profiles>
+        <profile>
+            <id>ossrh</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <gpg.passphrase><!--your_gpg_passphrase--></gpg.passphrase>
+            </properties>
+        </profile>
+    </profiles>
+</settings>
+```
+
+### Deploying to OSS Sonatype / Maven Central
+
+#### Deploy a `-SNAPSHOT` version:
+   ```shell
+   mvn clean deploy
+   ```
+
+#### Prepare a release:
+```shell
+mvn release:clean release:prepare
+```
+1. Set the version number you want to release in <_MAJOR.MINOR.PATCH_> format (e.g. `4.0.0`)
+2. Set the SCM release tag: (e.g. `4.0.0`)
+3. Set the new development version (e.g. `4.0.1`)
+
+#### Perform a release:
+```shell
+mvn release:perform
+```
+Check the created commits and tag to make sure everything looks as expected:
+   ```shell
+   git log
+   git show HEAD
+   git show HEAD^
+   git tag -l # list tags
+   ```
+#### Rollback a release:
+```shell
+mvn release:rollback # or "git reset HEAD^^ --hard"
+git tag -d <tag_name_to_delete>
+```
+#### Push the new release to :
+```shell
+git push origin master
+git push origin <tag_name>
+```
+
 ### Maven repositories
 
 You can download pre-compiled versions from:
+
 * [Maven Central repository](https://search.maven.org/search?q=csrfguard)
 * [OSS Sonatype Nexus repository](https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~)
 
-## CSRFGuard 4.0.0 Release Notes:
+## CSRFGuard 4.0.0 Release Notes
 
 * [Support for stateless web applications](https://github.com/aramrami/OWASP-CSRFGuard/issues/122)
 * [Apply "TokenPerPage" approach to AJAX](https://github.com/aramrami/OWASP-CSRFGuard/issues/123)
