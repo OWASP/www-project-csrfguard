@@ -272,10 +272,10 @@ public class CsrfGuard {
     }
 
     /**
-     * Rotation in case of AJAX requests is not currently not supported because of the possible race conditions.
+     * Rotation in case of AJAX requests is not supported currently because of possible race conditions.
      * <p>
      * A Single Page Application can fire multiple simultaneous requests.
-     * If rotation is enabled, the first request might trigger a token change before the validation of the second request with the same token, causing
+     * If rotation is enabled for AJAX requests, the first request could trigger a token change before the validation of the second request with the same token, causing
      * false-positive CSRF intrusion exceptions.
      *
      * @param request the current request
