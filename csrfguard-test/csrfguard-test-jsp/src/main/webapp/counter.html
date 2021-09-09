@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <script src="/JavaScriptServlet" type="text/javascript"></script>
+    <title>Counter test</title>
+    <script type="text/javascript">
+        onGetCounterValue();
+
+        function ajax(method, value) {
+            const xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        document.getElementById("counter-value").innerText = xhr.responseText
+                    }
+                }
+            }
+
+            xhr.open(method, '/counter', true);
+            if (value == null) {
+                xhr.send()
+            } else {
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+                xhr.send("value=" + value);
+            }
+        }
+
+        function onGetCounterValue() {
+            ajax('GET')
+        }
+
+        function onIncrementCounterValue() {
+            ajax('POST', 1)
+        }
+    </script>
+</head>
+<body>
+    <p>Get or increment the counter:</p>
+    <p>If the counter can be externally incremented, it signals that there is a vulnerability in the solution.</p>
+    <button onclick="onGetCounterValue()">AJAX Get</button>
+    <button onclick="onIncrementCounterValue()">AJAX Increment By One</button>
+    <form id="form" action="/counter" onsubmit=onGetCounterValue() method="POST">
+        <label for="text">Increment by</label><input id="text" type="text" name="value" value="100"/>
+        <input id="submit" type="submit" value="Submit Form"/>
+    </form>
+    <br/><br/>
+    <div id="counter-value"></div>
+</body>
+</html>

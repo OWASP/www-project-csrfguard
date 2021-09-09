@@ -28,42 +28,53 @@
  */
 package org.owasp.csrfguard.test;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Servlet implementation class HelloServlet
  */
-public class HelloServlet extends HttpServlet {
+public class CounterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
+	private static final AtomicInteger COUNTER = new AtomicInteger(0);
+	private static final String COUNTER_VALUE_MESSAGE = "Counter value: ";
+	public static final String INPUT_PARAMETER_NAME = "value";
+
+	/**
      * Default constructor. 
      */
-    public HelloServlet() {}
+    public CounterServlet() {}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@Override
-	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		respond(response, COUNTER.get());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@Override
-	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) {
+		final String inputValue = request.getParameter(INPUT_PARAMETER_NAME);
+
+		try {
+			final int valueToIncreaseBy = Integer.parseInt(inputValue);
+			respond(response, COUNTER.addAndGet(valueToIncreaseBy));
+		} catch (Exception ignored) { }
+	}
+
+	private void respond(HttpServletResponse response, int value) throws IOException {
 		response.setContentType("text/plain");
-		
 		final PrintWriter writer = new PrintWriter(response.getOutputStream());
-		writer.println("Hello World!");
+		writer.println(COUNTER_VALUE_MESSAGE + value);
 		writer.close();
 	}
 }

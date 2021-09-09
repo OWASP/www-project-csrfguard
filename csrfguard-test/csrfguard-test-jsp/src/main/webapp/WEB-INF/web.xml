@@ -47,13 +47,13 @@
 	</servlet-mapping>
 
 	<servlet>
-		<display-name>HelloServlet</display-name>
-		<servlet-name>HelloServlet</servlet-name>
-		<servlet-class>org.owasp.csrfguard.test.HelloServlet</servlet-class>
+		<display-name>CounterServlet</display-name>
+		<servlet-name>CounterServlet</servlet-name>
+		<servlet-class>org.owasp.csrfguard.test.CounterServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>HelloServlet</servlet-name>
-		<url-pattern>/HelloServlet</url-pattern>
+		<servlet-name>CounterServlet</servlet-name>
+		<url-pattern>/counter</url-pattern>
 	</servlet-mapping>
 </web-app>
