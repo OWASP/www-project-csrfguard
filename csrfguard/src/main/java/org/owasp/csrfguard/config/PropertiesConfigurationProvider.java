@@ -435,7 +435,7 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 		intersection.retainAll(this.unprotectedMethods);
 
 		if (!intersection.isEmpty()) {
-			throw new IllegalArgumentException(String.format("The %s HTTP method(s) cannot be both protected and unprotected.", intersection.toString()));
+			throw new IllegalArgumentException(String.format("The %s HTTP method(s) cannot be both protected and unprotected.", intersection));
 		}
 	}
 

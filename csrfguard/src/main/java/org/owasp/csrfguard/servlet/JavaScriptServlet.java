@@ -222,8 +222,8 @@ public final class JavaScriptServlet extends HttpServlet {
         try {
             return new URL(url.toString()).getHost();
         } catch (final MalformedURLException e) {
-            // Should not occur. javax.servlet.http.HttpServletRequest.getRequestURL should only returns valid URLs.
-            return "INVALID_URL: " + url.toString();
+            // Should not occur. javax.servlet.http.HttpServletRequest.getRequestURL should only return valid URLs.
+            return "INVALID_URL: " + url;
         }
     }
 

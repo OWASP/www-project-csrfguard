@@ -40,14 +40,14 @@ public class JavaLogger implements ILogger {
 
 	@Override
 	public void log(final String msg) {
-		LOGGER.info(msg.replaceAll("(\\r|\\n)", ""));
+		LOGGER.info(sanitizeLogMessage(msg));
 	}
 
 	@Override
 	public void log(final LogLevel level, final String msg) {
 		// Remove CR and LF characters to prevent CRLF injection
-		final String sanitizedMsg = msg.replaceAll("(\\r|\\n)", "");
-		
+		final String sanitizedMsg = sanitizeLogMessage(msg);
+
 		switch(level) {
 			case Trace:
 				LOGGER.finest(sanitizedMsg);
@@ -59,8 +59,6 @@ public class JavaLogger implements ILogger {
 				LOGGER.info(sanitizedMsg);
 				break;
 			case Warning:
-				LOGGER.warning(sanitizedMsg);
-				break;
 			case Error:
 				LOGGER.warning(sanitizedMsg);
 				break;

@@ -61,4 +61,13 @@ public interface ILogger extends Serializable {
 	 * @param level
 	 */
 	void log(LogLevel level, Exception exception);
+
+	/**
+	 * Removes new line characters from the loggable message to prevent forging log entries.
+	 * @param msg The message to be logged
+	 * @return Sanitized version of the input message.
+	 */
+	default String sanitizeLogMessage(String msg) {
+		return msg.replaceAll("(\\r|\\n)", "");
+	}
 }

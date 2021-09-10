@@ -130,6 +130,6 @@ public class CsrfGuardFilter implements Filter {
         final String requestURI = httpRequest.getRequestURI();
         final String remoteAddress = httpRequest.getRemoteAddr();
 
-        csrfGuard.getLogger().log(LogLevel.Warning, String.format("Invalid request: \r\nURI: \r\n%s\r\n Remote Address: %s", requestURI, remoteAddress));
+        csrfGuard.getLogger().log(LogLevel.Warning, String.format("Invalid request: \r\nURI: %s\r\nRemote Address: %s", requestURI, remoteAddress));
     }
 }

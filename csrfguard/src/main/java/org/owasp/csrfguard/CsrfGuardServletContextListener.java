@@ -131,7 +131,7 @@ public class CsrfGuardServletContextListener implements ServletContextListener {
 			}
 
 			if (Boolean.parseBoolean(printConfig)) {
-				context.log(prefix + csrfGuard.toString());
+				context.log(prefix + csrfGuard);
 			}
 		} else {
 			context.log("OWASP CSRFGuard is disabled.");

@@ -33,33 +33,34 @@ import java.util.Date;
 
 public class ConsoleLogger implements ILogger {
 
-	private static final long serialVersionUID = 3139970112597740777L;
+    private static final long serialVersionUID = 3139970112597740777L;
 
-	@Override
-	public void log(final String msg) {
-		log(LogLevel.Info, msg);
-	}
+    @Override
+    public void log(final String msg) {
+        log(LogLevel.Info, sanitizeLogMessage(msg));
+    }
 
-	@Override
-	public void log(final LogLevel level, final String msg) {
-		if (LogLevel.Error.equals(level)) {
-			System.err.printf("[%s] [%s] %s%n", new Date(), level, msg);
-		} else {
-			System.out.printf("[%s] [%s] %s%n", new Date(), level, msg);
-		}
-	}
+    @Override
+    public void log(final LogLevel level, final String msg) {
+        log(level, new Date(), level, sanitizeLogMessage(msg));
+    }
 
-	@Override
-	public void log(final Exception exception) {
-		log(LogLevel.Error, exception);
-	}
+    @Override
+    public void log(final Exception exception) {
+        log(LogLevel.Error, exception);
+    }
 
-	@Override
-	public void log(final LogLevel level, final Exception exception) {
-		if (LogLevel.Error.equals(level)) {
-			System.err.printf("[%s] [%s] %s%n", new Date(), level, exception);
-		} else {
-			System.out.printf("[%s] [%s] %s%n", new Date(), level, exception);
-		}
-	}
+    @Override
+    public void log(final LogLevel level, final Exception exception) {
+        log(level, new Date(), level, exception);
+    }
+
+    private void log(final LogLevel level, final Object... objects) {
+        final String logPattern = "[%s] [%s] %s%n";
+        if (LogLevel.Error.equals(level)) {
+            System.err.printf(logPattern, objects);
+        } else {
+            System.out.printf(logPattern, objects);
+        }
+    }
 }
