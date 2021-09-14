@@ -35,10 +35,12 @@ public final class JavaScriptConfigParameters {
 
     private JavaScriptConfigParameters() {}
 
+    public static final String DEFAULT_REFERER_PATTERN = ".*";
+
     // TODO document the names of the configurations that can be used for overriding the values from the web.xml in the properties file
 
     public static final StringJsConfigParameter CACHE_CONTROL = new StringJsConfigParameter("cache-control", "org.owasp.csrfguard.JavascriptServlet.cacheControl", "private, max-age=28800");
-    public static final StringJsConfigParameter REFERER_PATTERN  = new StringJsConfigParameter("referer-pattern", "org.owasp.csrfguard.JavascriptServlet.refererPattern", ".*");
+    public static final StringJsConfigParameter REFERER_PATTERN  = new StringJsConfigParameter("referer-pattern", "org.owasp.csrfguard.JavascriptServlet.refererPattern", DEFAULT_REFERER_PATTERN);
     public static final StringJsConfigParameter UNPROTECTED_EXTENSIONS = new StringJsConfigParameter("unprotected-extensions", "org.owasp.csrfguard.JavascriptServlet.UnprotectedExtensions", StringUtils.EMPTY);
     public static final StringJsConfigParameter SOURCE_FILE = new StringJsConfigParameter("source-file", "org.owasp.csrfguard.JavascriptServlet.sourceFile", null);
     public static final StringJsConfigParameter X_REQUESTED_WITH = new StringJsConfigParameter("x-requested-with", "org.owasp.csrfguard.JavascriptServlet.xRequestedWith", "OWASP CSRFGuard Project");

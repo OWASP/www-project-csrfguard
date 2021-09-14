@@ -34,6 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.owasp.csrfguard.CsrfGuard;
 import org.owasp.csrfguard.CsrfGuardServletContextListener;
 import org.owasp.csrfguard.CsrfValidator;
+import org.owasp.csrfguard.config.properties.javascript.JavaScriptConfigParameters;
 import org.owasp.csrfguard.log.LogLevel;
 import org.owasp.csrfguard.session.LogicalSession;
 import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
@@ -231,9 +232,11 @@ public final class JavaScriptServlet extends HttpServlet {
         final String refererHeader = request.getHeader("referer");
 
         final Pattern javascriptRefererPattern = csrfGuard.getJavascriptRefererPattern();
+        final String javaScriptReferer = javascriptRefererPattern.pattern();
+
         if (refererHeader != null) {
             if (!javascriptRefererPattern.matcher(refererHeader).matches()) {
-                csrfGuard.getLogger().log(LogLevel.Error, String.format("Referer domain '%s' does not match regex: '%s'", refererHeader, javascriptRefererPattern.pattern()));
+                csrfGuard.getLogger().log(LogLevel.Error, String.format("Referer domain '%s' does not match regex: '%s'", refererHeader, javaScriptReferer));
                 response.sendError(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
@@ -250,6 +253,13 @@ public final class JavaScriptServlet extends HttpServlet {
                     return;
                 }
             }
+        } else {
+           if (!javaScriptReferer.equals(JavaScriptConfigParameters.DEFAULT_REFERER_PATTERN)) {
+               csrfGuard.getLogger().log(LogLevel.Error, String.format("Missing referer headers are not accepted if a non-default referer pattern '%s' is configured!", javaScriptReferer));
+
+               response.sendError(HttpServletResponse.SC_FORBIDDEN);
+               return;
+           }
         }
 
         // save this path so javascript is whitelisted
