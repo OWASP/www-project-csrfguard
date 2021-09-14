@@ -56,4 +56,13 @@
 		<servlet-name>CounterServlet</servlet-name>
 		<url-pattern>/counter</url-pattern>
 	</servlet-mapping>
+
+	<!--<filter> Intended only for testing
+		<filter-name>CorsFilter</filter-name>
+		<filter-class>org.owasp.csrfguard.test.CORSFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CorsFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>-->
 </web-app>
