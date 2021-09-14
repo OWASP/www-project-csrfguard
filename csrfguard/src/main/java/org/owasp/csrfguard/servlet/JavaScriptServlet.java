@@ -150,17 +150,17 @@ public final class JavaScriptServlet extends HttpServlet {
                 // TODO pass the logical session downstream, see whether the null check can be done from here
                 final LogicalSession logicalSession = csrfGuard.getLogicalSessionExtractor().extract(request);
                 if (Objects.isNull(logicalSession)) {
-                    throw new IllegalStateException("This should not happen. A logical session should already exist at this point.");
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not create a logical session from the current request.");
                 } else {
                     final Map<String, String> pageTokens = csrfGuard.getTokenService().getPageTokens(logicalSession.getKey());
                     final TokenTO tokenTO = new TokenTO(pageTokens);
                     writeTokens(response, tokenTO);
                 }
             } else {
-                response.sendError(400, "This endpoint should not be invoked if the Token-Per-Page functionality is disabled!");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "This endpoint should not be invoked if the Token-Per-Page functionality is disabled!");
             }
         } else {
-            response.sendError(403, "Master token missing from the request.");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Master token missing from the request.");
         }
     }
 
@@ -230,13 +230,12 @@ public final class JavaScriptServlet extends HttpServlet {
     private void writeJavaScript(final CsrfGuard csrfGuard, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         final String refererHeader = request.getHeader("referer");
 
-        boolean hasError = false;
         final Pattern javascriptRefererPattern = csrfGuard.getJavascriptRefererPattern();
         if (refererHeader != null) {
             if (!javascriptRefererPattern.matcher(refererHeader).matches()) {
-                csrfGuard.getLogger().log(LogLevel.Error, String.format("Referer domain %s does not match regex: %s", refererHeader, javascriptRefererPattern.pattern()));
-                response.sendError(403);
-                hasError = true;
+                csrfGuard.getLogger().log(LogLevel.Error, String.format("Referer domain '%s' does not match regex: '%s'", refererHeader, javascriptRefererPattern.pattern()));
+                response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                return;
             }
 
             if (csrfGuard.isJavascriptRefererMatchDomain()) {
@@ -246,23 +245,21 @@ public final class JavaScriptServlet extends HttpServlet {
                 final String requestProtocolAndDomain = CsrfGuardUtils.httpProtocolAndDomain(url, isJavascriptRefererMatchProtocol);
                 final String refererProtocolAndDomain = CsrfGuardUtils.httpProtocolAndDomain(refererHeader, isJavascriptRefererMatchProtocol);
                 if (!refererProtocolAndDomain.equals(requestProtocolAndDomain)) {
-                    csrfGuard.getLogger().log(LogLevel.Error, String.format("Referer domain %s does not match request domain: %s", refererHeader, url));
-                    hasError = true;
-                    response.sendError(403);
+                    csrfGuard.getLogger().log(LogLevel.Error, String.format("Referer domain '%s' does not match request domain: '%s'", refererHeader, url));
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    return;
                 }
             }
         }
 
-        if (!hasError) {
-            // save this path so javascript is whitelisted
-            final String javascriptPath = request.getContextPath() + request.getServletPath();
+        // save this path so javascript is whitelisted
+        final String javascriptPath = request.getContextPath() + request.getServletPath();
 
-            // don't know why there would be more than one... hmmm
-            if (javascriptUris.size() < 100) {
-                javascriptUris.add(javascriptPath);
-            }
-
-            writeJavaScript(request, response);
+        // don't know why there would be more than one... hmmm
+        if (javascriptUris.size() < 100) {
+            javascriptUris.add(javascriptPath);
         }
+
+        writeJavaScript(request, response);
     }
 }
