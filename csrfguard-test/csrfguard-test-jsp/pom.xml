@@ -45,6 +45,7 @@
     <properties>
         <tomcat7-maven-plugin.version>2.1</tomcat7-maven-plugin.version>
         <skip.run.webapp>true</skip.run.webapp>
+        <skip.create.executable.jar>true</skip.create.executable.jar>
     </properties>
 
     <profiles>
@@ -102,6 +103,19 @@
                     <skip>${skip.run.webapp}</skip>
                 </configuration>
                 <executions>
+                    <execution> <!--Create executable JAR with embedded Tomcat-->
+                        <id>create-executable-jar</id>
+                        <goals>
+                            <goal>exec-war-only</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <enableNaming>false</enableNaming>
+                            <finalName>${project.artifactId}-${project.version}-executable.jar</finalName>
+                            <skip>${skip.create.executable.jar}</skip>
+                            <charset>utf-8</charset>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>deploy-jsp-war</id>
                         <phase>pre-integration-test</phase>
