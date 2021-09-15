@@ -69,7 +69,7 @@ Thanks to Trent Schmidt and Joel Orlina (JIRA) for there help.
 
 ## Email List
 
-You can sign up for the OWASP CSRFGuard email list [here](https://lists.owasp.org/mailman/listinfo/owasp-csrfguard).
+You can sign up for the OWASP CSRFGuard email list [here](https://groups.google.com/a/owasp.org/g/csrfguard-project).
 
 ## CSRFGuard 4.0 Release Notes:
 
