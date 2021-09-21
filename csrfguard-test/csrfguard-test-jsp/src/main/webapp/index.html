@@ -19,6 +19,16 @@ Welcome to the OWASP CSRFGuard Test Application! Where would you like to go?
     <li><a href="counter.html">Test the counter endpoint</a>
 </ul>
 <br/>
+
+<strong>Attempt CSRF attacks against the /counter endpoint:</strong><br/>
+<p>Mimic hosting the exploits on a different domain:</p>
+<ul>
+    <li><i>sudo echo "127.0.0.1 attacker.local" >> /etc/hosts</i></li>
+    <li>Form based attack attempt at <a href="http://attacker.local:8080/attack1.html">http://attacker.local:8080/attack1.html</a></li>
+    <li>AJAX call based attack attempt at <a href="http://attacker.local:8080/attack2.html">http://attacker.local:8080/attack2.html</a></li>
+</ul>
+<br/>
+
 <strong>Utilities:</strong>
 <ul>
     <li><a href="session.jsp?action=invalidate">Invalidate Session</a>
