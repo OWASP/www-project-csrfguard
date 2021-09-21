@@ -64,7 +64,7 @@ public class InterceptRedirectResponse extends HttpServletResponseWrapper {
         /* ensure token included in redirects */
         final ProtectionResult protectionResult = new CsrfValidator().isProtectedPageAndMethod(sanitizedLocation, "GET");
         if (!sanitizedLocation.contains("://") && protectionResult.isProtected()) {
-            // Separate URL fragment from path, e.g. /myPath#myFragment becomes [0]: /myPath [1]: myFragment
+            // Separate URL fragments from path, e.g. /myPath#myFragment becomes [0]: /myPath [1]: myFragment
             final String[] splitOnFragment = location.split("#", 2);
 
             final StringBuilder stringBuilder = new StringBuilder();

@@ -233,7 +233,7 @@ public class ExpirableCache<K,V> implements Serializable {
     
     this.checkForEvictions(true);
     long newTimeToLiveInMillis = this.defaultTimeToLiveInMillis;
-    //dont use what was inputted if it is out of range
+    // don't use what was inputted if it is out of range
     if (proposedTimeToLiveInMillis > 0 
         && proposedTimeToLiveInMillis <= ExpirableCache.MAX_TIME_TO_LIVE_MILLIS) {
       newTimeToLiveInMillis = proposedTimeToLiveInMillis;
@@ -309,7 +309,7 @@ public class ExpirableCache<K,V> implements Serializable {
 
     ExpirableValue<V> value = this.cache.get(key);
     if (value == null) {
-      //shouldnt have a key with no value, probably doesnt exist, but just in case
+      // shouldn't have a key with no value, probably doesn't exist, but just in case
       this.cache.remove(key);
       return null;
     }

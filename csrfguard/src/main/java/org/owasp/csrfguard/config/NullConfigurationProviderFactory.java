@@ -39,7 +39,7 @@ public class NullConfigurationProviderFactory implements ConfigurationProviderFa
 	public NullConfigurationProviderFactory() {}
 
 	/**
-	 * cache this it doesnt change
+	 * cache this it doesn't change
 	 */
 	private static ConfigurationProvider configurationProvider = null;
 	

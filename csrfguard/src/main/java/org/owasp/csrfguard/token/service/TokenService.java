@@ -76,7 +76,7 @@ public class TokenService {
 
     /**
      * Returns the master token assigned to the unique identifier extracted from the current request.
-     * This identifier could be for example the sessionId of the current user, or the user name extracted from a JWT token
+     * This identifier could be for example the sessionId of the current user, or the username extracted from a JWT token
      * <p>
      *
      * @param logicalSessionKey identifies the current logical session uniquely
@@ -138,7 +138,7 @@ public class TokenService {
 
     /**
      * Generates new random tokens for configured protected pages.
-     * This methods creates a new master token if it did not exist previously.
+     * This method creates a new master token if it did not exist previously.
      * Existing page tokens with the same session key will be overwritten.
      *
      * @param logicalSessionKey identifies the current logical session uniquely
@@ -251,7 +251,7 @@ public class TokenService {
 
         final TokenBO tokenBO;
         if (timedPageToken == null) {
-            /* if there is no token for the current resource, create it and the rely on the master token for validation */
+            /* if there is no token for the current resource, create it and rely on the master token for validation */
             final String newPageToken = TokenUtils.generateRandomToken();
             tokenHolder.setPageToken(logicalSessionKey, requestURI, newPageToken);
 

@@ -403,7 +403,7 @@ public class CsrfGuard {
      */
     private ConfigurationProvider retrieveNewConfig() {
         final ConfigurationProvider configurationProvider;
-        /* lets see what provider we are using */
+        /* let's see what provider we are using */
         final String configurationProviderFactoryClassName = this.properties.getProperty(ConfigParameters.CONFIG_PROVIDER_FACTORY_PROPERTY_NAME, PropertiesConfigurationProviderFactory.class.getName());
 
         final Class<ConfigurationProviderFactory> configurationProviderFactoryClass = CsrfGuardUtils.forName(configurationProviderFactoryClassName);

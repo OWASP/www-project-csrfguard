@@ -39,7 +39,7 @@ public final class TokenUtils {
     private TokenUtils() {}
 
     /**
-     * Create a random token according with configuration.
+     * Create a random token based on the configuration.
      *
      * @return a random token
      */

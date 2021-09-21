@@ -257,7 +257,7 @@ public interface ConfigurationProvider {
     boolean isJavascriptInjectIntoForms();
 
     /**
-     * if the referer to the javascript must match match the protocol of the domain
+     * if the referer to the javascript must match the protocol of the domain
      *
      * @return true if the javascript must match the protocol of the domain
      */

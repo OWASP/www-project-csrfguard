@@ -42,7 +42,7 @@ public class PropertiesConfigurationProviderFactory implements ConfigurationProv
 	public PropertiesConfigurationProviderFactory() {}
 
 	/**
-	 * cache this since it doesnt change
+	 * cache this since it doesn't change
 	 */
 	private static ConfigurationProvider configurationProvider = null;
 	
