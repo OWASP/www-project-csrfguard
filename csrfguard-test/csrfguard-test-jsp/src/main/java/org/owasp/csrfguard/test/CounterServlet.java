@@ -31,50 +31,68 @@ package org.owasp.csrfguard.test;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Servlet implementation class HelloServlet
  */
 public class CounterServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final AtomicInteger COUNTER = new AtomicInteger(0);
-	private static final String COUNTER_VALUE_MESSAGE = "Counter value: ";
-	public static final String INPUT_PARAMETER_NAME = "value";
+	private static final ConcurrentMap<String, Integer> COUNTER = new ConcurrentHashMap<>();
 
-	/**
-     * Default constructor. 
+    private static final String COUNTER_VALUE_MESSAGE = "Counter value: ";
+    public static final String INPUT_PARAMETER_NAME = "value";
+    public static final String NO_SESSION_MESSAGE = "The request did not contain an associated session!";
+
+    /**
+     * Default constructor.
      */
     public CounterServlet() {}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	@Override
-	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		respond(response, COUNTER.get());
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    @Override
+    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+        final HttpSession session = request.getSession(false);
+        if (Objects.nonNull(session)) {
+            respond(response, COUNTER.compute(session.getId(), (k, v) -> Optional.ofNullable(v).orElse(0)));
+        } else {
+            System.err.println(NO_SESSION_MESSAGE);
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        }
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	@Override
-	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) {
-		final String inputValue = request.getParameter(INPUT_PARAMETER_NAME);
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    @Override
+    protected void doPost(final HttpServletRequest request, final HttpServletResponse response) {
+        final HttpSession session = request.getSession(false);
+        if (Objects.nonNull(session)) {
+            final String inputValue = request.getParameter(INPUT_PARAMETER_NAME);
 
-		try {
-			final int valueToIncreaseBy = Integer.parseInt(inputValue);
-			respond(response, COUNTER.addAndGet(valueToIncreaseBy));
-		} catch (Exception ignored) { }
-	}
+            try {
+                final int valueToIncreaseBy = Integer.parseInt(inputValue);
+                respond(response, COUNTER.compute(session.getId(), (k, v) -> Objects.isNull(v) ? valueToIncreaseBy : v + valueToIncreaseBy));
+            } catch (Exception ignored) {}
+        } else {
+            System.err.println(NO_SESSION_MESSAGE);
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        }
+    }
 
-	private void respond(HttpServletResponse response, int value) throws IOException {
-		response.setContentType("text/plain");
-		final PrintWriter writer = new PrintWriter(response.getOutputStream());
-		writer.println(COUNTER_VALUE_MESSAGE + value);
-		writer.close();
-	}
+    private void respond(HttpServletResponse response, int value) throws IOException {
+        response.setContentType("text/plain");
+        final PrintWriter writer = new PrintWriter(response.getOutputStream());
+        writer.println(COUNTER_VALUE_MESSAGE + value);
+        writer.close();
+    }
 }
