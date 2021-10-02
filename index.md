@@ -11,7 +11,7 @@ pitch: OWASP CSRFGuard is a library that implements a variant of the synchronize
 
 <!-- rebuild 40 -->
 
-The OWASP CSRFGuard is one of the world’s most popular free security tools and is actively maintained by a pool of international volunteers*. 
+The OWASP CSRFGuard is one of the world’s most popular free security tools and is actively maintained by a pool of international volunteers.
 
 Welcome to the home of the OWASP CSRFGuard Project! OWASP CSRFGuard is a library that implements a variant of the synchronizer token pattern to mitigate the risk of Cross-Site Request Forgery (CSRF) attacks. 
 
