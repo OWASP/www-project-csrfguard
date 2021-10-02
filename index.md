@@ -21,3 +21,5 @@ It is the responsibility of OWASP CSRFGuard to ensure the token is present and i
 
 Any attempt to submit a request to a protected resource without the correct corresponding token is viewed as a CSRF attack in progress and is discarded. Prior to discarding the request, CSRFGuard can be configured to take one or more actions such as logging aspects of the request and redirecting the user to a landing page. 
 The latest release enhances this strategy to support the optional verification of HTTP requests submitted using Ajax as well as the optional verification of referrer headers.
+
+As OWASP project we fellow the OWASP Code Of Conduct available here: https://owasp.org/www-policy/operational/code-of-conduct
