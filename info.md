@@ -7,15 +7,7 @@
 
 ![Tool Project](assets/images/owasp_tool_project.png)
 
-# IMPORTANT NOTICE
-
-We are working on a new version of CSRFGuard including a lot of merge request with good proposals and new code to fix known issues on XSS attacks that bypass CSRFGuard.
-
 ## CSRFGuard 4.0 released in April 2021
-
-## We need your help. If you want to give few hours of your time please reach out to us.
-
-# OWASP CSRFGuard 4.0.0 
 
 [http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project](http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project)
 
@@ -31,7 +23,7 @@ The CSRFGuard project is run by [Azzeddine RAMRAMI](mailto:azzeddine.ramrami@owa
 
 ## License
 
-OWASP CSRFGuard 4.0.0 is offered under the [BSD license](http://www.opensource.org/licenses/bsd-license.php)
+OWASP CSRFGuard 4.0.0 is offered under the [BSD license](http://www.opensource.org/licenses/bsd-license.php).
 
 ## Using with Maven
 OWASP CSRFGuard 4.0.0 will be available on the Maven Central Repository. Add the following dependency to your Maven POM file to use the library:
@@ -61,11 +53,10 @@ OWASP CSRFGuard 4.0.0 will be available on the Maven Central Repository. Add the
 
 ### Maven Central repository
 
-You can download a pre-compiled version from the OSS Sonatype Nexus repository here:
+You can download pre-compiled versions from:
 
-[https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~](https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~)
-
-Thanks to Trent Schmidt and Joel Orlina (JIRA) for there help.
+* [Maven Central repository](https://search.maven.org/search?q=csrfguard)
+* [OSS Sonatype Nexus repository](https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~)
 
 ## Email List
 
