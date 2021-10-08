@@ -36,13 +36,13 @@ import org.owasp.csrfguard.config.NullConfigurationProvider;
 import org.owasp.csrfguard.config.PropertiesConfigurationProviderFactory;
 import org.owasp.csrfguard.config.overlay.ExpirableCache;
 import org.owasp.csrfguard.config.properties.ConfigParameters;
-import org.owasp.csrfguard.log.ILogger;
 import org.owasp.csrfguard.session.LogicalSession;
 import org.owasp.csrfguard.token.service.TokenService;
 import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
 import org.owasp.csrfguard.token.storage.TokenHolder;
 import org.owasp.csrfguard.util.CsrfGuardPropertiesToStringBuilder;
 import org.owasp.csrfguard.util.CsrfGuardUtils;
+import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,7 +81,7 @@ public class CsrfGuard {
         return this.regexPatternCache;
     }
 
-    public ILogger getLogger() {
+    public Logger getLogger() {
         return config().getLogger();
     }
 

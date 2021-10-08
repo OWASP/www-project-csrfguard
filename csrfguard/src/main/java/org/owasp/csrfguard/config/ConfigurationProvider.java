@@ -30,9 +30,9 @@
 package org.owasp.csrfguard.config;
 
 import org.owasp.csrfguard.action.IAction;
-import org.owasp.csrfguard.log.ILogger;
 import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
 import org.owasp.csrfguard.token.storage.TokenHolder;
+import org.slf4j.Logger;
 
 import java.security.SecureRandom;
 import java.time.Duration;
@@ -64,7 +64,7 @@ public interface ConfigurationProvider {
      *
      * @return
      */
-    ILogger getLogger();
+    Logger getLogger();
 
     /**
      * TODO document

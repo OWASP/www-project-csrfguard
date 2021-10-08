@@ -37,13 +37,13 @@ import org.owasp.csrfguard.config.properties.HttpMethod;
 import org.owasp.csrfguard.config.properties.PropertyUtils;
 import org.owasp.csrfguard.config.properties.javascript.JavaScriptConfigParameters;
 import org.owasp.csrfguard.config.properties.javascript.JsConfigParameter;
-import org.owasp.csrfguard.log.ILogger;
-import org.owasp.csrfguard.log.LogLevel;
 import org.owasp.csrfguard.servlet.JavaScriptServlet;
 import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
 import org.owasp.csrfguard.token.storage.TokenHolder;
 import org.owasp.csrfguard.util.CsrfGuardUtils;
 import org.owasp.csrfguard.util.RegexValidationUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletConfig;
 import java.io.IOException;
@@ -60,7 +60,7 @@ import java.util.stream.Stream;
  */
 public class PropertiesConfigurationProvider implements ConfigurationProvider {
 
-	private final ILogger logger;
+	private static final Logger logger = LoggerFactory.getLogger(PropertiesConfigurationProvider.class);
 
 	private final Set<String> protectedPages;
 
@@ -151,8 +151,6 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 			this.protectedMethods = new HashSet<>();
 			this.unprotectedMethods = new HashSet<>();
 
-			this.logger = CsrfGuardUtils.<ILogger>forName(PropertyUtils.getProperty(properties, ConfigParameters.LOGGER)).newInstance();
-
             this.enabled = PropertyUtils.getProperty(properties, ConfigParameters.CSRFGUARD_ENABLED);
 
             if (this.enabled) {
@@ -193,8 +191,8 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 	}
 
 	@Override
-	public ILogger getLogger() {
-		return this.logger;
+	public Logger getLogger() {
+		return logger;
 	}
 
 	@Override
@@ -537,7 +535,7 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 	private boolean isSpecialUriDescriptor(final String resourceUri) {
 		if (this.tokenPerPage && (resourceUri.endsWith("/*") || resourceUri.startsWith("*."))) {
 			// FIXME implement in the JS logic (calculatePageTokenForUri)
-			this.logger.log(LogLevel.Warning, "'Extension' and 'partial path wildcard' matching for page tokens is not supported properly yet! " +
+			logger.warn("'Extension' and 'partial path wildcard' matching for page tokens is not supported properly yet! " +
 											  "Every resource will be assigned a new unique token instead of using the defined resource matcher token. " +
 											  "Although this is not a security issue, in case of a large REST application it can have an impact on performance. " +
 											  "Consider using regular expressions instead.");
@@ -630,14 +628,14 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 				secureRandom = Objects.nonNull(algorithm) ? SecureRandom.getInstance(algorithm) : getDefaultSecureRandom();
 			}
 		} catch (final NoSuchProviderException e) {
-			this.logger.log(LogLevel.Warning, String.format("The configured Secure Random Provider '%s' was not found, trying default providers.", provider));
-			this.logger.log(LogLevel.Info, getAvailableSecureRandomProvidersAndAlgorithms());
+			logger.warn(String.format("The configured Secure Random Provider '%s' was not found, trying default providers.", provider));
+			logger.info(getAvailableSecureRandomProvidersAndAlgorithms());
 
 			secureRandom = getSecureRandomInstance(algorithm, null);
 			logDefaultPrngProviderAndAlgorithm(secureRandom);
 		} catch (final NoSuchAlgorithmException nse) {
-			this.logger.log(LogLevel.Warning, String.format("The configured Secure Random Algorithm '%s' was not found, reverting to system defaults.", algorithm));
-			this.logger.log(LogLevel.Info, getAvailableSecureRandomProvidersAndAlgorithms());
+			logger.warn(String.format("The configured Secure Random Algorithm '%s' was not found, reverting to system defaults.", algorithm));
+			logger.info(getAvailableSecureRandomProvidersAndAlgorithms());
 
 			secureRandom = getSecureRandomInstance(null, null);
 		}
@@ -651,7 +649,7 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 	}
 
 	private void logDefaultPrngProviderAndAlgorithm(final SecureRandom defaultSecureRandom) {
-		this.logger.log(LogLevel.Info, String.format("Using default Secure Random Provider '%s' and '%s' Algorithm.", defaultSecureRandom.getProvider().getName(), defaultSecureRandom.getAlgorithm()));
+		logger.info(String.format("Using default Secure Random Provider '%s' and '%s' Algorithm.", defaultSecureRandom.getProvider().getName(), defaultSecureRandom.getAlgorithm()));
 	}
 
 	private static String getAvailableSecureRandomProvidersAndAlgorithms() {

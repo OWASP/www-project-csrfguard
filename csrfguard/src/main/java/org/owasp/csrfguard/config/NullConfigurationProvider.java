@@ -31,10 +31,10 @@ package org.owasp.csrfguard.config;
 
 import org.owasp.csrfguard.action.IAction;
 import org.owasp.csrfguard.config.properties.ConfigParameters;
-import org.owasp.csrfguard.log.ConsoleLogger;
-import org.owasp.csrfguard.log.ILogger;
 import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
 import org.owasp.csrfguard.token.storage.TokenHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.security.SecureRandom;
 import java.time.Duration;
@@ -49,7 +49,7 @@ import java.util.regex.Pattern;
  */
 public final class NullConfigurationProvider implements ConfigurationProvider {
 
-    private static final ILogger LOGGER = new ConsoleLogger();
+    private static final Logger LOGGER = LoggerFactory.getLogger(NullConfigurationProvider.class);
 
     public NullConfigurationProvider() {}
 
@@ -64,7 +64,7 @@ public final class NullConfigurationProvider implements ConfigurationProvider {
     }
 
     @Override
-    public ILogger getLogger() {
+    public Logger getLogger() {
         return LOGGER;
     }
 

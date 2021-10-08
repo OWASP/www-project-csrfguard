@@ -30,7 +30,6 @@
 package org.owasp.csrfguard;
 
 import org.owasp.csrfguard.http.InterceptRedirectResponse;
-import org.owasp.csrfguard.log.LogLevel;
 import org.owasp.csrfguard.session.LogicalSession;
 import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
 import org.owasp.csrfguard.token.transferobject.TokenTO;
@@ -120,7 +119,7 @@ public class CsrfGuardFilter implements Filter {
 
     private void handleNonHttpServletMessages(final ServletRequest request, final ServletResponse response, final FilterChain filterChain, final CsrfGuard csrfGuard) throws IOException, ServletException {
         final String message = String.format("CSRFGuard does not know how to work with requests of class %s ", request.getClass().getName());
-        csrfGuard.getLogger().log(LogLevel.Warning, message);
+        csrfGuard.getLogger().warn(message);
         this.filterConfig.getServletContext().log("[WARNING]" + message);
 
         filterChain.doFilter(request, response);
@@ -130,6 +129,6 @@ public class CsrfGuardFilter implements Filter {
         final String requestURI = httpRequest.getRequestURI();
         final String remoteAddress = httpRequest.getRemoteAddr();
 
-        csrfGuard.getLogger().log(LogLevel.Warning, String.format("Invalid request: URI: '%s' | Remote Address: '%s'", requestURI, remoteAddress));
+        csrfGuard.getLogger().warn(String.format("Invalid request: URI: '%s' | Remote Address: '%s'", requestURI, remoteAddress));
     }
 }

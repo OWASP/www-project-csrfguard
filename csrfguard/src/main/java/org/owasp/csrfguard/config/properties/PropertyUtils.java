@@ -32,6 +32,8 @@ package org.owasp.csrfguard.config.properties;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.owasp.csrfguard.CsrfGuardServletContextListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -39,6 +41,8 @@ import java.util.Properties;
 import java.util.function.Function;
 
 public final class PropertyUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(PropertyUtils.class);
 
     private PropertyUtils() {}
 
@@ -94,8 +98,7 @@ public final class PropertyUtils {
             value = properties.getProperty(propertyName);
         } else {
             if (!properties.containsKey(propertyName)) {
-                // TODO use Logger instead when SLF4J is in place
-                System.out.printf("The '%s' property was not defined, using '%s' as default value. %n", propertyName, defaultValue);
+                logger.info("The '{}' property was not defined, using '{}' as default value. %n", propertyName, defaultValue);
             }
             value = properties.getProperty(propertyName, defaultValue);
         }

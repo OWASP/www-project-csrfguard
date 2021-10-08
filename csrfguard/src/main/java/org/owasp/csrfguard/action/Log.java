@@ -32,7 +32,6 @@ package org.owasp.csrfguard.action;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.csrfguard.CsrfGuard;
 import org.owasp.csrfguard.CsrfGuardException;
-import org.owasp.csrfguard.log.LogLevel;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,7 +66,7 @@ public final class Log extends AbstractAction {
 
         logMessage = logMessage.replace("%user%", getUserName(request));
 
-        csrfGuard.getLogger().log(LogLevel.Error, logMessage);
+        csrfGuard.getLogger().error(logMessage);
     }
 
     private String getUserName(final HttpServletRequest request) {
