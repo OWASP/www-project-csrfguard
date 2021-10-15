@@ -42,7 +42,6 @@ import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
 import org.owasp.csrfguard.token.storage.TokenHolder;
 import org.owasp.csrfguard.util.CsrfGuardPropertiesToStringBuilder;
 import org.owasp.csrfguard.util.CsrfGuardUtils;
-import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,10 +78,6 @@ public class CsrfGuard {
 
     public Map<String, Pattern> getRegexPatternCache() {
         return this.regexPatternCache;
-    }
-
-    public Logger getLogger() {
-        return config().getLogger();
     }
 
     public String getTokenName() {

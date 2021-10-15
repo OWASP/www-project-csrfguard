@@ -42,7 +42,7 @@ import java.util.function.Function;
 
 public final class PropertyUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(PropertyUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PropertyUtils.class);
 
     private PropertyUtils() {}
 
@@ -98,7 +98,7 @@ public final class PropertyUtils {
             value = properties.getProperty(propertyName);
         } else {
             if (!properties.containsKey(propertyName)) {
-                logger.info("The '{}' property was not defined, using '{}' as default value. %n", propertyName, defaultValue);
+                LOGGER.info("The '{}' property was not defined, using '{}' as default value. %n", propertyName, defaultValue);
             }
             value = properties.getProperty(propertyName, defaultValue);
         }

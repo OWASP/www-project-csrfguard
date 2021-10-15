@@ -60,7 +60,7 @@ import java.util.stream.Stream;
  */
 public class PropertiesConfigurationProvider implements ConfigurationProvider {
 
-	private static final Logger logger = LoggerFactory.getLogger(PropertiesConfigurationProvider.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesConfigurationProvider.class);
 
 	private final Set<String> protectedPages;
 
@@ -188,11 +188,6 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	@Override
-	public Logger getLogger() {
-		return logger;
 	}
 
 	@Override
@@ -535,7 +530,7 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 	private boolean isSpecialUriDescriptor(final String resourceUri) {
 		if (this.tokenPerPage && (resourceUri.endsWith("/*") || resourceUri.startsWith("*."))) {
 			// FIXME implement in the JS logic (calculatePageTokenForUri)
-			logger.warn("'Extension' and 'partial path wildcard' matching for page tokens is not supported properly yet! " +
+			LOGGER.warn("'Extension' and 'partial path wildcard' matching for page tokens is not supported properly yet! " +
 											  "Every resource will be assigned a new unique token instead of using the defined resource matcher token. " +
 											  "Although this is not a security issue, in case of a large REST application it can have an impact on performance. " +
 											  "Consider using regular expressions instead.");
@@ -628,14 +623,14 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 				secureRandom = Objects.nonNull(algorithm) ? SecureRandom.getInstance(algorithm) : getDefaultSecureRandom();
 			}
 		} catch (final NoSuchProviderException e) {
-			logger.warn(String.format("The configured Secure Random Provider '%s' was not found, trying default providers.", provider));
-			logger.info(getAvailableSecureRandomProvidersAndAlgorithms());
+			LOGGER.warn(String.format("The configured Secure Random Provider '%s' was not found, trying default providers.", provider));
+			LOGGER.info(getAvailableSecureRandomProvidersAndAlgorithms());
 
 			secureRandom = getSecureRandomInstance(algorithm, null);
 			logDefaultPrngProviderAndAlgorithm(secureRandom);
 		} catch (final NoSuchAlgorithmException nse) {
-			logger.warn(String.format("The configured Secure Random Algorithm '%s' was not found, reverting to system defaults.", algorithm));
-			logger.info(getAvailableSecureRandomProvidersAndAlgorithms());
+			LOGGER.warn(String.format("The configured Secure Random Algorithm '%s' was not found, reverting to system defaults.", algorithm));
+			LOGGER.info(getAvailableSecureRandomProvidersAndAlgorithms());
 
 			secureRandom = getSecureRandomInstance(null, null);
 		}
@@ -649,7 +644,7 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 	}
 
 	private void logDefaultPrngProviderAndAlgorithm(final SecureRandom defaultSecureRandom) {
-		logger.info(String.format("Using default Secure Random Provider '%s' and '%s' Algorithm.", defaultSecureRandom.getProvider().getName(), defaultSecureRandom.getAlgorithm()));
+		LOGGER.info(String.format("Using default Secure Random Provider '%s' and '%s' Algorithm.", defaultSecureRandom.getProvider().getName(), defaultSecureRandom.getAlgorithm()));
 	}
 
 	private static String getAvailableSecureRandomProvidersAndAlgorithms() {

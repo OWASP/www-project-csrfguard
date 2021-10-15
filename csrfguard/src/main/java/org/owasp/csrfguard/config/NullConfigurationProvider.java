@@ -33,8 +33,6 @@ import org.owasp.csrfguard.action.IAction;
 import org.owasp.csrfguard.config.properties.ConfigParameters;
 import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
 import org.owasp.csrfguard.token.storage.TokenHolder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.security.SecureRandom;
 import java.time.Duration;
@@ -49,8 +47,6 @@ import java.util.regex.Pattern;
  */
 public final class NullConfigurationProvider implements ConfigurationProvider {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NullConfigurationProvider.class);
-
     public NullConfigurationProvider() {}
 
     @Override
@@ -61,11 +57,6 @@ public final class NullConfigurationProvider implements ConfigurationProvider {
     @Override
     public boolean isPrintConfig() {
         return false;
-    }
-
-    @Override
-    public Logger getLogger() {
-        return LOGGER;
     }
 
     @Override

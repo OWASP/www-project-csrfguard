@@ -517,7 +517,7 @@ public abstract class ConfigPropertiesCascadeBase {
 
 	/**
 	 * get the logger instance
-	 * @return the ilogger
+	 * @return the logger
 	 */
 	private static Logger logger() {
 		//endless loop

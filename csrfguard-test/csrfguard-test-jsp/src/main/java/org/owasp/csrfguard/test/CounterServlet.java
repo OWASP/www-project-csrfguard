@@ -54,7 +54,7 @@ public class CounterServlet extends HttpServlet {
     public static final String INPUT_PARAMETER_NAME = "value";
     public static final String NO_SESSION_MESSAGE = "The request did not contain an associated session!";
 
-    private static final Logger logger = LoggerFactory.getLogger(CounterServlet.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CounterServlet.class);
 
     /**
      * Default constructor.
@@ -70,7 +70,7 @@ public class CounterServlet extends HttpServlet {
         if (Objects.nonNull(session)) {
             respond(response, COUNTER.compute(session.getId(), (k, v) -> Optional.ofNullable(v).orElse(0)));
         } else {
-            logger.error(NO_SESSION_MESSAGE);
+            LOGGER.error(NO_SESSION_MESSAGE);
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
     }
@@ -89,7 +89,7 @@ public class CounterServlet extends HttpServlet {
                 respond(response, COUNTER.compute(session.getId(), (k, v) -> Objects.isNull(v) ? valueToIncreaseBy : v + valueToIncreaseBy));
             } catch (Exception ignored) {}
         } else {
-            logger.error(NO_SESSION_MESSAGE);
+            LOGGER.error(NO_SESSION_MESSAGE);
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
     }

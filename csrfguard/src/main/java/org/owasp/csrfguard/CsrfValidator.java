@@ -40,6 +40,7 @@ import org.owasp.csrfguard.util.CsrfGuardUtils;
 import org.owasp.csrfguard.util.MessageConstants;
 import org.owasp.csrfguard.util.RegexValidationUtil;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +53,8 @@ public final class CsrfValidator {
 
     private final CsrfGuard csrfGuard;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CsrfValidator.class);
+
     public CsrfValidator() {
         this.csrfGuard = CsrfGuard.getInstance();
     }
@@ -59,14 +62,13 @@ public final class CsrfValidator {
     public boolean isValid(final HttpServletRequest request, final HttpServletResponse response) {
         final boolean isValid;
 
-        final Logger logger = this.csrfGuard.getLogger();
         final String normalizedResourceURI = CsrfGuardUtils.normalizeResourceURI(request);
         final ProtectionResult protectionResult = isProtectedPageAndMethod(request);
         if (protectionResult.isProtected()) {
-            logger.debug(String.format("CSRFGuard analyzing protected resource: '%s'", normalizedResourceURI));
+            LOGGER.debug(String.format("CSRFGuard analyzing protected resource: '%s'", normalizedResourceURI));
             isValid = isTokenValidInRequest(request, response, protectionResult.getResourceIdentifier());
         } else {
-            logger.debug(String.format("Unprotected page: %s", normalizedResourceURI));
+            LOGGER.debug(String.format("Unprotected page: %s", normalizedResourceURI));
             isValid = true;
         }
 
@@ -239,7 +241,7 @@ public final class CsrfValidator {
             try {
                 action.execute(request, response, csrfGuardException, this.csrfGuard);
             } catch (final CsrfGuardException exception) {
-                this.csrfGuard.getLogger().error(String.valueOf(exception));
+                LOGGER.error(String.valueOf(exception));
             }
         }
     }
