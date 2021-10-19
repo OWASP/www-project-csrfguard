@@ -40,7 +40,7 @@
     <name>OWASP CSRFGuard Parent POM</name>
     <description>OWASP CSRFGuard is a library that implements a variant of the synchronizer token pattern to mitigate the risk of Cross-Site Request Forgery (CSRF) attacks.
     </description>
-    <url>https://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project</url>
+    <url>https://owasp.org/www-project-csrfguard/</url>
 
     <organization>
         <name>OWASP</name>

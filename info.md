@@ -9,7 +9,7 @@
 
 ## CSRFGuard 4.0 released in April 2021
 
-[http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project](http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project)
+[https://owasp.org/www-project-csrfguard/](https://owasp.org/www-project-csrfguard/)
 
 BSD License, All rights reserved.
 
