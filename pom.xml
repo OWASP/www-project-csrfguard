@@ -28,7 +28,8 @@
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.owasp</groupId>
@@ -37,7 +38,9 @@
     <packaging>pom</packaging>
 
     <name>OWASP CSRFGuard Parent POM</name>
-    <description>OWASP CSRFGuard is a library that implements a variant of the synchronizer token pattern to mitigate the risk of Cross-Site Request Forgery (CSRF) attacks.</description>
+    <description>OWASP CSRFGuard is a library that implements a variant of the synchronizer token pattern to mitigate
+        the risk of Cross-Site Request Forgery (CSRF) attacks.
+    </description>
     <url>https://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project</url>
 
     <organization>
@@ -87,8 +90,8 @@
         <connection>scm:git:git://github.com/OWASP/www-project-csrfguard.git</connection>
         <developerConnection>scm:git:git@github.com:OWASP/www-project-csrfguard.git</developerConnection>
         <url>https://github.com/OWASP/www-project-csrfguard</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <issueManagement>
         <system>GitHub Issue Tracking</system>
@@ -198,6 +201,12 @@
                 <artifactId>mockito-inline</artifactId>
                 <version>${mockito.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

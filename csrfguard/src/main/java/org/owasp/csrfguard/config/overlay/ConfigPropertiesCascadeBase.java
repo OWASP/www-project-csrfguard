@@ -29,8 +29,7 @@
 
 package org.owasp.csrfguard.config.overlay;
 
-import org.owasp.csrfguard.log.ILogger;
-import org.owasp.csrfguard.log.LogLevel;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -518,9 +517,9 @@ public abstract class ConfigPropertiesCascadeBase {
 
 	/**
 	 * get the logger instance
-	 * @return the ilogger
+	 * @return the logger
 	 */
-	private static ILogger iLogger() {
+	private static Logger logger() {
 		//endless loop
 		//CsrfGuard csrfGuard = CsrfGuard.getInstance();
 		//ILogger iLogger = csrfGuard == null ? null : csrfGuard.getLogger();
@@ -535,13 +534,13 @@ public abstract class ConfigPropertiesCascadeBase {
 	 * @param t Exception to log, or null
 	 */
 	protected static void logInfo(String logMessage, Exception t) {
-		ILogger iLogger = iLogger();
-		if (iLogger != null) {
+		Logger logger = logger();
+		if (logger != null) {
 			if (!ConfigPropertiesCascadeUtils.isBlank(logMessage)) {
-				iLogger.log(LogLevel.Info, logMessage);
+				logger.info(logMessage);
 			}
 			if (t != null) {
-				iLogger.log(LogLevel.Info, t);
+				logger.info(String.valueOf(t));
 			}
 		}
 	}
@@ -552,16 +551,16 @@ public abstract class ConfigPropertiesCascadeBase {
 	 * @param t Exception to log, or null
 	 */
 	protected static void logError(String logMessage, Exception t) {
-		ILogger iLogger = iLogger();
-		if (iLogger != null) {
+		Logger logger = logger();
+		if (logger != null) {
 			if (!ConfigPropertiesCascadeUtils.isBlank(logMessage)) {
-				iLogger.log(LogLevel.Info, logMessage);
+				logger.info(logMessage);
 			}
 			if (t != null) {
-				iLogger.log(LogLevel.Info, t);
+				logger.info(String.valueOf(t));
 			}
 		} else {
-			System.err.println("ERROR: " + logMessage);
+			logger.error(logMessage);
 			t.printStackTrace();
 		}
 	}
@@ -632,9 +631,9 @@ public abstract class ConfigPropertiesCascadeBase {
 
 			return configObject;
 		} finally {
-			ILogger iLogger = iLogger();
-			if (iLogger != null) {
-				iLogger.log(LogLevel.Debug, ConfigPropertiesCascadeUtils.mapToString(debugMap));
+			Logger logger = logger();
+			if (logger != null) {
+				logger.debug(ConfigPropertiesCascadeUtils.mapToString(debugMap));
 			}
 		}
 	}

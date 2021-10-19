@@ -31,8 +31,6 @@ package org.owasp.csrfguard.config;
 
 import org.owasp.csrfguard.action.IAction;
 import org.owasp.csrfguard.config.properties.ConfigParameters;
-import org.owasp.csrfguard.log.ConsoleLogger;
-import org.owasp.csrfguard.log.ILogger;
 import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
 import org.owasp.csrfguard.token.storage.TokenHolder;
 
@@ -49,8 +47,6 @@ import java.util.regex.Pattern;
  */
 public final class NullConfigurationProvider implements ConfigurationProvider {
 
-    private static final ILogger LOGGER = new ConsoleLogger();
-
     public NullConfigurationProvider() {}
 
     @Override
@@ -61,11 +57,6 @@ public final class NullConfigurationProvider implements ConfigurationProvider {
     @Override
     public boolean isPrintConfig() {
         return false;
-    }
-
-    @Override
-    public ILogger getLogger() {
-        return LOGGER;
     }
 
     @Override

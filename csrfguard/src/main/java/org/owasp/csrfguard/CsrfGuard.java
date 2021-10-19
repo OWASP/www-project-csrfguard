@@ -36,7 +36,6 @@ import org.owasp.csrfguard.config.NullConfigurationProvider;
 import org.owasp.csrfguard.config.PropertiesConfigurationProviderFactory;
 import org.owasp.csrfguard.config.overlay.ExpirableCache;
 import org.owasp.csrfguard.config.properties.ConfigParameters;
-import org.owasp.csrfguard.log.ILogger;
 import org.owasp.csrfguard.session.LogicalSession;
 import org.owasp.csrfguard.token.service.TokenService;
 import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
@@ -79,10 +78,6 @@ public class CsrfGuard {
 
     public Map<String, Pattern> getRegexPatternCache() {
         return this.regexPatternCache;
-    }
-
-    public ILogger getLogger() {
-        return config().getLogger();
     }
 
     public String getTokenName() {

@@ -30,7 +30,6 @@
 package org.owasp.csrfguard.config;
 
 import org.owasp.csrfguard.action.IAction;
-import org.owasp.csrfguard.log.ILogger;
 import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
 import org.owasp.csrfguard.token.storage.TokenHolder;
 
@@ -58,13 +57,6 @@ public interface ConfigurationProvider {
      * @return
      */
     boolean isPrintConfig();
-
-    /**
-     * TODO document
-     *
-     * @return
-     */
-    ILogger getLogger();
 
     /**
      * TODO document

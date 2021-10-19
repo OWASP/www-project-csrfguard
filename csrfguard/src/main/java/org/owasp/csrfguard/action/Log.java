@@ -32,7 +32,8 @@ package org.owasp.csrfguard.action;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.csrfguard.CsrfGuard;
 import org.owasp.csrfguard.CsrfGuardException;
-import org.owasp.csrfguard.log.LogLevel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +42,8 @@ import java.security.Principal;
 public final class Log extends AbstractAction {
 
     private static final long serialVersionUID = 8238761463376338707L;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Log.class);
 
     @Override
     public void execute(final HttpServletRequest request, final HttpServletResponse response, final CsrfGuardException csrfe, final CsrfGuard csrfGuard) throws CsrfGuardException {
@@ -67,7 +70,7 @@ public final class Log extends AbstractAction {
 
         logMessage = logMessage.replace("%user%", getUserName(request));
 
-        csrfGuard.getLogger().log(LogLevel.Error, logMessage);
+        LOGGER.error(logMessage);
     }
 
     private String getUserName(final HttpServletRequest request) {
