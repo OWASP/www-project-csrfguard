@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+
+    <!-- Default config -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <!-- Custom CSRF Guard config -->
+    <appender name="CUSTOM" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- Replace CRLF to prevent log injection -->
+            <pattern>%d{HH:mm:ss.SSS} %level [%thread] OWASP-CSRFGUARD - %replace(%m){'\r?\n','CRLF'}%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Overwrite the logging pattern for CSRFGuard only to display a custom string instead of package.className -->
+    <logger name="org.owasp.csrfguard" level="debug" additivity="false">
+        <appender-ref ref="CUSTOM" />
+    </logger>
+</configuration>

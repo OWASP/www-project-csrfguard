@@ -30,6 +30,7 @@
 package org.owasp.csrfguard.config.overlay;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,6 +53,8 @@ public abstract class ConfigPropertiesCascadeBase {
 
 	/** if a key ends with this, then it is an EL property */
 	private static final String EL_CONFIG_SUFFIX = ".elConfig";
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigPropertiesCascadeBase.class);
 
 	/**
 	 * this is used to tell engine where the default and example config is...
@@ -298,7 +301,7 @@ public abstract class ConfigPropertiesCascadeBase {
 						try {
 							return new FileInputStream(configFile);
 						} catch (Exception e) {
-							logError("Cant read config file: " + configFile.getAbsolutePath(), e);
+							LOGGER.error("Cant read config file: " + configFile.getAbsolutePath(), e);
 						}
 					}
 				}
@@ -516,56 +519,6 @@ public abstract class ConfigPropertiesCascadeBase {
 	}
 
 	/**
-	 * get the logger instance
-	 * @return the logger
-	 */
-	private static Logger logger() {
-		//endless loop
-		//CsrfGuard csrfGuard = CsrfGuard.getInstance();
-		//ILogger iLogger = csrfGuard == null ? null : csrfGuard.getLogger();
-		//return iLogger;
-		return null;
-		
-	}
-
-	/**
-	 * make sure LOG is there, after things are initialized
-	 * @param logMessage Message to log
-	 * @param t Exception to log, or null
-	 */
-	protected static void logInfo(String logMessage, Exception t) {
-		Logger logger = logger();
-		if (logger != null) {
-			if (!ConfigPropertiesCascadeUtils.isBlank(logMessage)) {
-				logger.info(logMessage);
-			}
-			if (t != null) {
-				logger.info(String.valueOf(t));
-			}
-		}
-	}
-
-	/**
-	 * make sure LOG is there, after things are initialized
-	 * @param logMessage Message to log
-	 * @param t Exception to log, or null
-	 */
-	protected static void logError(String logMessage, Exception t) {
-		Logger logger = logger();
-		if (logger != null) {
-			if (!ConfigPropertiesCascadeUtils.isBlank(logMessage)) {
-				logger.info(logMessage);
-			}
-			if (t != null) {
-				logger.info(String.valueOf(t));
-			}
-		} else {
-			logger.error(logMessage);
-			t.printStackTrace();
-		}
-	}
-
-	/**
 	 * see if there is one in cache, if so, use it, if not, get from config files
 	 * @return the config from file or cache
 	 */
@@ -631,10 +584,7 @@ public abstract class ConfigPropertiesCascadeBase {
 
 			return configObject;
 		} finally {
-			Logger logger = logger();
-			if (logger != null) {
-				logger.debug(ConfigPropertiesCascadeUtils.mapToString(debugMap));
-			}
+			LOGGER.debug(ConfigPropertiesCascadeUtils.mapToString(debugMap));
 		}
 	}
 
@@ -677,7 +627,7 @@ public abstract class ConfigPropertiesCascadeBase {
 			}
 		} catch (Exception e) {
 			//lets log and return the old one
-			logError("Error checking for changes in configs (will use previous version): " + this.getMainConfigClasspath(), e);
+			LOGGER.error("Error checking for changes in configs (will use previous version): " + this.getMainConfigClasspath(), e);
 		} finally {
 			//reset the time so we dont have to check again for a while
 			this.lastCheckedTime = System.currentTimeMillis();
@@ -717,7 +667,7 @@ public abstract class ConfigPropertiesCascadeBase {
 			url = ConfigPropertiesCascadeUtils.computeUrl(resourceName, true);
 		} catch (Exception e) {
 			//I guess this ok
-			logInfo("Problem loading config file: " + resourceName, e); 
+			LOGGER.info("Problem loading config file: " + resourceName, e);
 		}
 
 		if (url == null && exceptionIfNotExist) {

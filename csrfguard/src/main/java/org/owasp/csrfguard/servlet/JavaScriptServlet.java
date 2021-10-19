@@ -239,7 +239,7 @@ public final class JavaScriptServlet extends HttpServlet {
 
         if (refererHeader != null) {
             if (!javascriptRefererPattern.matcher(refererHeader).matches()) {
-                LOGGER.error(String.format("Referer domain '%s' does not match regex: '%s'", refererHeader, javaScriptReferer));
+                LOGGER.error("Referer domain '{}' does not match regex: '{}'", refererHeader, javaScriptReferer);
                 response.sendError(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
@@ -251,14 +251,14 @@ public final class JavaScriptServlet extends HttpServlet {
                 final String requestProtocolAndDomain = CsrfGuardUtils.httpProtocolAndDomain(url, isJavascriptRefererMatchProtocol);
                 final String refererProtocolAndDomain = CsrfGuardUtils.httpProtocolAndDomain(refererHeader, isJavascriptRefererMatchProtocol);
                 if (!refererProtocolAndDomain.equals(requestProtocolAndDomain)) {
-                    LOGGER.error(String.format("Referer domain '%s' does not match request domain: '%s'", refererHeader, url));
+                    LOGGER.error("Referer domain '{}' does not match request domain: '{}'", refererHeader, url);
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);
                     return;
                 }
             }
         } else {
            if (!javaScriptReferer.equals(JavaScriptConfigParameters.DEFAULT_REFERER_PATTERN)) {
-               LOGGER.error(String.format("Missing referer headers are not accepted if a non-default referer pattern '%s' is configured!", javaScriptReferer));
+               LOGGER.error("Missing referer headers are not accepted if a non-default referer pattern '{}' is configured!", javaScriptReferer);
 
                response.sendError(HttpServletResponse.SC_FORBIDDEN);
                return;

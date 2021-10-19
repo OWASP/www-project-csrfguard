@@ -65,10 +65,10 @@ public final class CsrfValidator {
         final String normalizedResourceURI = CsrfGuardUtils.normalizeResourceURI(request);
         final ProtectionResult protectionResult = isProtectedPageAndMethod(request);
         if (protectionResult.isProtected()) {
-            LOGGER.debug(String.format("CSRFGuard analyzing protected resource: '%s'", normalizedResourceURI));
+            LOGGER.debug("CSRFGuard analyzing protected resource: '{}'", normalizedResourceURI);
             isValid = isTokenValidInRequest(request, response, protectionResult.getResourceIdentifier());
         } else {
-            LOGGER.debug(String.format("Unprotected page: %s", normalizedResourceURI));
+            LOGGER.debug("Unprotected page: '{}'", normalizedResourceURI);
             isValid = true;
         }
 
@@ -241,7 +241,7 @@ public final class CsrfValidator {
             try {
                 action.execute(request, response, csrfGuardException, this.csrfGuard);
             } catch (final CsrfGuardException exception) {
-                LOGGER.error(String.valueOf(exception));
+                LOGGER.error(String.format("Error while executing action '%s'", action.getName()), exception);
             }
         }
     }
