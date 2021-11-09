@@ -33,7 +33,7 @@
 
     <groupId>org.owasp</groupId>
     <artifactId>csrfguard-parent</artifactId>
-    <version>4.1.0</version>
+    <version>4.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>OWASP CSRFGuard Parent POM</name>
@@ -88,7 +88,7 @@
         <connection>scm:git:git://github.com/OWASP/www-project-csrfguard.git</connection>
         <developerConnection>scm:git:git@github.com:OWASP/www-project-csrfguard.git</developerConnection>
         <url>https://github.com/OWASP/www-project-csrfguard</url>
-        <tag>4.1.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
