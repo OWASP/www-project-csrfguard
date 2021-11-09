@@ -28,13 +28,12 @@
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.owasp</groupId>
     <artifactId>csrfguard-parent</artifactId>
-    <version>4.0.2-SNAPSHOT</version>
+    <version>4.1.0</version>
     <packaging>pom</packaging>
 
     <name>OWASP CSRFGuard Parent POM</name>
@@ -89,7 +88,7 @@
         <connection>scm:git:git://github.com/OWASP/www-project-csrfguard.git</connection>
         <developerConnection>scm:git:git@github.com:OWASP/www-project-csrfguard.git</developerConnection>
         <url>https://github.com/OWASP/www-project-csrfguard</url>
-        <tag>HEAD</tag>
+        <tag>4.1.0</tag>
     </scm>
 
     <issueManagement>
