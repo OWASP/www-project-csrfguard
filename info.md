@@ -58,9 +58,9 @@ You can download pre-compiled versions from:
 * [Maven Central repository](https://search.maven.org/search?q=csrfguard)
 * [OSS Sonatype Nexus repository](https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~)
 
-## Email List
+## Discussions and Email list
 
-You can sign up for the OWASP CSRFGuard email list [here](https://groups.google.com/a/owasp.org/g/csrfguard-project).
+If you have questions, would like to share or discuss ideas, please use the official [discussions page](https://github.com/OWASP/www-project-csrfguard/discussions) (**preferred**). You can also sign up for the OWASP CSRFGuard email list [here](https://groups.google.com/a/owasp.org/g/csrfguard-project).
 
 ## CSRFGuard 4.0 Release Notes:
 
