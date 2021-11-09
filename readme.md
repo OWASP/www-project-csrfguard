@@ -122,10 +122,6 @@ mvn release:clean release:prepare
 2. Set the SCM release tag: (e.g. `4.0.0`)
 3. Set the new development version (e.g. `4.0.1`)
 
-#### Perform a release:
-```shell
-mvn release:perform
-```
 Check the created commits and tag to make sure everything looks as expected:
    ```shell
    git log
@@ -133,12 +129,16 @@ Check the created commits and tag to make sure everything looks as expected:
    git show HEAD^
    git tag -l # list tags
    ```
-#### Rollback a release:
+#### Rollback the local release:
 ```shell
 mvn release:rollback # or "git reset HEAD^^ --hard"
 git tag -d <tag_name_to_delete>
 ```
-#### Push the new release to :
+#### Perform the release (upload to Maven Central):
+```shell
+mvn release:perform
+```
+#### Push the new release to GitHub:
 ```shell
 git push origin master
 git push origin <tag_name>
