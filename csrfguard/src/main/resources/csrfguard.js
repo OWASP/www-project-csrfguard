@@ -318,13 +318,13 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
 
                 if (uri === pageTokenKey) {
                     value = pageToken;
-                } else if (pageTokenKey.startsWith('^') && pageTokenKey.endsWith('$')) { // regex matching
+                } else if (startsWith(pageTokenKey, '^') && endsWith(pageTokenKey, '$')) { // regex matching
                     if (new RegExp(pageTokenKey).test(uri)) {
                         value = pageToken;
                     }
-                } else if (pageTokenKey.startsWith('/*')) { // full path wildcard path matching
+                } else if (startsWith(pageTokenKey, '/*')) { // full path wildcard path matching
                     value = pageToken;
-                } else if (pageTokenKey.endsWith('/*') || pageTokenKey.startsWith('.*')) { // 'partial path wildcard' and 'extension' matching
+                } else if (endsWith(pageTokenKey, '/*') || startsWith(pageTokenKey, '.*')) { // 'partial path wildcard' and 'extension' matching
                     // TODO implement
                     console.warn("'Extension' and 'partial path wildcard' matching for page tokens is not supported properly yet! " +
                         "Every resource will be assigned a new unique token instead of using the defined resource matcher token. " +
@@ -368,12 +368,12 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                     hidden.setAttribute('value', value);
 
                     form.appendChild(hidden);
-                    console.debug('Hidden input element [', hidden, '] was added to the form: ', form);
+                    //console.debug('Hidden input element [', hidden, '] was added to the form: ', form);
                 } else {
                     hiddenTokenFields.forEach(function (i) {
                         return form.elements[i].value = value;
                     });
-                    console.debug('Hidden token fields [', hiddenTokenFields, '] of form [', form, '] were updated with new token value: ', value);
+                    //console.debug('Hidden token fields [', hiddenTokenFields, '] of form [', form, '] were updated with new token value: ', value);
                 }
             }
         }
@@ -418,7 +418,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
 
                     try {
                         element.setAttribute(attr, newLocation);
-                        console.debug('Attribute [', attr, '] with value [', newLocation, '] set for element: ', element);
+                        //console.debug('Attribute [', attr, '] with value [', newLocation, '] set for element: ', element);
                     } catch (e) {
                         // attempted to set/update unsupported attribute
                     }
@@ -429,7 +429,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                     });
 
                     element.setAttribute(attr, newLocation);
-                    console.debug('Attribute [', attr, '] with value [', newLocation, '] set for element: ', element);
+                    //console.debug('Attribute [', attr, '] with value [', newLocation, '] set for element: ', element);
                 }
             }
         }
@@ -539,7 +539,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         let pageTokens = JSON.parse(xhr.responseText)['pageTokens'];
-                        console.debug('Received page tokens: ', pageTokens);
+                        //console.debug('Received page tokens: ', pageTokens);
                         callback.call(this, pageTokens);
                     } else {
                         alert(xhr.status + ': CSRF check failed');
@@ -592,7 +592,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
         if (isValidDomain(document.domain, '%DOMAIN_ORIGIN%')) {
             var tokenName = '%TOKEN_NAME%';
             var masterTokenValue = '%TOKEN_VALUE%';
-            console.debug('Master token [' + tokenName + ']: ', masterTokenValue);
+            //console.debug('Master token [' + tokenName + ']: ', masterTokenValue);
 
             var isLoadedWrapper = {isDomContentLoaded: false};
 
@@ -631,7 +631,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                                     let newMasterToken = tokenTO['masterToken'];
                                     if (newMasterToken !== undefined) {
                                         masterTokenValue = newMasterToken;
-                                        console.debug('New master token value received: ', masterTokenValue);
+                                        //console.debug('New master token value received: ', masterTokenValue);
                                     }
 
                                     let newPageTokens = tokenTO['pageTokens'];
@@ -639,7 +639,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                                         Object.keys(newPageTokens).forEach(function (key) {
                                             return pageTokenWrapper.pageTokens[key] = newPageTokens[key];
                                         });
-                                        console.debug('New page token value(s) received: ', newPageTokens);
+                                        //console.debug('New page token value(s) received: ', newPageTokens);
                                     }
 
                                     injectTokens(tokenName, masterTokenValue, pageTokenWrapper.pageTokens);
@@ -683,7 +683,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                          * TODO should other checks be done here like in the isValidUrl?
                          * Could the url parameter contain full URLs with protocol domain, port etc?
                          */
-                        let normalizedUrl = url.startsWith('/') ? url : '/' + url;
+                        let normalizedUrl = startsWith(url, '/') ? url : '/' + url;
 
                         normalizedUrl = removeParameters(normalizedUrl, '?');
                         normalizedUrl = removeParameters(normalizedUrl, '#');
