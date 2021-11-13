@@ -135,15 +135,29 @@ Check the created commits and tag to make sure everything looks as expected:
    git show HEAD^
    git tag -l # list tags
    ```
+
 #### Rollback the local release:
 ```shell
 mvn release:rollback # or "git reset HEAD^^ --hard"
 git tag -d <tag_name_to_delete>
 ```
-#### Perform the release (upload to Maven Central):
+
+#### Upload the release to OSS Sonatype (staging):
 ```shell
-mvn release:perform
+mvn release:perform 
 ```
+
+The `maven-release-plugin` executes the `deploy` (default). This triggers the execution of the `nexus-staging-maven-plugin`, which uploads the artifacts to the [OSS Sonatype staging repository](https://oss.sonatype.org/#stagingRepositories) and releases them if they meet the requirements.
+
+### [Manual release of a staging repository](https://central.sonatype.org/publish/release/) (in case `autoReleaseAfterClose` is set to `false`)
+
+* Visit https://oss.sonatype.org/#stagingRepositories
+* Review the newly created repository against the [requirements](https://central.sonatype.org/publish/requirements/) (JAR files, sources, JavaDocs and associated PGP armored ASCII files are present with the desired version etc.)
+* `Close` the repository to trigger the validation of the uploaded components
+* If there were no errors, click `Release`
+
+Upon release, the new version is published to the Central Repository, typically within 30 minutes, but updates to [search](https://search.maven.org/) can take up to 4 hours.
+
 #### Push the new release to GitHub:
 ```shell
 git push origin master

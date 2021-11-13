@@ -326,7 +326,7 @@
                     <configuration>
                         <serverId>ossrh</serverId> <!-- Must match the serverId from the settings.xml -->
                         <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                        <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
                     </configuration>
                 </plugin>
                 <plugin>
