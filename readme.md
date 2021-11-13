@@ -75,6 +75,7 @@ See: https://central.sonatype.org/publish/requirements/gpg/
 ```shell
 gpg --full-gen-key
 gpg --list-keys
+gpg --list-secret-keys # if you've migrated your keys from another machine, make sure you have your secret key(s) imported
 gpg --keyserver keys.gnupg.net --send-key <your_public_key_here> # you can define other supported key servers as well
 ```
 
@@ -105,6 +106,11 @@ gpg --keyserver keys.gnupg.net --send-key <your_public_key_here> # you can defin
         </profile>
     </profiles>
 </settings>
+```
+
+Test signing your artifacts manually:
+```shell
+mvn clean verify -Psign-artifacts -Dgpg.passphrase=<your_gpg_passphrase> # should generate .asc files in the target directory
 ```
 
 ### Deploying to OSS Sonatype / Maven Central

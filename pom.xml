@@ -130,7 +130,7 @@
         <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
 
         <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
-        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
 
         <commons-lang3.version>3.11</commons-lang3.version>
         <commons-io.version>2.7</commons-io.version>
@@ -306,6 +306,7 @@
                         <localCheckout>true</localCheckout>
                         <pushChanges>false</pushChanges>
                         <mavenExecutorId>forked-path</mavenExecutorId>
+                        <releaseProfiles>sign-artifacts</releaseProfiles> <!-- Activate GPG signing profile on release -->
                         <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
                     </configuration>
                 </plugin>
@@ -346,13 +347,7 @@
     <profiles>
         <!-- GPG Signature on release -->
         <profile>
-            <id>release-sign-artifacts</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
+            <id>sign-artifacts</id> <!-- referred in maven-release-plugin/releaseProfiles -->
             <build>
                 <plugins>
                     <plugin>
