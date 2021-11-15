@@ -43,12 +43,12 @@
 
     <organization>
         <name>OWASP</name>
-        <url>http://www.owasp.org</url>
+        <url>https://www.owasp.org</url>
     </organization>
     <licenses>
         <license>
             <name>BSD License</name>
-            <url>http://www.opensource.org/licenses/bsd-license.php</url>
+            <url>https://www.opensource.org/licenses/bsd-license.php</url>
         </license>
     </licenses>
     <developers>

@@ -4,7 +4,7 @@
 
 # [OWASP CSRFGuard 4.0.0](https://owasp.org/www-project-csrfguard)
 
-[![License](https://img.shields.io/badge/license-BSD-4EB1BA.svg)](http://www.opensource.org/licenses/bsd-license.php)
+[![License](https://img.shields.io/badge/license-BSD-4EB1BA.svg)](https://www.opensource.org/licenses/bsd-license.php)
 [![GitHub release](https://img.shields.io/github/release/OWASP/www-project-csrfguard)](https://github.com/OWASP/www-project-csrfguard/releases)
 [![OWASP Flagship](https://img.shields.io/badge/owasp-flagship-brightgreen.svg)](https://owasp.org/projects#div-flagships)
 
@@ -49,7 +49,7 @@ Add the following dependency to your Maven POM file to use the library:
 
 ## Building the code
 
-1. Make sure you have [Apache Maven](http://maven.apache.org/) 3.0.4+ and JDK 1.8+ installed
+1. Make sure you have [Apache Maven](https://maven.apache.org/) 3.0.4+ and JDK 1.8+ installed
 2. Clone this repository locally
 3. Build the project by running ```mvn clean install``` in the project root directory
 4. Build and run the test JSP web application by running one of the following commands:
