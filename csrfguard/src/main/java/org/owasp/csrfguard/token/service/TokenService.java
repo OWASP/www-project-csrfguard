@@ -284,7 +284,7 @@ public class TokenService {
     private boolean initIsWithinTimeTolerance(final CsrfGuard csrfGuard, final boolean isAjaxRequest, final PageTokenValue tokenTimedPageToken) {
         return isAjaxRequest
                && !csrfGuard.isTokenPerPagePrecreate()
-               && tokenTimedPageToken.getCreationTime().plus(this.csrfGuard.getPageTokenSynchronizationTolerance()).isBefore(LocalDateTime.now());
+               && tokenTimedPageToken.getCreationTime().plus(this.csrfGuard.getPageTokenSynchronizationTolerance()).isAfter(LocalDateTime.now());
     }
 
     private TokenBO verifyMasterToken(final String storedToken, final String tokenFromRequest) throws CsrfGuardException {
