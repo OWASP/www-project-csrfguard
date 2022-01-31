@@ -51,7 +51,7 @@ public class CsrfGuardServletContextListener implements ServletContextListener {
 	 * servlet context (will be the empty string if it is / )
 	 */
 	private static String servletContext = null;
-	
+
 	/**
 	 * servlet context (will be the empty string if it is / )
 	 * @return the servletContext
@@ -64,7 +64,7 @@ public class CsrfGuardServletContextListener implements ServletContextListener {
 	 * config file name if specified in the web.xml
 	 */
 	private static String configFileName = null;
-	
+
 	/**
 	 * config file name if specified in the web.xml
 	 * @return config file name
@@ -72,7 +72,7 @@ public class CsrfGuardServletContextListener implements ServletContextListener {
 	public static String getConfigFileName() {
 		return configFileName;
 	}
-	
+
 	@Override
 	public void contextInitialized(final ServletContextEvent event) {
 		final ServletContext context = event.getServletContext();
@@ -124,13 +124,10 @@ public class CsrfGuardServletContextListener implements ServletContextListener {
 		final CsrfGuard csrfGuard = CsrfGuard.getInstance();
 
 		if (csrfGuard.isEnabled()) {
-			String printConfig = context.getInitParameter(CONFIG_PRINT_PARAM);
-
-			if (StringUtils.isBlank(printConfig)) {
-				printConfig = csrfGuard.isPrintConfig() ? "true" : null;
-			}
-
-			if (Boolean.parseBoolean(printConfig)) {
+			final String contextPrintConfig = context.getInitParameter(CONFIG_PRINT_PARAM);
+			final boolean shouldPrintConfig = StringUtils.isBlank(contextPrintConfig) ? csrfGuard.isPrintConfig()
+																					  : Boolean.parseBoolean(contextPrintConfig);
+			if (shouldPrintConfig) {
 				context.log(prefix + csrfGuard);
 			}
 		} else {

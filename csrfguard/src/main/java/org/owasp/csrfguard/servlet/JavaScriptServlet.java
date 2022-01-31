@@ -127,6 +127,10 @@ public final class JavaScriptServlet extends HttpServlet {
     @Override
     public void init(final ServletConfig theServletConfig) {
         servletConfig = theServletConfig;
+
+        final CsrfGuard csrfGuard = CsrfGuard.getInstance();
+        csrfGuard.initializeJavaScriptConfiguration();
+
         // print again since it might change based on servlet config of javascript servlet
         CsrfGuardServletContextListener.printConfigIfConfigured(servletConfig.getServletContext(),
                                                                 "Printing properties after JavaScript servlet, note, the javascript properties have now been initialized: ");

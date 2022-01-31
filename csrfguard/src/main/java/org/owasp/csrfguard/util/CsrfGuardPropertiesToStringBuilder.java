@@ -51,7 +51,7 @@ public class CsrfGuardPropertiesToStringBuilder extends ReflectionToStringBuilde
 
     private static final Function<String, String> FIELD_NAME_TRANSFORMER = fieldName -> StringUtils.capitalize(StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(fieldName), StringUtils.SPACE));
 
-    private static final String[] FIELDS_TO_EXCLUDE = {"propertiesCache"};
+    private static final String[] FIELDS_TO_EXCLUDE = {"propertiesCache", "javascriptTemplateCode"};
 
     public CsrfGuardPropertiesToStringBuilder(final Object object) {
         super(object, new CustomStyle());

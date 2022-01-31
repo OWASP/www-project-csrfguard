@@ -226,6 +226,12 @@ public interface ConfigurationProvider {
     Pattern getJavascriptRefererPattern();
 
     /**
+     * JavaScript configuration parameters can be set/overwritten via the servlet configuration.
+     * This method is intended to trigger the initialization of the JavaScript parameters, if/after the JavaScript servlet is initialized.
+     */
+    void initializeJavaScriptConfiguration();
+
+    /**
      * if the token should be injected in GET forms (which will be on the URL)
      * if the HTTP method GET is unprotected, then this should likely be false
      *

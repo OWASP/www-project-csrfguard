@@ -179,6 +179,11 @@ public final class NullConfigurationProvider implements ConfigurationProvider {
     }
 
     @Override
+    public void initializeJavaScriptConfiguration() {
+        // do nothing
+    }
+
+    @Override
     public boolean isJavascriptInjectGetForms() {
         return false;
     }

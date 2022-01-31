@@ -172,6 +172,13 @@ public class CsrfGuard {
     }
 
     /**
+     * @see ConfigurationProvider#initializeJavaScriptConfiguration()
+     */
+    public void initializeJavaScriptConfiguration() {
+        config().initializeJavaScriptConfiguration();
+    }
+
+    /**
      * @return if inject
      * @see ConfigurationProvider#isJavascriptInjectFormAttributes()
      */

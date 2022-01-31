@@ -281,79 +281,73 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 	}
 
 	@Override
-	public String getJavascriptSourceFile() {
+	public void initializeJavaScriptConfiguration() {
 		this.javascriptInitParamsIfNeeded();
+	}
+
+	@Override
+	public String getJavascriptSourceFile() {
 		return this.javascriptSourceFile;
 	}
 
 	@Override
 	public boolean isJavascriptDomainStrict() {
-		this.javascriptInitParamsIfNeeded();
 		return this.javascriptDomainStrict;
 	}
 
 	@Override
 	public String getJavascriptCacheControl() {
-		this.javascriptInitParamsIfNeeded();
 		return this.javascriptCacheControl;
 	}
 
 	@Override
 	public Pattern getJavascriptRefererPattern() {
-		this.javascriptInitParamsIfNeeded();
 		return this.javascriptRefererPattern;
 	}
 
 	@Override
 	public boolean isJavascriptRefererMatchProtocol() {
-		this.javascriptInitParamsIfNeeded();
 		return this.javascriptRefererMatchProtocol;
 	}
 
 	@Override
 	public boolean isJavascriptRefererMatchDomain() {
-		this.javascriptInitParamsIfNeeded();
 		return this.javascriptRefererMatchDomain;
 	}
 
 	@Override
 	public boolean isJavascriptInjectIntoForms() {
-		this.javascriptInitParamsIfNeeded();
 		return this.javascriptInjectIntoForms;
 	}
 
 	@Override
 	public boolean isJavascriptInjectIntoAttributes() {
-		this.javascriptInitParamsIfNeeded();
 		return this.javascriptInjectIntoAttributes;
 	}
 
     @Override
     public boolean isJavascriptInjectIntoDynamicallyCreatedNodes() {
-		this.javascriptInitParamsIfNeeded();
 		return this.isJavascriptInjectIntoDynamicallyCreatedNodes;
     }
 
     @Override
     public String getJavascriptDynamicNodeCreationEventName() {
-		this.javascriptInitParamsIfNeeded();
 		return this.javascriptDynamicNodeCreationEventName;
     }
 
     @Override
 	public String getJavascriptXrequestedWith() {
-		this.javascriptInitParamsIfNeeded();
 		return this.javascriptXrequestedWith;
 	}
 
 	@Override
 	public String getJavascriptTemplateCode() {
-		this.javascriptInitParamsIfNeeded();
 		return this.javascriptTemplateCode;
 	}
 
+	@Override
 	public boolean isCacheable() {
-		/* don't cache this until the javascript params are all set i.e. the javascript servlet is */
+		/* don't cache this until the javascript params are all set i.e. the javascript servlet is initialized */
 		return this.javascriptParamsInitialized;
 	}
 
@@ -364,13 +358,11 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 
 	@Override
 	public boolean isJavascriptInjectGetForms() {
-		this.javascriptInitParamsIfNeeded();
 		return this.javascriptInjectGetForms;
 	}
 
 	@Override
 	public boolean isJavascriptInjectFormAttributes() {
-		this.javascriptInitParamsIfNeeded();
 		return this.javascriptInjectFormAttributes;
 	}
 
@@ -381,7 +373,6 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 
 	@Override
 	public String getJavascriptUnprotectedExtensions() {
-		this.javascriptInitParamsIfNeeded();
 		return this.javascriptUnprotectedExtensions;
 	}
 
@@ -544,7 +535,6 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 			final ServletConfig servletConfig = JavaScriptServlet.getStaticServletConfig();
 
 			if (servletConfig != null) {
-
 				this.javascriptCacheControl = getProperty(JavaScriptConfigParameters.CACHE_CONTROL, servletConfig);
 				this.javascriptDomainStrict = getProperty(JavaScriptConfigParameters.DOMAIN_STRICT, servletConfig);
 				this.javascriptInjectIntoAttributes = getProperty(JavaScriptConfigParameters.INJECT_INTO_ATTRIBUTES, servletConfig);
