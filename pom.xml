@@ -128,7 +128,7 @@
         <maven-release-plugin.version>3.0.0-M5</maven-release-plugin.version>
         <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
 
-        <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.11</nexus-staging-maven-plugin.version>
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
 
         <commons-lang3.version>3.12.0</commons-lang3.version>
