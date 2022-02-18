@@ -6,7 +6,10 @@
 
 [![License](https://img.shields.io/badge/license-BSD-4EB1BA.svg)](https://www.opensource.org/licenses/bsd-license.php)
 [![GitHub release](https://img.shields.io/github/release/OWASP/www-project-csrfguard)](https://github.com/OWASP/www-project-csrfguard/releases)
+[![Maven Central release](https://img.shields.io/maven-central/v/org.owasp/csrfguard)](https://search.maven.org/search?q=g:org.owasp%20AND%20a:csrfguard)
 [![OWASP Flagship](https://img.shields.io/badge/owasp-flagship-brightgreen.svg)](https://owasp.org/projects#div-flagships)
+[![GitHub CI](https://img.shields.io/github/workflow/status/OWASP/www-project-csrfguard/Java%20CI)](https://github.com/OWASP/www-project-csrfguard/actions/workflows/ci.yaml)
+
 
 ## Overview
 
