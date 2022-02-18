@@ -43,7 +43,7 @@
     <name>OWASP CSRFGuard JSP Test WebApp</name>
 
     <properties>
-        <tomcat7-maven-plugin.version>2.1</tomcat7-maven-plugin.version>
+        <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
         <skip.run.webapp>true</skip.run.webapp>
         <skip.create.executable.jar>true</skip.create.executable.jar>
     </properties>
