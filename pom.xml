@@ -137,7 +137,7 @@
         <slf4j-api.version>1.7.31</slf4j-api.version>
 
         <junit.version>5.7.0</junit.version>
-        <mockito.version>3.6.0</mockito.version>
+        <mockito.version>4.3.1</mockito.version>
         <logback.version>1.2.4</logback.version>
     </properties>
 
