@@ -138,7 +138,7 @@
 
         <junit.version>5.7.0</junit.version>
         <mockito.version>4.3.1</mockito.version>
-        <logback.version>1.2.4</logback.version>
+        <logback.version>1.2.10</logback.version>
     </properties>
 
     <dependencyManagement>
