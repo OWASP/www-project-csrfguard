@@ -40,6 +40,9 @@
     <artifactId>csrfguard-extensions</artifactId>
     <packaging>pom</packaging>
 
+    <name>OWASP CSRFGuard Extensions Parent POM</name>
+    <description>Extension modules that might be required, depending on whether the architecture of the integrator application is stateful or stateless.</description>
+
     <modules>
         <module>csrfguard-extension-session</module>
         <module>csrfguard-jsp-tags</module>

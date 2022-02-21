@@ -39,6 +39,9 @@
 
     <artifactId>csrfguard-jsp-tags</artifactId>
 
+    <name>OWASP CSRFGuard JSP Tags extension</name>
+    <description>JSP Tag support</description>
+
     <build>
         <resources>
             <resource>

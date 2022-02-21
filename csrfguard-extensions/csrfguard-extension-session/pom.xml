@@ -39,6 +39,9 @@
 
     <artifactId>csrfguard-extension-session</artifactId>
 
+    <name>OWASP CSRFGuard Session extension</name>
+    <description>Provides support for stateful, HTTP session based integrator applications</description>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
