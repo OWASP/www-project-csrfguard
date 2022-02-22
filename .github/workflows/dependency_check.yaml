@@ -1,0 +1,23 @@
+name: OWASP Dependency Check
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 10 * * 1'
+
+jobs:
+  owasp-dependency-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: OWASP Dependency Check
+        run: mvn clean --batch-mode --update-snapshots verify -Pdependency-check
+
+      - name: Upload Test results
+        uses: actions/upload-artifact@master
+        with:
+          name: OWASP Dependency Check report
+          path: target
