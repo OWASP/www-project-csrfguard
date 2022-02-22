@@ -8,7 +8,9 @@
 [![GitHub release](https://img.shields.io/github/release/OWASP/www-project-csrfguard)](https://github.com/OWASP/www-project-csrfguard/releases)
 [![Maven Central release](https://img.shields.io/maven-central/v/org.owasp/csrfguard)](https://search.maven.org/search?q=g:org.owasp%20AND%20a:csrfguard)
 [![OWASP Flagship](https://img.shields.io/badge/owasp-flagship-brightgreen.svg)](https://owasp.org/projects#div-flagships)
-[![GitHub CI](https://img.shields.io/github/workflow/status/OWASP/www-project-csrfguard/Java%20CI)](https://github.com/OWASP/www-project-csrfguard/actions/workflows/ci.yaml)
+[![Java CI](https://github.com/OWASP/www-project-csrfguard/actions/workflows/ci.yaml/badge.svg)](https://github.com/OWASP/www-project-csrfguard/actions/workflows/ci.yaml)
+[![OWASP Dependency check](https://github.com/OWASP/www-project-csrfguard/actions/workflows/dependency_check.yaml/badge.svg)](https://github.com/OWASP/www-project-csrfguard/actions/workflows/dependency_check.yaml)
+[![Snyk Security Analysis](https://github.com/OWASP/www-project-csrfguard/actions/workflows/snyk.yaml/badge.svg)](https://github.com/OWASP/www-project-csrfguard/actions/workflows/snyk.yaml)
 
 
 ## Overview
