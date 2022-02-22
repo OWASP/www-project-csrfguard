@@ -42,7 +42,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Objects;
 
 public class CsrfGuardFilter implements Filter {
 
@@ -81,8 +80,13 @@ public class CsrfGuardFilter implements Filter {
         final LogicalSessionExtractor sessionKeyExtractor = csrfGuard.getLogicalSessionExtractor();
         final LogicalSession logicalSession = sessionKeyExtractor.extract(httpServletRequest);
 
-        if (Objects.isNull(logicalSession)) {
-            handleNoSession(httpServletRequest, httpServletResponse, interceptRedirectResponse, filterChain, csrfGuard);
+        if (logicalSession == null) {
+            if (csrfGuard.isUseNewTokenLandingPage()) {
+                final LogicalSession createdLogicalSession = sessionKeyExtractor.extractOrCreate(httpServletRequest);
+                csrfGuard.writeLandingPage(interceptRedirectResponse, createdLogicalSession.getKey());
+            } else {
+                handleNoSession(httpServletRequest, httpServletResponse, interceptRedirectResponse, filterChain, csrfGuard);
+            }
         } else {
             handleSession(httpServletRequest, interceptRedirectResponse, filterChain, logicalSession, csrfGuard);
         }
@@ -93,15 +97,12 @@ public class CsrfGuardFilter implements Filter {
 
         final String logicalSessionKey = logicalSession.getKey();
 
-        if (logicalSession.isNew() && csrfGuard.isUseNewTokenLandingPage()) {
-            csrfGuard.writeLandingPage(httpServletRequest, interceptRedirectResponse, logicalSessionKey);
-        } else if (new CsrfValidator().isValid(httpServletRequest, interceptRedirectResponse)) {
+        if (new CsrfValidator().isValid(httpServletRequest, interceptRedirectResponse)) {
             filterChain.doFilter(httpServletRequest, interceptRedirectResponse);
         } else {
             logInvalidRequest(httpServletRequest);
         }
 
-        // TODO this is not needed in case of un-protected pages
         final String requestURI = httpServletRequest.getRequestURI();
         final String generatedToken = csrfGuard.getTokenService().generateTokensIfAbsent(logicalSessionKey, httpServletRequest.getMethod(), requestURI);
 

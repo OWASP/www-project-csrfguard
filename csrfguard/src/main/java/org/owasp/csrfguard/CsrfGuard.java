@@ -327,13 +327,8 @@ public class CsrfGuard {
         }
     }
 
-    public void writeLandingPage(final HttpServletRequest request, final HttpServletResponse response, final String logicalSessionKey) throws IOException {
-        String landingPage = getNewTokenLandingPage();
-
-        /* default to current page */
-        if (landingPage == null) {
-            landingPage = request.getContextPath() + request.getServletPath();
-        }
+    public void writeLandingPage(final HttpServletResponse response, final String logicalSessionKey) throws IOException {
+        final String landingPage = getNewTokenLandingPage();
 
         /* create auto posting form */
         final StringBuilder stringBuilder = new StringBuilder();
@@ -347,20 +342,14 @@ public class CsrfGuard {
                      .append("<script type=\"text/javascript\">")
                      .append("var form = document.createElement(\"form\");")
                      .append("form.setAttribute(\"method\", \"post\");")
-                     .append("form.setAttribute(\"action\", \"")
-                     .append(landingPage)
-                     .append("\");");
+                     .append(String.format("form.setAttribute(\"action\", \"%s\");", landingPage));
 
         /* only include token if needed */
         if (new CsrfValidator().isProtectedPage(landingPage).isProtected()) {
             stringBuilder.append("var hiddenField = document.createElement(\"input\");")
                          .append("hiddenField.setAttribute(\"type\", \"hidden\");")
-                         .append("hiddenField.setAttribute(\"name\", \"")
-                         .append(getTokenName())
-                         .append("\");")
-                         .append("hiddenField.setAttribute(\"value\", \"")
-                         .append(getTokenService().getTokenValue(logicalSessionKey, landingPage))
-                         .append("\");")
+                         .append(String.format("hiddenField.setAttribute(\"name\", \"%s\");", getTokenName()))
+                         .append(String.format("hiddenField.setAttribute(\"value\", \"%s\");", getTokenService().getTokenValue(logicalSessionKey, landingPage)))
                          .append("form.appendChild(hiddenField);");
         }
 
