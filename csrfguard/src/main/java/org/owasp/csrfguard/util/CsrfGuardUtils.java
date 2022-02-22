@@ -71,6 +71,7 @@ public final class CsrfGuardUtils {
     /**
      * <pre>Returns the class object.</pre>
      *
+     * @param <T> the type of the desired class
      * @param origClassName is fully qualified
      * @return the class
      */

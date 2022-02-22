@@ -29,21 +29,18 @@
 package org.owasp.csrfguard.config.properties;
 
 /**
- * TODO
- * @param <K>
- * @param <V>
+ * Interface describing a simple configuration parameter
+ * @param <T> The type of the configuration parameter
  */
-public interface SimpleConfigParameter<K, V> {
+public interface SimpleConfigParameter<T> {
 
     /**
-     * TODO
-     * @return
+     * @return the name of the configuration parameter
      */
-    K getName();
+    String getName();
 
     /**
-     * TODO
-     * @return
+     * @return the default value associated to the configuration parameter
      */
-    V getDefaultValue();
+    T getDefaultValue();
 }

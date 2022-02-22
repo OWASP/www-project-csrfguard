@@ -29,7 +29,7 @@
 
 package org.owasp.csrfguard.config.properties;
 
-public class SimpleBooleanConfigParameter implements SimpleConfigParameter<String, Boolean> {
+public class SimpleBooleanConfigParameter implements SimpleConfigParameter<Boolean> {
 
     private final String propertyName;
     private final boolean propertyValue;

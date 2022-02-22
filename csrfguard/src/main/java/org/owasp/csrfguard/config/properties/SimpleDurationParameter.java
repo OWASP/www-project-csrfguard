@@ -30,7 +30,7 @@ package org.owasp.csrfguard.config.properties;
 
 import java.time.Duration;
 
-public class SimpleDurationParameter implements SimpleConfigParameter<String, Duration> {
+public class SimpleDurationParameter implements SimpleConfigParameter<Duration> {
 
     private final String name;
     private final Duration defaultDuration;

@@ -34,72 +34,69 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * TODO
+ * Interface used to interact with CSRF tokens
  */
 public interface Token {
 
     /**
-     * TODO
-     * @return
+     * Returns the master token
+     * @return the current master token
      */
     String getMasterToken();
 
     /**
-     * TODO
-     * @param masterToken
+     * Sets the new master token
+     * @param masterToken the new master token
      */
     void setMasterToken(final String masterToken);
 
     /**
-     * TODO
-     * @param uri
-     * @return
+     * @param uri the URI to which the page token should be returned
+     * @return the page token for the requested uri
      */
     String getPageToken(final String uri);
 
     /**
-     * TODO
-     * @param uri
-     * @return
+     * @param uri the URI to which the timed page token should be returned
+     * @return a timed page token containing a page token and its creation date
      */
     PageTokenValue getTimedPageToken(final String uri);
 
     /**
-     * TODO
-     * @param uri
-     * @param pageToken
+     * @param uri the URI to which the page token should be associated
+     * @param pageToken the new page token
      */
     void setPageToken(final String uri, final String pageToken);
 
     /**
-     * TODO
-     * @param uri
-     * @param valueSupplier
-     * @return
+     * @param uri the URI to which the page token should be associated
+     * @param valueSupplier a supplier that generates new, unique tokens at each invocation
+     * @return the newly generated token
      */
     String setPageTokenIfAbsent(final String uri, final Supplier<String> valueSupplier);
 
     /**
-     * TODO
-     * @return
+     * @return a map of URIs and their associated page tokens
      */
     Map<String, String> getPageTokens();
 
     /**
-     * TODO
-     * @param pageTokens
+     * Initialize or overwrite the entire page-token map
+     * @param pageTokens a map of URIs and their associated page tokens
      */
     void setPageTokens(final Map<String, String> pageTokens);
 
     /**
-     * TODO
-     * @param tokenValueSupplier
+     * Rotates all the existing page token values
+     * @param tokenValueSupplier a supplier that generates new, unique tokens at each invocation
      */
     void rotateAllPageTokens(final Supplier<String> tokenValueSupplier);
 
     /**
      * TODO is it worth the added performance penalty in case of a large application with a lot of pages? What would be the risk if this would be contextual to the assigned resource?
      * Disposes the current token from all the stored valid page tokens, disregarding to which resource it was assigned and replaces with a newly generated one.
+     * @param tokenFromRequest the current token which needs to be rotated
+     * @param tokenValueSupplier a supplier that generates new, unique tokens at each invocation
      */
     void regenerateUsedPageToken(final String tokenFromRequest, final Supplier<String> tokenValueSupplier);
 }

@@ -42,7 +42,7 @@ public final class Invalidate extends AbstractAction {
 	private static final long serialVersionUID = -3060679616261531773L;
 
 	@Override
-	public void execute(final HttpServletRequest request, final HttpServletResponse response, final CsrfGuardException csrfe, final CsrfGuard csrfGuard) throws CsrfGuardException {
+	public void execute(final HttpServletRequest request, final HttpServletResponse response, final CsrfGuardException csrfGuardException, final CsrfGuard csrfGuard) throws CsrfGuardException {
 
 		final LogicalSession logicalSession = csrfGuard.getLogicalSessionExtractor().extract(request);
 

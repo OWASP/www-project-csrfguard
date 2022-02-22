@@ -43,7 +43,7 @@ public class Rotate extends AbstractAction {
     private static final long serialVersionUID = -3164557586544451406L;
 
     @Override
-    public void execute(final HttpServletRequest request, final HttpServletResponse response, final CsrfGuardException csrfe, final CsrfGuard csrfGuard) throws CsrfGuardException {
+    public void execute(final HttpServletRequest request, final HttpServletResponse response, final CsrfGuardException csrfGuardException, final CsrfGuard csrfGuard) throws CsrfGuardException {
         final LogicalSessionExtractor logicalSessionExtractor = csrfGuard.getLogicalSessionExtractor();
         final LogicalSession logicalSession = logicalSessionExtractor.extract(request);
 

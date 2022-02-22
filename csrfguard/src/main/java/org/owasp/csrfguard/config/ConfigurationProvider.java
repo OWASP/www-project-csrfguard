@@ -40,28 +40,22 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
- * TODO document
+ * Interface that enables interaction with configuration providers
  */
 public interface ConfigurationProvider {
 
     /**
-     * TODO document
-     *
      * @return true when this configuration provider can be cached for a minute, i.e. it is all setup
      */
     boolean isCacheable();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return true if the display of the CSRF configuration at start-up was requested, false otherwise
      */
     boolean isPrintConfig();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return the name of the CSRF token, used in the DOM
      */
     String getTokenName();
 
@@ -76,58 +70,44 @@ public interface ConfigurationProvider {
     boolean isValidateWhenNoSessionExists();
 
     /**
-     * TODO document
-     *
-     * @return
+     * This parameter controls how long a generated token should be.
+     * @return the configured length of the token
      */
     int getTokenLength();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return true if token rotation was configured, false otherwise
      */
     boolean isRotateEnabled();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return true if token-per-page was configured, false otherwise
      */
     boolean isTokenPerPageEnabled();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return true if pre-generation of page tokens has been configured, false otherwise
      */
     boolean isTokenPerPagePrecreateEnabled();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return the pseudo-random number generator instance, which is used to generate CSRF tokens
      */
     SecureRandom getPrng();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return the path of a page to which a new user (with no logical session) will be redirected
      */
     String getNewTokenLandingPage();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return true if new users (without a logical session) should be redirected to a pre-configured page
+     * @see ConfigurationProvider#getNewTokenLandingPage()
      */
     boolean isUseNewTokenLandingPage();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return true if Asynchronous JavaScript And XML (AJAX) support was configured, false otherwise
      */
     boolean isAjaxEnabled();
 
@@ -142,30 +122,22 @@ public interface ConfigurationProvider {
     boolean isProtectEnabled();
 
     /**
-     * TODO document
-     *
-     * @return whether or not the legacy Synchronous AJAX requests are enabled
+     * @return whether the legacy Synchronous AJAX requests are enabled
      */
     boolean isForceSynchronousAjax();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return the configured set of all protected pages
      */
     Set<String> getProtectedPages();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return the configured set of all un-protected pages
      */
     Set<String> getUnprotectedPages();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return the configured set of protected HTTP methods (verbs)
      */
     Set<String> getProtectedMethods();
 
@@ -184,44 +156,35 @@ public interface ConfigurationProvider {
     boolean isEnabled();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return the configured list of actions to be executed in case of a potential CSRF attack
      */
     List<IAction> getActions();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return the overridden path to the configured CSRFGuard JavaScript logic, or <b>null</b> if the default is used
      */
     String getJavascriptSourceFile();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return true if tokens should only be injected into links that have the same domain from which the HTML originates,
+     * false if subdomains are also permitted
      */
     boolean isJavascriptDomainStrict();
 
     /**
-     * TODO document
+     * TODO Currently not configurable through the properties!
      *
-     * @return
+     * @return the configured domain, whose resources are intended be decorated with CSRF tokens
      */
     String getDomainOrigin();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return the configured JavaScript cache control
      */
     String getJavascriptCacheControl();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return the configured JavaScript "Referer" pattern to be used
      */
     Pattern getJavascriptRefererPattern();
 
@@ -248,9 +211,7 @@ public interface ConfigurationProvider {
     boolean isJavascriptInjectFormAttributes();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return true if injecting tokens into JavaScript forms was configured
      */
     boolean isJavascriptInjectIntoForms();
 
@@ -269,61 +230,51 @@ public interface ConfigurationProvider {
     boolean isJavascriptRefererMatchDomain();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return true if injecting tokens into HTML attributes was configured
      */
     boolean isJavascriptInjectIntoAttributes();
 
     /**
-     * TODO
-     * @return
+     * @return true if injecting tokens into dynamically injected DOM nodes was configured
      */
     boolean isJavascriptInjectIntoDynamicallyCreatedNodes();
 
     /**
-     * TODO
-     * @return
+     * @return the name of the JavaScript dynamic node creation event, if the functionality was configured
      */
     String getJavascriptDynamicNodeCreationEventName();
 
     /**
      * TODO document
      *
-     * @return
+     * @return the configured value of the "X-Requested-With" header
      */
     String getJavascriptXrequestedWith();
 
     /**
-     * TODO document
-     *
-     * @return
+     * @return the content of the template JavaScript code, on which the JavaScript configurations will be applied
      */
     String getJavascriptTemplateCode();
 
     /**
-     * TODO document
      * example: "js,css,gif,png,ico,jpg"
      *
-     * @return
+     * @return the configured list of un-protected, comma separated extensions
      */
     String getJavascriptUnprotectedExtensions();
 
     /**
-     * TODO document
-     * @return
+     * @return the configured TokenHolder instance
      */
     TokenHolder getTokenHolder();
 
     /**
-     * TODO document
-     * @return
+     * @return the configured LogicalSessionExtractor
      */
     LogicalSessionExtractor getLogicalSessionExtractor();
 
     /**
-     * TODO document
-     * @return
+     * @return the configured page token synchronization tolerance
      */
     Duration getPageTokenSynchronizationTolerance();
 }

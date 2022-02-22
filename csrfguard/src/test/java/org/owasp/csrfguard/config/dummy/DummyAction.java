@@ -61,5 +61,5 @@ public class DummyAction implements IAction {
     }
 
     @Override
-    public void execute(final HttpServletRequest request, final HttpServletResponse response, final CsrfGuardException csrfe, final CsrfGuard csrfGuard) {}
+    public void execute(final HttpServletRequest request, final HttpServletResponse response, final CsrfGuardException csrfGuardException, final CsrfGuard csrfGuard) {}
 }

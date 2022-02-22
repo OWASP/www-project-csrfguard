@@ -38,53 +38,49 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * TODO document
+ * Interface enabling interaction with Actions, that are invoked in case of a potential CSRF attack
  */
 public interface IAction extends Serializable {
 
 	/**
-	 * TODO document
+	 * Sets the name of the action
 	 *
-	 * @param name
+	 * @param name the name of the action
 	 */
 	void setName(String name);
 
 	/**
-	 * TODO document
-	 *
-	 * @return
+	 * @return the name of the action
 	 */
 	String getName();
 
 	/**
-	 * TODO document
+	 * Sets a parameter with a custom name and value
 	 *
-	 * @param name
-	 * @param value
+	 * @param name the name of the parameter
+	 * @param value the value of the parameter
 	 */
 	void setParameter(String name, String value);
 
 	/**
-	 * TODO document
-	 *
-	 * @param name
+	 * @param name the name of the parameter
+	 * @return the configured parameter based on its name
 	 */
 	String getParameter(String name);
 
 	/**
-	 * TODO document
-	 *
-	 * @return
+	 * @return the whole parameter map
 	 */
 	Map<String, String> getParameterMap();
 
 	/**
-	 * TODO document
+	 * Executes this action.
+	 * @param request the HTTP request that triggered a potential CSRF attack
+	 * @param response the HTTP response object associated with the potentially malicious HTTP request
+	 * @param csrfGuardException the CSRF Guard exception object
+	 * @param csrfGuard the main CSRF Guard object, with access to inner workings of the solution
 	 *
-	 * @param request
-	 * @param response
-	 * @param csrfe
-	 * @param csrfGuard
+	 * @throws CsrfGuardException the exception type thrown in case of a potential CSRF attack
 	 */
-	void execute(HttpServletRequest request, HttpServletResponse response, CsrfGuardException csrfe, CsrfGuard csrfGuard) throws CsrfGuardException;
+	void execute(HttpServletRequest request, HttpServletResponse response, CsrfGuardException csrfGuardException, CsrfGuard csrfGuard) throws CsrfGuardException;
 }

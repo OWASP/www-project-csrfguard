@@ -29,7 +29,7 @@
 
 package org.owasp.csrfguard.config.properties;
 
-public class SimpleIntConfigParameter implements SimpleConfigParameter<String, Integer> {
+public class SimpleIntConfigParameter implements SimpleConfigParameter<Integer> {
 
     private final String propertyName;
     private final int propertyValue;

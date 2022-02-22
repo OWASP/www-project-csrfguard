@@ -46,13 +46,13 @@ public final class SessionAttribute extends AbstractAction {
 	private static final long serialVersionUID = 1367492926060283228L;
 
 	@Override
-	public void execute(final HttpServletRequest request, final HttpServletResponse response, final CsrfGuardException csrfe, final CsrfGuard csrfGuard) throws CsrfGuardException {
+	public void execute(final HttpServletRequest request, final HttpServletResponse response, final CsrfGuardException csrfGuardException, final CsrfGuard csrfGuard) {
 		final String attributeName = getParameter(ConfigParameters.ACTION_ATTRIBUTE_NAME);
 
 		final LogicalSession logicalSession = CsrfGuard.getInstance().getLogicalSessionExtractor().extract(request);
 
 		if (Objects.nonNull(logicalSession)) {
-			logicalSession.setAttribute(attributeName, csrfe);
+			logicalSession.setAttribute(attributeName, csrfGuardException);
 		}
 	}
 }

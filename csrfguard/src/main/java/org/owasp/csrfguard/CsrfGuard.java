@@ -133,6 +133,7 @@ public class CsrfGuard {
     }
 
     /**
+     * @return if protect is enabled
      * @see ConfigurationProvider#isProtectEnabled()
      */
     public boolean isProtectEnabled() {

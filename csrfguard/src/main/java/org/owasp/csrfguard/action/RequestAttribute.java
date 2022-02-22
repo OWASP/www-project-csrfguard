@@ -40,9 +40,9 @@ public final class RequestAttribute extends AbstractAction {
 	private static final long serialVersionUID = 6714855990116387348L;
 
 	@Override
-	public void execute(final HttpServletRequest request, final HttpServletResponse response, final CsrfGuardException csrfe, final CsrfGuard csrfGuard) throws CsrfGuardException {
+	public void execute(final HttpServletRequest request, final HttpServletResponse response, final CsrfGuardException csrfGuardException, final CsrfGuard csrfGuard) throws CsrfGuardException {
 		final String attributeName = getParameter("AttributeName");
 
-		request.setAttribute(attributeName, csrfe);
+		request.setAttribute(attributeName, csrfGuardException);
 	}
 }

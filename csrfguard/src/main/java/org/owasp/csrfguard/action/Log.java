@@ -46,12 +46,12 @@ public final class Log extends AbstractAction {
     private static final Logger LOGGER = LoggerFactory.getLogger(Log.class);
 
     @Override
-    public void execute(final HttpServletRequest request, final HttpServletResponse response, final CsrfGuardException csrfe, final CsrfGuard csrfGuard) throws CsrfGuardException {
+    public void execute(final HttpServletRequest request, final HttpServletResponse response, final CsrfGuardException csrfGuardException, final CsrfGuard csrfGuard) throws CsrfGuardException {
         String logMessage = getParameter("Message");
 
         /* Exception Information */
-        logMessage = logMessage.replace("%exception%", String.valueOf(csrfe))
-                               .replace("%exception_message%", csrfe.getLocalizedMessage());
+        logMessage = logMessage.replace("%exception%", String.valueOf(csrfGuardException))
+                               .replace("%exception_message%", csrfGuardException.getLocalizedMessage());
 
         /* Remote Network Information */
         logMessage = logMessage.replace("%remote_ip%", StringUtils.defaultString(request.getRemoteAddr()))

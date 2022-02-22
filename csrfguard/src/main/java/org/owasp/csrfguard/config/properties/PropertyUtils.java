@@ -70,7 +70,7 @@ public final class PropertyUtils {
         return getProperty(properties, configParameter, Boolean::parseBoolean);
     }
 
-    public static <T> T getProperty(final Properties properties, final SimpleConfigParameter<String, T> configParameter, final Function<String, T> function) {
+    public static <T> T getProperty(final Properties properties, final SimpleConfigParameter<T> configParameter, final Function<String, T> function) {
         return getProperty(properties, configParameter.getName(), configParameter.getDefaultValue(), function);
     }
 
