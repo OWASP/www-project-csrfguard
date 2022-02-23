@@ -2,7 +2,7 @@
 	<img src="csrfguard-test/csrfguard-test-jsp/src/main/webapp/owasp_logo.png"/>
 </center>
 
-# [OWASP CSRFGuard 4.0.0](https://owasp.org/www-project-csrfguard)
+# [OWASP CSRFGuard 4.x](https://owasp.org/www-project-csrfguard)
 
 [![License](https://img.shields.io/badge/license-BSD-4EB1BA.svg)](https://www.opensource.org/licenses/bsd-license.php)
 [![GitHub release](https://img.shields.io/github/release/OWASP/www-project-csrfguard)](https://github.com/OWASP/www-project-csrfguard/releases)
@@ -34,21 +34,21 @@ Add the following dependency to your Maven POM file to use the library:
 <dependency>
     <groupId>org.owasp</groupId>
     <artifactId>csrfguard</artifactId>
-    <version>4.0.0</version>
+    <version>4.1.2</version>
 </dependency>
 
 <!-- Stateful web application support -->
 <dependency>
 	<groupId>org.owasp</groupId>
 	<artifactId>csrfguard-extension-session</artifactId>
-	<version>4.0.0</version>
+	<version>4.1.2</version>
 </dependency>
 
 <!-- JSP TAG support -->
 <dependency>
 	<groupId>org.owasp</groupId>
 	<artifactId>csrfguard-jsp-tags</artifactId>
-	<version>4.0.0</version>
+	<version>4.1.2</version>
 </dependency>
 ```
 
@@ -131,7 +131,7 @@ mvn release:clean release:prepare
 ```
 1. Set the version number you want to release in <_MAJOR.MINOR.PATCH_> format (e.g. `4.0.0`)
 2. Set the SCM release tag: (e.g. `4.0.0`)
-3. Set the new development version (e.g. `4.0.1`)
+3. Set the new development version (e.g. `4.0.1-SNAPSHOT`)
 
 Check the created commits and tag to make sure everything looks as expected:
    ```shell
