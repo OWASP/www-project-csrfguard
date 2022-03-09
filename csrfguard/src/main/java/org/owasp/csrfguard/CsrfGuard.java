@@ -65,6 +65,11 @@ public class CsrfGuard {
 
     private Properties properties = null;
 
+    /**
+     * Flag indicating that the JavaScript configuration must be initialised when no configuration is retrieved.
+     */
+    private boolean initialiseJavaScriptConfigurationForNewConfigurationInstances;
+
     public CsrfGuard() {}
 
     public static CsrfGuard getInstance() {
@@ -177,6 +182,7 @@ public class CsrfGuard {
      */
     public void initializeJavaScriptConfiguration() {
         config().initializeJavaScriptConfiguration();
+        initialiseJavaScriptConfigurationForNewConfigurationInstances = true;
     }
 
     /**
@@ -403,6 +409,10 @@ public class CsrfGuard {
         final ConfigurationProviderFactory configurationProviderFactory = CsrfGuardUtils.newInstance(configurationProviderFactoryClass);
 
         configurationProvider = configurationProviderFactory.retrieveConfiguration(this.properties);
+        if (initialiseJavaScriptConfigurationForNewConfigurationInstances) {
+            configurationProvider.initializeJavaScriptConfiguration();
+        }
+
         configurationProviderExpirableCache.put(Boolean.TRUE, configurationProvider);
         return configurationProvider;
     }
