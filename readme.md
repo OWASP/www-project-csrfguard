@@ -34,21 +34,21 @@ Add the following dependency to your Maven POM file to use the library:
 <dependency>
     <groupId>org.owasp</groupId>
     <artifactId>csrfguard</artifactId>
-    <version>4.1.2</version>
+    <version>4.1.3</version>
 </dependency>
 
 <!-- Stateful web application support -->
 <dependency>
 	<groupId>org.owasp</groupId>
 	<artifactId>csrfguard-extension-session</artifactId>
-	<version>4.1.2</version>
+	<version>4.1.3</version>
 </dependency>
 
 <!-- JSP TAG support -->
 <dependency>
 	<groupId>org.owasp</groupId>
 	<artifactId>csrfguard-jsp-tags</artifactId>
-	<version>4.1.2</version>
+	<version>4.1.3</version>
 </dependency>
 ```
 
