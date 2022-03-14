@@ -65,6 +65,8 @@ public class CsrfGuard {
 
     private Properties properties = null;
 
+    private boolean isJavaScriptConfigurationNeeded;
+
     public CsrfGuard() {}
 
     public static CsrfGuard getInstance() {
@@ -177,6 +179,7 @@ public class CsrfGuard {
      */
     public void initializeJavaScriptConfiguration() {
         config().initializeJavaScriptConfiguration();
+        this.isJavaScriptConfigurationNeeded = true;
     }
 
     /**
@@ -403,6 +406,10 @@ public class CsrfGuard {
         final ConfigurationProviderFactory configurationProviderFactory = CsrfGuardUtils.newInstance(configurationProviderFactoryClass);
 
         configurationProvider = configurationProviderFactory.retrieveConfiguration(this.properties);
+        if (this.isJavaScriptConfigurationNeeded) {
+            configurationProvider.initializeJavaScriptConfiguration();
+        }
+
         configurationProviderExpirableCache.put(Boolean.TRUE, configurationProvider);
         return configurationProvider;
     }
