@@ -65,10 +65,7 @@ public class CsrfGuard {
 
     private Properties properties = null;
 
-    /**
-     * Flag indicating that the JavaScript configuration must be initialised when no configuration is retrieved.
-     */
-    private boolean initialiseJavaScriptConfigurationForNewConfigurationInstances;
+    private boolean isJavaScriptConfigurationNeeded;
 
     public CsrfGuard() {}
 
@@ -182,7 +179,7 @@ public class CsrfGuard {
      */
     public void initializeJavaScriptConfiguration() {
         config().initializeJavaScriptConfiguration();
-        initialiseJavaScriptConfigurationForNewConfigurationInstances = true;
+        this.isJavaScriptConfigurationNeeded = true;
     }
 
     /**
@@ -409,7 +406,7 @@ public class CsrfGuard {
         final ConfigurationProviderFactory configurationProviderFactory = CsrfGuardUtils.newInstance(configurationProviderFactoryClass);
 
         configurationProvider = configurationProviderFactory.retrieveConfiguration(this.properties);
-        if (initialiseJavaScriptConfigurationForNewConfigurationInstances) {
+        if (this.isJavaScriptConfigurationNeeded) {
             configurationProvider.initializeJavaScriptConfiguration();
         }
 
