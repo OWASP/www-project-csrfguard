@@ -97,6 +97,27 @@ public final class JavaScriptServlet extends HttpServlet {
     private static final String TOKENS_PER_PAGE_IDENTIFIER = "'%TOKENS_PER_PAGE%'";
 
     private static final String ASYNC_XHR = "'%ASYNC_XHR%'";
+    
+    private static final String[] SEARCH_LIST = {
+            TOKEN_NAME_IDENTIFIER,
+            TOKEN_VALUE_IDENTIFIER,
+            UNPROTECTED_EXTENSIONS_IDENTIFIER,
+            CONTEXT_PATH_IDENTIFIER, 
+            SERVLET_PATH_IDENTIFIER, 
+            X_REQUESTED_WITH_IDENTIFIER, 
+            DYNAMIC_NODE_CREATION_EVENT_NAME_IDENTIFIER, 
+            DOMAIN_ORIGIN_IDENTIFIER,
+            INJECT_INTO_FORMS_IDENTIFIER, 
+            INJECT_GET_FORMS_IDENTIFIER, 
+            INJECT_FORM_ATTRIBUTES_IDENTIFIER, 
+            INJECT_INTO_ATTRIBUTES_IDENTIFIER, 
+            INJECT_INTO_DYNAMIC_NODES_IDENTIFIER, 
+            INJECT_INTO_XHR_IDENTIFIER, 
+            TOKENS_PER_PAGE_IDENTIFIER, 
+            DOMAIN_STRICT_IDENTIFIER, 
+            ASYNC_XHR
+    };  
+            
 
     /* MIME Type constants */
     private static final String JSON_MIME_TYPE = "application/json";
@@ -195,27 +216,28 @@ public final class JavaScriptServlet extends HttpServlet {
         }
 
         response.setContentType(JAVASCRIPT_MIME_TYPE);
+        
+        /* The order of the elements must match the order in the SEARCH_LIST variable */
+        String[] replacementList = { StringUtils.defaultString(csrfGuard.getTokenName()),
+                StringUtils.defaultString(getMasterToken(request, csrfGuard)),
+                String.valueOf(csrfGuard.getJavascriptUnprotectedExtensions()), 
+                StringUtils.defaultString(request.getContextPath()),
+                StringUtils.defaultString(request.getContextPath() + request.getServletPath()),
+                StringUtils.defaultString(csrfGuard.getJavascriptXrequestedWith()),
+                StringUtils.defaultString(csrfGuard.getJavascriptDynamicNodeCreationEventName()),
+                ObjectUtils.defaultIfNull(csrfGuard.getDomainOrigin(), StringUtils.defaultString(parseDomain(request.getRequestURL()))),
+                Boolean.toString(csrfGuard.isJavascriptInjectIntoForms()), 
+                Boolean.toString(csrfGuard.isJavascriptInjectGetForms()),
+                Boolean.toString(csrfGuard.isJavascriptInjectFormAttributes()),
+                Boolean.toString(csrfGuard.isJavascriptInjectIntoAttributes()),
+                Boolean.toString(csrfGuard.isJavascriptInjectIntoDynamicallyCreatedNodes()), 
+                Boolean.toString(csrfGuard.isAjaxEnabled()),
+                Boolean.toString(csrfGuard.isTokenPerPageEnabled()), 
+                Boolean.toString(csrfGuard.isJavascriptDomainStrict()),
+                Boolean.toString(!csrfGuard.isForceSynchronousAjax()) };
 
-        String code = csrfGuard.getJavascriptTemplateCode();
-
-        code = code.replace(TOKEN_NAME_IDENTIFIER, StringUtils.defaultString(csrfGuard.getTokenName()))
-                   .replace(TOKEN_VALUE_IDENTIFIER, StringUtils.defaultString(getMasterToken(request, csrfGuard)))
-                   .replace(UNPROTECTED_EXTENSIONS_IDENTIFIER, String.valueOf(csrfGuard.getJavascriptUnprotectedExtensions()))
-                   .replace(CONTEXT_PATH_IDENTIFIER, StringUtils.defaultString(request.getContextPath()))
-                   .replace(SERVLET_PATH_IDENTIFIER, StringUtils.defaultString(request.getContextPath() + request.getServletPath()))
-                   .replace(X_REQUESTED_WITH_IDENTIFIER, StringUtils.defaultString(csrfGuard.getJavascriptXrequestedWith()))
-                   .replace(DYNAMIC_NODE_CREATION_EVENT_NAME_IDENTIFIER, StringUtils.defaultString(csrfGuard.getJavascriptDynamicNodeCreationEventName()))
-                   .replace(DOMAIN_ORIGIN_IDENTIFIER, ObjectUtils.defaultIfNull(csrfGuard.getDomainOrigin(), StringUtils.defaultString(parseDomain(request.getRequestURL()))))
-                   .replace(INJECT_INTO_FORMS_IDENTIFIER, Boolean.toString(csrfGuard.isJavascriptInjectIntoForms()))
-                   .replace(INJECT_GET_FORMS_IDENTIFIER, Boolean.toString(csrfGuard.isJavascriptInjectGetForms()))
-                   .replace(INJECT_FORM_ATTRIBUTES_IDENTIFIER, Boolean.toString(csrfGuard.isJavascriptInjectFormAttributes()))
-                   .replace(INJECT_INTO_ATTRIBUTES_IDENTIFIER, Boolean.toString(csrfGuard.isJavascriptInjectIntoAttributes()))
-                   .replace(INJECT_INTO_DYNAMIC_NODES_IDENTIFIER, Boolean.toString(csrfGuard.isJavascriptInjectIntoDynamicallyCreatedNodes()))
-                   .replace(INJECT_INTO_XHR_IDENTIFIER, Boolean.toString(csrfGuard.isAjaxEnabled()))
-                   .replace(TOKENS_PER_PAGE_IDENTIFIER, Boolean.toString(csrfGuard.isTokenPerPageEnabled()))
-                   .replace(DOMAIN_STRICT_IDENTIFIER, Boolean.toString(csrfGuard.isJavascriptDomainStrict()))
-                   .replace(ASYNC_XHR, Boolean.toString(!csrfGuard.isForceSynchronousAjax()));
-
+        String code = StringUtils.replaceEach(csrfGuard.getJavascriptTemplateCode(), SEARCH_LIST, replacementList);
+        
         response.getWriter().write(code);
     }
 
