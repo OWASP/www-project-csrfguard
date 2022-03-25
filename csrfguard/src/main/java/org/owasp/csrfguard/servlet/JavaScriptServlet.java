@@ -101,7 +101,6 @@ public final class JavaScriptServlet extends HttpServlet {
     private static final String ASYNC_XHR = "'%ASYNC_XHR%'";
     
     private static final Map<String, BiFunction<CsrfGuard, HttpServletRequest, String>> JS_REPLACEMENT_MAP = new HashMap<>();
-    private static final String[] SEARCH_LIST;
 
     static {
         JS_REPLACEMENT_MAP.put(TOKEN_NAME_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(csrfGuard.getTokenName()));
@@ -121,8 +120,6 @@ public final class JavaScriptServlet extends HttpServlet {
         JS_REPLACEMENT_MAP.put(TOKENS_PER_PAGE_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isTokenPerPageEnabled()));
         JS_REPLACEMENT_MAP.put(DOMAIN_STRICT_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptDomainStrict()));
         JS_REPLACEMENT_MAP.put(ASYNC_XHR, (csrfGuard, request) -> Boolean.toString(!csrfGuard.isForceSynchronousAjax()));
-        
-        SEARCH_LIST = JS_REPLACEMENT_MAP.keySet().toArray(new String[0]);
     }
             
 
@@ -226,7 +223,7 @@ public final class JavaScriptServlet extends HttpServlet {
         
         final String[] replacementList = JS_REPLACEMENT_MAP.values().stream().map(v -> v.apply(csrfGuard, request)).toArray(String[]::new);
 
-        String code = StringUtils.replaceEach(csrfGuard.getJavascriptTemplateCode(), SEARCH_LIST, replacementList);
+        String code = StringUtils.replaceEach(csrfGuard.getJavascriptTemplateCode(), JS_REPLACEMENT_MAP.keySet().toArray(new String[0]), replacementList);
         
         response.getWriter().write(code);
     }
