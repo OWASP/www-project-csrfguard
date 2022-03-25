@@ -50,10 +50,12 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.regex.Pattern;
 
 public final class JavaScriptServlet extends HttpServlet {
@@ -98,25 +100,30 @@ public final class JavaScriptServlet extends HttpServlet {
 
     private static final String ASYNC_XHR = "'%ASYNC_XHR%'";
     
-    private static final String[] SEARCH_LIST = {
-            TOKEN_NAME_IDENTIFIER,
-            TOKEN_VALUE_IDENTIFIER,
-            UNPROTECTED_EXTENSIONS_IDENTIFIER,
-            CONTEXT_PATH_IDENTIFIER, 
-            SERVLET_PATH_IDENTIFIER, 
-            X_REQUESTED_WITH_IDENTIFIER, 
-            DYNAMIC_NODE_CREATION_EVENT_NAME_IDENTIFIER, 
-            DOMAIN_ORIGIN_IDENTIFIER,
-            INJECT_INTO_FORMS_IDENTIFIER, 
-            INJECT_GET_FORMS_IDENTIFIER, 
-            INJECT_FORM_ATTRIBUTES_IDENTIFIER, 
-            INJECT_INTO_ATTRIBUTES_IDENTIFIER, 
-            INJECT_INTO_DYNAMIC_NODES_IDENTIFIER, 
-            INJECT_INTO_XHR_IDENTIFIER, 
-            TOKENS_PER_PAGE_IDENTIFIER, 
-            DOMAIN_STRICT_IDENTIFIER, 
-            ASYNC_XHR
-    };  
+    private static final Map<String, BiFunction<CsrfGuard, HttpServletRequest, String>> JS_REPLACEMENT_MAP = new HashMap<>();
+    private static final String[] SEARCH_LIST;
+
+    static {
+        JS_REPLACEMENT_MAP.put(TOKEN_NAME_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(csrfGuard.getTokenName()));
+        JS_REPLACEMENT_MAP.put(TOKEN_VALUE_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(getMasterToken(request, csrfGuard)));
+        JS_REPLACEMENT_MAP.put(UNPROTECTED_EXTENSIONS_IDENTIFIER, (csrfGuard, request) -> String.valueOf(csrfGuard.getJavascriptUnprotectedExtensions()));
+        JS_REPLACEMENT_MAP.put(CONTEXT_PATH_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(request.getContextPath()));
+        JS_REPLACEMENT_MAP.put(SERVLET_PATH_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(request.getContextPath() + request.getServletPath()));
+        JS_REPLACEMENT_MAP.put(X_REQUESTED_WITH_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(csrfGuard.getJavascriptXrequestedWith()));
+        JS_REPLACEMENT_MAP.put(DYNAMIC_NODE_CREATION_EVENT_NAME_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(csrfGuard.getJavascriptDynamicNodeCreationEventName()));
+        JS_REPLACEMENT_MAP.put(DOMAIN_ORIGIN_IDENTIFIER, (csrfGuard, request) -> ObjectUtils.defaultIfNull(csrfGuard.getDomainOrigin(), StringUtils.defaultString(parseDomain(request.getRequestURL()))));
+        JS_REPLACEMENT_MAP.put(INJECT_INTO_FORMS_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectIntoForms()));
+        JS_REPLACEMENT_MAP.put(INJECT_GET_FORMS_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectGetForms()));
+        JS_REPLACEMENT_MAP.put(INJECT_FORM_ATTRIBUTES_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectFormAttributes()));
+        JS_REPLACEMENT_MAP.put(INJECT_INTO_ATTRIBUTES_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectIntoAttributes()));
+        JS_REPLACEMENT_MAP.put(INJECT_INTO_DYNAMIC_NODES_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectIntoDynamicallyCreatedNodes()));
+        JS_REPLACEMENT_MAP.put(INJECT_INTO_XHR_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isAjaxEnabled()));
+        JS_REPLACEMENT_MAP.put(TOKENS_PER_PAGE_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isTokenPerPageEnabled()));
+        JS_REPLACEMENT_MAP.put(DOMAIN_STRICT_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptDomainStrict()));
+        JS_REPLACEMENT_MAP.put(ASYNC_XHR, (csrfGuard, request) -> Boolean.toString(!csrfGuard.isForceSynchronousAjax()));
+        
+        SEARCH_LIST = JS_REPLACEMENT_MAP.keySet().toArray(new String[0]);
+    }
             
 
     /* MIME Type constants */
@@ -217,24 +224,7 @@ public final class JavaScriptServlet extends HttpServlet {
 
         response.setContentType(JAVASCRIPT_MIME_TYPE);
         
-        /* The order of the elements must match the order in the SEARCH_LIST variable */
-        String[] replacementList = { StringUtils.defaultString(csrfGuard.getTokenName()),
-                StringUtils.defaultString(getMasterToken(request, csrfGuard)),
-                String.valueOf(csrfGuard.getJavascriptUnprotectedExtensions()), 
-                StringUtils.defaultString(request.getContextPath()),
-                StringUtils.defaultString(request.getContextPath() + request.getServletPath()),
-                StringUtils.defaultString(csrfGuard.getJavascriptXrequestedWith()),
-                StringUtils.defaultString(csrfGuard.getJavascriptDynamicNodeCreationEventName()),
-                ObjectUtils.defaultIfNull(csrfGuard.getDomainOrigin(), StringUtils.defaultString(parseDomain(request.getRequestURL()))),
-                Boolean.toString(csrfGuard.isJavascriptInjectIntoForms()), 
-                Boolean.toString(csrfGuard.isJavascriptInjectGetForms()),
-                Boolean.toString(csrfGuard.isJavascriptInjectFormAttributes()),
-                Boolean.toString(csrfGuard.isJavascriptInjectIntoAttributes()),
-                Boolean.toString(csrfGuard.isJavascriptInjectIntoDynamicallyCreatedNodes()), 
-                Boolean.toString(csrfGuard.isAjaxEnabled()),
-                Boolean.toString(csrfGuard.isTokenPerPageEnabled()), 
-                Boolean.toString(csrfGuard.isJavascriptDomainStrict()),
-                Boolean.toString(!csrfGuard.isForceSynchronousAjax()) };
+        final String[] replacementList = JS_REPLACEMENT_MAP.values().stream().map(v -> v.apply(csrfGuard, request)).toArray(String[]::new);
 
         String code = StringUtils.replaceEach(csrfGuard.getJavascriptTemplateCode(), SEARCH_LIST, replacementList);
         
