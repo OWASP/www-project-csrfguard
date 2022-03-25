@@ -50,10 +50,12 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.regex.Pattern;
 
 public final class JavaScriptServlet extends HttpServlet {
@@ -97,6 +99,29 @@ public final class JavaScriptServlet extends HttpServlet {
     private static final String TOKENS_PER_PAGE_IDENTIFIER = "'%TOKENS_PER_PAGE%'";
 
     private static final String ASYNC_XHR = "'%ASYNC_XHR%'";
+    
+    private static final Map<String, BiFunction<CsrfGuard, HttpServletRequest, String>> JS_REPLACEMENT_MAP = new HashMap<>();
+
+    static {
+        JS_REPLACEMENT_MAP.put(TOKEN_NAME_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(csrfGuard.getTokenName()));
+        JS_REPLACEMENT_MAP.put(TOKEN_VALUE_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(getMasterToken(request, csrfGuard)));
+        JS_REPLACEMENT_MAP.put(UNPROTECTED_EXTENSIONS_IDENTIFIER, (csrfGuard, request) -> String.valueOf(csrfGuard.getJavascriptUnprotectedExtensions()));
+        JS_REPLACEMENT_MAP.put(CONTEXT_PATH_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(request.getContextPath()));
+        JS_REPLACEMENT_MAP.put(SERVLET_PATH_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(request.getContextPath() + request.getServletPath()));
+        JS_REPLACEMENT_MAP.put(X_REQUESTED_WITH_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(csrfGuard.getJavascriptXrequestedWith()));
+        JS_REPLACEMENT_MAP.put(DYNAMIC_NODE_CREATION_EVENT_NAME_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(csrfGuard.getJavascriptDynamicNodeCreationEventName()));
+        JS_REPLACEMENT_MAP.put(DOMAIN_ORIGIN_IDENTIFIER, (csrfGuard, request) -> ObjectUtils.defaultIfNull(csrfGuard.getDomainOrigin(), StringUtils.defaultString(parseDomain(request.getRequestURL()))));
+        JS_REPLACEMENT_MAP.put(INJECT_INTO_FORMS_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectIntoForms()));
+        JS_REPLACEMENT_MAP.put(INJECT_GET_FORMS_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectGetForms()));
+        JS_REPLACEMENT_MAP.put(INJECT_FORM_ATTRIBUTES_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectFormAttributes()));
+        JS_REPLACEMENT_MAP.put(INJECT_INTO_ATTRIBUTES_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectIntoAttributes()));
+        JS_REPLACEMENT_MAP.put(INJECT_INTO_DYNAMIC_NODES_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectIntoDynamicallyCreatedNodes()));
+        JS_REPLACEMENT_MAP.put(INJECT_INTO_XHR_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isAjaxEnabled()));
+        JS_REPLACEMENT_MAP.put(TOKENS_PER_PAGE_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isTokenPerPageEnabled()));
+        JS_REPLACEMENT_MAP.put(DOMAIN_STRICT_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptDomainStrict()));
+        JS_REPLACEMENT_MAP.put(ASYNC_XHR, (csrfGuard, request) -> Boolean.toString(!csrfGuard.isForceSynchronousAjax()));
+    }
+            
 
     /* MIME Type constants */
     private static final String JSON_MIME_TYPE = "application/json";
@@ -195,27 +220,11 @@ public final class JavaScriptServlet extends HttpServlet {
         }
 
         response.setContentType(JAVASCRIPT_MIME_TYPE);
+        
+        final String[] replacementList = JS_REPLACEMENT_MAP.values().stream().map(v -> v.apply(csrfGuard, request)).toArray(String[]::new);
 
-        String code = csrfGuard.getJavascriptTemplateCode();
-
-        code = code.replace(TOKEN_NAME_IDENTIFIER, StringUtils.defaultString(csrfGuard.getTokenName()))
-                   .replace(TOKEN_VALUE_IDENTIFIER, StringUtils.defaultString(getMasterToken(request, csrfGuard)))
-                   .replace(UNPROTECTED_EXTENSIONS_IDENTIFIER, String.valueOf(csrfGuard.getJavascriptUnprotectedExtensions()))
-                   .replace(CONTEXT_PATH_IDENTIFIER, StringUtils.defaultString(request.getContextPath()))
-                   .replace(SERVLET_PATH_IDENTIFIER, StringUtils.defaultString(request.getContextPath() + request.getServletPath()))
-                   .replace(X_REQUESTED_WITH_IDENTIFIER, StringUtils.defaultString(csrfGuard.getJavascriptXrequestedWith()))
-                   .replace(DYNAMIC_NODE_CREATION_EVENT_NAME_IDENTIFIER, StringUtils.defaultString(csrfGuard.getJavascriptDynamicNodeCreationEventName()))
-                   .replace(DOMAIN_ORIGIN_IDENTIFIER, ObjectUtils.defaultIfNull(csrfGuard.getDomainOrigin(), StringUtils.defaultString(parseDomain(request.getRequestURL()))))
-                   .replace(INJECT_INTO_FORMS_IDENTIFIER, Boolean.toString(csrfGuard.isJavascriptInjectIntoForms()))
-                   .replace(INJECT_GET_FORMS_IDENTIFIER, Boolean.toString(csrfGuard.isJavascriptInjectGetForms()))
-                   .replace(INJECT_FORM_ATTRIBUTES_IDENTIFIER, Boolean.toString(csrfGuard.isJavascriptInjectFormAttributes()))
-                   .replace(INJECT_INTO_ATTRIBUTES_IDENTIFIER, Boolean.toString(csrfGuard.isJavascriptInjectIntoAttributes()))
-                   .replace(INJECT_INTO_DYNAMIC_NODES_IDENTIFIER, Boolean.toString(csrfGuard.isJavascriptInjectIntoDynamicallyCreatedNodes()))
-                   .replace(INJECT_INTO_XHR_IDENTIFIER, Boolean.toString(csrfGuard.isAjaxEnabled()))
-                   .replace(TOKENS_PER_PAGE_IDENTIFIER, Boolean.toString(csrfGuard.isTokenPerPageEnabled()))
-                   .replace(DOMAIN_STRICT_IDENTIFIER, Boolean.toString(csrfGuard.isJavascriptDomainStrict()))
-                   .replace(ASYNC_XHR, Boolean.toString(!csrfGuard.isForceSynchronousAjax()));
-
+        String code = StringUtils.replaceEach(csrfGuard.getJavascriptTemplateCode(), JS_REPLACEMENT_MAP.keySet().toArray(new String[0]), replacementList);
+        
         response.getWriter().write(code);
     }
 
