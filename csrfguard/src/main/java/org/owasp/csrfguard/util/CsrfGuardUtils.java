@@ -138,7 +138,7 @@ public final class CsrfGuardUtils {
         return resourceURI.startsWith("/") ? resourceURI : '/' + resourceURI;
     }
 
-    private static String readInputStreamContent(final InputStream inputStream) {
+    public static String readInputStreamContent(final InputStream inputStream) {
         try {
             return IOUtils.toString(inputStream, Charset.defaultCharset());
         } catch (final IOException ioe) {
