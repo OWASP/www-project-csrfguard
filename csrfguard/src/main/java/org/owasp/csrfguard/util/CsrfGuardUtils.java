@@ -34,6 +34,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.owasp.csrfguard.CsrfGuard;
 import org.owasp.csrfguard.config.overlay.ConfigPropertiesCascadeCommonUtils;
 import org.owasp.csrfguard.token.transferobject.TokenTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,6 +52,8 @@ import java.util.Objects;
  * Various utility methods/helpers.
  */
 public final class CsrfGuardUtils {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CsrfGuardUtils.class.getName());
 
     private CsrfGuardUtils() {}
 
@@ -144,6 +148,21 @@ public final class CsrfGuardUtils {
         } catch (final IOException ioe) {
             throw new RuntimeException(ioe);
         }
+    }
+
+    public static boolean isPermittedUserAgent(HttpServletRequest request, HttpServletResponse response, CsrfGuard csrfGuard) throws IOException {
+        final boolean result;
+
+        final String[] bannedUserAgentProperties = csrfGuard.getBannedUserAgentProperties().toArray(new String[0]);
+        final String userAgent = request.getHeader("User-Agent");
+        if (bannedUserAgentProperties.length > 0 && StringUtils.containsAnyIgnoreCase(userAgent, bannedUserAgentProperties)) {
+            LOGGER.warn("HTTP request with forbidden User-Agent: '{}'", userAgent);
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden HTTP Client!");
+            result = false;
+        } else {
+            result = true;
+        }
+        return result;
     }
 
     /**

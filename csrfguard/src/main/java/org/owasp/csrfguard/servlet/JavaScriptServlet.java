@@ -50,11 +50,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.regex.Pattern;
 
@@ -99,7 +95,7 @@ public final class JavaScriptServlet extends HttpServlet {
     private static final String TOKENS_PER_PAGE_IDENTIFIER = "'%TOKENS_PER_PAGE%'";
 
     private static final String ASYNC_XHR = "'%ASYNC_XHR%'";
-    
+
     private static final Map<String, BiFunction<CsrfGuard, HttpServletRequest, String>> JS_REPLACEMENT_MAP = new HashMap<>();
 
     static {
@@ -121,7 +117,6 @@ public final class JavaScriptServlet extends HttpServlet {
         JS_REPLACEMENT_MAP.put(DOMAIN_STRICT_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptDomainStrict()));
         JS_REPLACEMENT_MAP.put(ASYNC_XHR, (csrfGuard, request) -> Boolean.toString(!csrfGuard.isForceSynchronousAjax()));
     }
-            
 
     /* MIME Type constants */
     private static final String JSON_MIME_TYPE = "application/json";
@@ -157,8 +152,7 @@ public final class JavaScriptServlet extends HttpServlet {
         csrfGuard.initializeJavaScriptConfiguration();
 
         // print again since it might change based on servlet config of javascript servlet
-        CsrfGuardServletContextListener.printConfigIfConfigured(servletConfig.getServletContext(),
-                                                                "Printing properties after JavaScript servlet, note, the javascript properties have now been initialized: ");
+        CsrfGuardServletContextListener.printConfigIfConfigured(servletConfig.getServletContext(), "Printing properties after JavaScript servlet, note, the javascript properties have now been initialized: ");
     }
 
     @Override
@@ -166,7 +160,9 @@ public final class JavaScriptServlet extends HttpServlet {
         final CsrfGuard csrfGuard = CsrfGuard.getInstance();
 
         if (csrfGuard.isEnabled()) {
-            writeJavaScript(csrfGuard, request, response);
+            if (CsrfGuardUtils.isPermittedUserAgent(request, response, csrfGuard)) {
+                writeJavaScript(csrfGuard, request, response);
+            }
         } else {
             response.setContentType(JAVASCRIPT_MIME_TYPE);
             final String javaScriptCode = "console.log('CSRFGuard is disabled');";
@@ -178,22 +174,24 @@ public final class JavaScriptServlet extends HttpServlet {
     public void doPost(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         final CsrfGuard csrfGuard = CsrfGuard.getInstance();
 
-        if (new CsrfValidator().isValid(request, response)) {
-            if (csrfGuard.isTokenPerPageEnabled()) {
-                // TODO pass the logical session downstream, see whether the null check can be done from here
-                final LogicalSession logicalSession = csrfGuard.getLogicalSessionExtractor().extract(request);
-                if (Objects.isNull(logicalSession)) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not create a logical session from the current request.");
+        if (CsrfGuardUtils.isPermittedUserAgent(request, response, csrfGuard)) {
+            if (new CsrfValidator().isValid(request, response)) {
+                if (csrfGuard.isTokenPerPageEnabled()) {
+                    // TODO pass the logical session downstream, see whether the null check can be done from here
+                    final LogicalSession logicalSession = csrfGuard.getLogicalSessionExtractor().extract(request);
+                    if (Objects.isNull(logicalSession)) {
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not create a logical session from the current request.");
+                    } else {
+                        final Map<String, String> pageTokens = csrfGuard.getTokenService().getPageTokens(logicalSession.getKey());
+                        final TokenTO tokenTO = new TokenTO(pageTokens);
+                        writeTokens(response, tokenTO);
+                    }
                 } else {
-                    final Map<String, String> pageTokens = csrfGuard.getTokenService().getPageTokens(logicalSession.getKey());
-                    final TokenTO tokenTO = new TokenTO(pageTokens);
-                    writeTokens(response, tokenTO);
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "This endpoint should not be invoked if the Token-Per-Page functionality is disabled!");
                 }
             } else {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "This endpoint should not be invoked if the Token-Per-Page functionality is disabled!");
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Master token missing from the request.");
             }
-        } else {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Master token missing from the request.");
         }
     }
 
@@ -220,11 +218,11 @@ public final class JavaScriptServlet extends HttpServlet {
         }
 
         response.setContentType(JAVASCRIPT_MIME_TYPE);
-        
+
         final String[] replacementList = JS_REPLACEMENT_MAP.values().stream().map(v -> v.apply(csrfGuard, request)).toArray(String[]::new);
 
         final String code = StringUtils.replaceEach(csrfGuard.getJavascriptTemplateCode(), JS_REPLACEMENT_MAP.keySet().toArray(new String[0]), replacementList);
-        
+
         response.getWriter().write(code);
     }
 
@@ -270,12 +268,12 @@ public final class JavaScriptServlet extends HttpServlet {
                 }
             }
         } else {
-           if (!javaScriptReferer.equals(JavaScriptConfigParameters.DEFAULT_REFERER_PATTERN)) {
-               LOGGER.error("Missing referer headers are not accepted if a non-default referer pattern '{}' is configured!", javaScriptReferer);
+            if (!javaScriptReferer.equals(JavaScriptConfigParameters.DEFAULT_REFERER_PATTERN)) {
+                LOGGER.error("Missing referer headers are not accepted if a non-default referer pattern '{}' is configured!", javaScriptReferer);
 
-               response.sendError(HttpServletResponse.SC_FORBIDDEN);
-               return;
-           }
+                response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                return;
+            }
         }
 
         // save this path so javascript is whitelisted

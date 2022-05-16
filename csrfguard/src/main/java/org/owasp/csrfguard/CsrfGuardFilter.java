@@ -64,12 +64,7 @@ public class CsrfGuardFilter implements Filter {
                 final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
                 final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-                final String[] bannedUserAgentProperties = csrfGuard.getBannedUserAgentProperties().toArray(new String[0]);
-                final String userAgent = httpServletRequest.getHeader("User-Agent");
-                if (bannedUserAgentProperties.length > 0 && StringUtils.containsAnyIgnoreCase(userAgent, bannedUserAgentProperties)) {
-                    LOGGER.warn("HTTP request with forbidden User-Agent: '{}'", userAgent);
-                    httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden HTTP Client!");
-                } else {
+                if (CsrfGuardUtils.isPermittedUserAgent(httpServletRequest, httpServletResponse, csrfGuard)) {
                     doFilter(httpServletRequest, httpServletResponse, filterChain, csrfGuard);
                 }
             } else {
