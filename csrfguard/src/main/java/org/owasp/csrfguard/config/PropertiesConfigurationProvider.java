@@ -46,10 +46,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletConfig;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.security.*;
 import java.time.Duration;
 import java.util.*;
@@ -112,8 +110,6 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 	private boolean javascriptParamsInitialized = false;
 
 	private String javascriptTemplateCode;
-
-	private String javascriptSourceFile;
 
 	private boolean javascriptDomainStrict;
 
@@ -286,11 +282,6 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 	@Override
 	public void initializeJavaScriptConfiguration() {
 		this.javascriptInitParamsIfNeeded();
-	}
-
-	@Override
-	public String getJavascriptSourceFile() {
-		return this.javascriptSourceFile;
 	}
 
 	@Override
@@ -550,44 +541,45 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 				this.javascriptRefererMatchProtocol = getProperty(JavaScriptConfigParameters.REFERER_MATCH_PROTOCOL, servletConfig);
 				this.javascriptRefererMatchDomain = getProperty(JavaScriptConfigParameters.REFERER_MATCH_DOMAIN, servletConfig);
 				this.javascriptUnprotectedExtensions = getProperty(JavaScriptConfigParameters.UNPROTECTED_EXTENSIONS, servletConfig);
-				this.javascriptSourceFile = getProperty(JavaScriptConfigParameters.SOURCE_FILE, servletConfig);
 				this.javascriptXrequestedWith = getProperty(JavaScriptConfigParameters.X_REQUESTED_WITH, servletConfig);
 
-				if (StringUtils.isBlank(this.javascriptSourceFile)) {
-					this.javascriptTemplateCode = CsrfGuardUtils.readResourceFileContent("META-INF/csrfguard.js");
-				} else if (this.javascriptSourceFile.startsWith("META-INF/")) {
-					this.javascriptTemplateCode = CsrfGuardUtils.readResourceFileContent(this.javascriptSourceFile);
-				} else if (this.javascriptSourceFile.startsWith("classpath:")) {
-					final String location = this.javascriptSourceFile.substring("classpath:".length()).trim();
-					this.javascriptTemplateCode = CsrfGuardUtils.readResourceFileContent(location);
-				} else if (this.javascriptSourceFile.startsWith("file:")) {
-					final String location = this.javascriptSourceFile.substring("file:".length()).trim();
-					this.javascriptTemplateCode = CsrfGuardUtils.readFileContent(location);
-				} else if (servletConfig.getServletContext().getRealPath(this.javascriptSourceFile) != null) {
-					this.javascriptTemplateCode = CsrfGuardUtils.readFileContent(servletConfig.getServletContext().getRealPath(this.javascriptSourceFile));
-				} else {
-					try( final InputStream inputStream = getResourceStream(this.javascriptSourceFile, servletConfig)){
-						this.javascriptTemplateCode = CsrfGuardUtils.readInputStreamContent(inputStream);	
-					} catch (final Exception e) {
-						throw new IllegalStateException("getRealPath failed for file " + this.javascriptSourceFile);
-					}
-				}
+				final String javascriptSourceFileLocation = getProperty(JavaScriptConfigParameters.SOURCE_FILE_LOCATION, servletConfig);
+				this.javascriptTemplateCode = retrieveJavaScriptTemplateCode(servletConfig, javascriptSourceFileLocation);
 
 				this.javascriptParamsInitialized = true;
 			}
 		}
 	}
-	
-	private InputStream getResourceStream(final String resourcePath, final ServletConfig servletConfig) throws MalformedURLException  {
-		InputStream inputStream = null;
-		
-		if(servletConfig.getServletContext().getResource("/" + this.javascriptSourceFile) != null) {
-			inputStream = servletConfig.getServletContext().getResourceAsStream("/" + this.javascriptSourceFile);
-		}
-		
-		return inputStream;
-	}
 
+	private static String retrieveJavaScriptTemplateCode(ServletConfig servletConfig, String jsSourceFileLocation) {
+		String result = null;
+
+		if (StringUtils.isBlank(jsSourceFileLocation)) {
+			result = CsrfGuardUtils.readResourceFileContent("META-INF/csrfguard.js");
+		} else if (jsSourceFileLocation.startsWith("META-INF/")) {
+			result = CsrfGuardUtils.readResourceFileContent(jsSourceFileLocation);
+		} else if (jsSourceFileLocation.startsWith("classpath:")) {
+			final String location = jsSourceFileLocation.substring("classpath:".length()).trim();
+			result = CsrfGuardUtils.readResourceFileContent(location);
+		} else if (jsSourceFileLocation.startsWith("file:")) {
+			final String location = jsSourceFileLocation.substring("file:".length()).trim();
+			result = CsrfGuardUtils.readFileContent(location);
+		} else {
+			try (final InputStream inputStream = servletConfig.getServletContext().getResourceAsStream('/' + jsSourceFileLocation)) {
+				if (inputStream != null) {
+					result = CsrfGuardUtils.readInputStreamContent(inputStream);
+				}
+			} catch (final IOException e) {
+				throw new IllegalStateException(String.format("Error while trying to close the '%s' resource.", jsSourceFileLocation));
+			}
+		}
+
+		if (StringUtils.isBlank(result)) {
+			throw new IllegalStateException("Error while trying to retrieve the JavaScript source code!");
+		}
+
+		return result;
+	}
 
 	private <T> T getProperty(final JsConfigParameter<T> jsConfigParameter, final ServletConfig servletConfig) {
 		return jsConfigParameter.getProperty(servletConfig, this.propertiesCache);

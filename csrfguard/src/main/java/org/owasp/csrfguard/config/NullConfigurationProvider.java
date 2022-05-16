@@ -154,11 +154,6 @@ public final class NullConfigurationProvider implements ConfigurationProvider {
     }
 
     @Override
-    public String getJavascriptSourceFile() {
-        return null;
-    }
-
-    @Override
     public boolean isJavascriptDomainStrict() {
         return false;
     }

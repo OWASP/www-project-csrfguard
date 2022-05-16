@@ -161,11 +161,6 @@ public interface ConfigurationProvider {
     List<IAction> getActions();
 
     /**
-     * @return the overridden path to the configured CSRFGuard JavaScript logic, or <b>null</b> if the default is used
-     */
-    String getJavascriptSourceFile();
-
-    /**
      * @return true if tokens should only be injected into links that have the same domain from which the HTML originates,
      * false if subdomains are also permitted
      */
