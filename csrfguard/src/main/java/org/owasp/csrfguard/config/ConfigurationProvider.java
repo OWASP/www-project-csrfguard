@@ -149,6 +149,11 @@ public interface ConfigurationProvider {
     Set<String> getUnprotectedMethods();
 
     /**
+     * @return a set of User-Agent snippets to be used for filtering out certain HTTP clients
+     */
+    Set<String> getBannedUserAgentProperties();
+
+    /**
      * if the filter is enabled
      *
      * @return is csrf guard filter is enabled

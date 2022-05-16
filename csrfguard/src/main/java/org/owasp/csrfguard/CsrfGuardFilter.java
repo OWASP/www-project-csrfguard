@@ -29,6 +29,7 @@
 
 package org.owasp.csrfguard;
 
+import org.apache.commons.lang3.StringUtils;
 import org.owasp.csrfguard.http.InterceptRedirectResponse;
 import org.owasp.csrfguard.session.LogicalSession;
 import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
@@ -60,7 +61,17 @@ public class CsrfGuardFilter implements Filter {
 
         if (csrfGuard.isEnabled()) {
             if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
-                doFilter((HttpServletRequest) request, (HttpServletResponse) response, filterChain, csrfGuard);
+                final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+                final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+
+                final String[] bannedUserAgentProperties = csrfGuard.getBannedUserAgentProperties().toArray(new String[0]);
+                final String userAgent = httpServletRequest.getHeader("User-Agent");
+                if (bannedUserAgentProperties.length > 0 && StringUtils.containsAnyIgnoreCase(userAgent, bannedUserAgentProperties)) {
+                    LOGGER.warn("HTTP request with forbidden User-Agent: '{}'", userAgent);
+                    httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden HTTP Client!");
+                } else {
+                    doFilter(httpServletRequest, httpServletResponse, filterChain, csrfGuard);
+                }
             } else {
                 handleNonHttpServletMessages(request, response, filterChain);
             }

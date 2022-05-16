@@ -72,6 +72,8 @@ public final class ConfigParameters {
     public static final String PROTECTED_PAGE_PREFIX = "org.owasp.csrfguard.protected.";
     public static final String UNPROTECTED_PAGE_PREFIX = "org.owasp.csrfguard.unprotected.";
 
+    public static final String BANNED_USER_AGENT_PROPERTIES_PREFIX = "org.owasp.csrfguard.bannedUserAgentProperty.";
+
     private ConfigParameters() {}
 
     public static SimpleBooleanConfigParameter getUseNewTokenLandingPage(final String newTokenLandingPage) {

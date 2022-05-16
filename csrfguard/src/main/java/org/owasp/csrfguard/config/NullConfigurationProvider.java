@@ -144,6 +144,11 @@ public final class NullConfigurationProvider implements ConfigurationProvider {
     }
 
     @Override
+    public Set<String> getBannedUserAgentProperties() {
+        return Collections.emptySet();
+    }
+
+    @Override
     public boolean isEnabled() {
         return false;
     }

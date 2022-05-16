@@ -223,7 +223,7 @@ public final class JavaScriptServlet extends HttpServlet {
         
         final String[] replacementList = JS_REPLACEMENT_MAP.values().stream().map(v -> v.apply(csrfGuard, request)).toArray(String[]::new);
 
-        String code = StringUtils.replaceEach(csrfGuard.getJavascriptTemplateCode(), JS_REPLACEMENT_MAP.keySet().toArray(new String[0]), replacementList);
+        final String code = StringUtils.replaceEach(csrfGuard.getJavascriptTemplateCode(), JS_REPLACEMENT_MAP.keySet().toArray(new String[0]), replacementList);
         
         response.getWriter().write(code);
     }

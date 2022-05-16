@@ -52,7 +52,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
-public class CsrfGuard {
+public final class CsrfGuard {
 
     /**
      * cache the configuration for a minute
@@ -68,7 +68,7 @@ public class CsrfGuard {
 
     private boolean isJavaScriptConfigurationNeeded;
 
-    public CsrfGuard() {}
+    private CsrfGuard() {}
 
     public static CsrfGuard getInstance() {
         return SingletonHolder.instance;
@@ -270,6 +270,10 @@ public class CsrfGuard {
      */
     public Set<String> getUnprotectedMethods() {
         return config().getUnprotectedMethods();
+    }
+
+    public Set<String> getBannedUserAgentProperties() {
+        return config().getBannedUserAgentProperties();
     }
 
     @Override

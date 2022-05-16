@@ -71,6 +71,8 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 
 	private final Set<String> unprotectedMethods;
 
+	private final Set<String> bannedUserAgentProperties;
+
 	private final List<IAction> actions;
 
 	private final Properties propertiesCache;
@@ -149,6 +151,7 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 			this.unprotectedPages = new HashSet<>();
 			this.protectedMethods = new HashSet<>();
 			this.unprotectedMethods = new HashSet<>();
+			this.bannedUserAgentProperties = new HashSet<>();
 
             this.enabled = PropertyUtils.getProperty(properties, ConfigParameters.CSRFGUARD_ENABLED);
 
@@ -183,6 +186,8 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 				initializePageProtection(properties);
 
 				initializeMethodProtection(properties);
+
+				initializeBannedUserAgentProperties(properties);
 			}
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
@@ -267,6 +272,11 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 	@Override
 	public Set<String> getUnprotectedMethods () {
 		return this.unprotectedMethods;
+	}
+
+	@Override
+	public Set<String> getBannedUserAgentProperties() {
+		return this.bannedUserAgentProperties;
 	}
 
 	@Override
@@ -405,6 +415,32 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 		return actionsMap;
 	}
 
+	private void initializeActionParameters(final Properties properties, final Map<String, IAction> actionsMap) throws IOException {
+		for (final Object obj : properties.keySet()) {
+			final String propertyKey = (String) obj;
+
+			final Pair<String, Integer> actionParameterProperty = getParameterPropertyDirective(propertyKey, ConfigParameters.ACTION_PREFIX);
+
+			if (Objects.nonNull(actionParameterProperty)) {
+				final String directive = actionParameterProperty.getKey();
+				final int index = actionParameterProperty.getValue();
+
+				final String actionName = directive.substring(0, index);
+				final IAction action = actionsMap.get(actionName);
+
+				final String parameterName = directive.substring(index + 1);
+				final String parameterValue = PropertyUtils.getProperty(properties, propertyKey);
+
+				action.setParameter(parameterName, parameterValue);
+			}
+		}
+
+		/* ensure at least one action was defined */
+		if (this.actions.isEmpty()) {
+			throw new IOException("At least one action that will be called in case of CSRF attacks must be defined!");
+		}
+	}
+
 	private void initializeMethodProtection(final Properties properties) {
 		this.protectedMethods.addAll(initializeMethodProtection(properties, ConfigParameters.PROTECTED_METHODS));
 		this.unprotectedMethods.addAll(initializeMethodProtection(properties, ConfigParameters.UNPROTECTED_METHODS));
@@ -444,30 +480,12 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 		}
 	}
 
-	private void initializeActionParameters(final Properties properties, final Map<String, IAction> actionsMap) throws IOException {
-		for (final Object obj : properties.keySet()) {
-			final String propertyKey = (String) obj;
-
-			final Pair<String, Integer> actionParameterProperty = getParameterPropertyDirective(propertyKey, ConfigParameters.ACTION_PREFIX);
-
-			if (Objects.nonNull(actionParameterProperty)) {
-				final String directive = actionParameterProperty.getKey();
-				final int index = actionParameterProperty.getValue();
-
-				final String actionName = directive.substring(0, index);
-				final IAction action = actionsMap.get(actionName);
-
-				final String parameterName = directive.substring(index + 1);
-				final String parameterValue = PropertyUtils.getProperty(properties, propertyKey);
-
-				action.setParameter(parameterName, parameterValue);
-			}
-		}
-
-		/* ensure at least one action was defined */
-		if (this.actions.isEmpty()) {
-			throw new IOException("At least one action that will be called in case of CSRF attacks must be defined!");
-		}
+	private void initializeBannedUserAgentProperties(Properties properties) {
+		this.bannedUserAgentProperties.addAll(properties.entrySet().stream()
+														.filter(e -> ((String) e.getKey()).startsWith(ConfigParameters.BANNED_USER_AGENT_PROPERTIES_PREFIX))
+														.map(e -> (String) e.getValue())
+														.filter(Objects::nonNull)
+														.collect(Collectors.toSet()));
 	}
 
 	private static Pair<String, Integer> getParameterPropertyDirective(final String propertyKey, final String propertyKeyPrefix) {
