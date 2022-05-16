@@ -46,7 +46,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletConfig;
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.security.*;
 import java.time.Duration;
 import java.util.*;
@@ -563,13 +566,28 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 				} else if (servletConfig.getServletContext().getRealPath(this.javascriptSourceFile) != null) {
 					this.javascriptTemplateCode = CsrfGuardUtils.readFileContent(servletConfig.getServletContext().getRealPath(this.javascriptSourceFile));
 				} else {
-					throw new IllegalStateException("getRealPath failed for file " + this.javascriptSourceFile);
+					try( final InputStream inputStream = getResourceStream(this.javascriptSourceFile, servletConfig)){
+						this.javascriptTemplateCode = CsrfGuardUtils.readInputStreamContent(inputStream);	
+					} catch (final Exception e) {
+						throw new IllegalStateException("getRealPath failed for file " + this.javascriptSourceFile);
+					}
 				}
 
 				this.javascriptParamsInitialized = true;
 			}
 		}
 	}
+	
+	private InputStream getResourceStream(final String resourcePath, final ServletConfig servletConfig) throws MalformedURLException  {
+		InputStream inputStream = null;
+		
+		if(servletConfig.getServletContext().getResource("/" + this.javascriptSourceFile) != null) {
+			inputStream = servletConfig.getServletContext().getResourceAsStream("/" + this.javascriptSourceFile);
+		}
+		
+		return inputStream;
+	}
+
 
 	private <T> T getProperty(final JsConfigParameter<T> jsConfigParameter, final ServletConfig servletConfig) {
 		return jsConfigParameter.getProperty(servletConfig, this.propertiesCache);

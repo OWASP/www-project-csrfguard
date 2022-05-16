@@ -142,9 +142,14 @@ public class CsrfGuardServletContextListener implements ServletContextListener {
 
 	private InputStream getResourceStream(final String resourceName, final ServletContext context, final boolean failIfNotFound) throws IOException {
 		InputStream inputStream;
+		
+		/* In case of Unexplored war, read file from the context path */
+		inputStream = context.getResourceAsStream(resourceName);
 
 		/* try classpath */
-		inputStream = getClass().getClassLoader().getResourceAsStream(resourceName);
+		if (inputStream == null) {
+			inputStream = getClass().getClassLoader().getResourceAsStream(resourceName);
+		}
 
 		/* try web context */
 		if (inputStream == null) {
