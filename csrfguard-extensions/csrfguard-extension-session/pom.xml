@@ -34,7 +34,7 @@
     <parent>
         <groupId>org.owasp</groupId>
         <artifactId>csrfguard-extensions</artifactId>
-        <version>4.1.4-SNAPSHOT</version>
+        <version>4.1.4</version>
     </parent>
 
     <artifactId>csrfguard-extension-session</artifactId>
@@ -53,4 +53,8 @@
             <artifactId>servlet-api</artifactId>
         </dependency>
     </dependencies>
+
+  <scm>
+    <tag>4.1.4</tag>
+  </scm>
 </project>
