@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 public class CsrfGuard {
@@ -61,7 +62,7 @@ public class CsrfGuard {
     /**
      * cache regex patterns here
      */
-    private final Map<String, Pattern> regexPatternCache = new HashMap<>();
+    private final Map<String, Pattern> regexPatternCache = new ConcurrentHashMap<>();
 
     private Properties properties = null;
 
