@@ -138,7 +138,7 @@
         <slf4j-api.version>2.0.3</slf4j-api.version>
 
         <junit.version>5.9.1</junit.version>
-        <mockito.version>4.8.1</mockito.version>
+        <mockito.version>4.9.0</mockito.version>
         <logback.version>1.4.4</logback.version>
 
         <dependency-check-maven.version>7.3.0</dependency-check-maven.version>
