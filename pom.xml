@@ -139,7 +139,7 @@
 
         <junit.version>5.9.1</junit.version>
         <mockito.version>4.9.0</mockito.version>
-        <logback.version>1.4.4</logback.version>
+        <logback.version>1.4.5</logback.version>
 
         <dependency-check-maven.version>7.3.2</dependency-check-maven.version>
     </properties>
