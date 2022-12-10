@@ -141,7 +141,7 @@
         <mockito.version>4.9.0</mockito.version>
         <logback.version>1.4.4</logback.version>
 
-        <dependency-check-maven.version>7.3.2</dependency-check-maven.version>
+        <dependency-check-maven.version>7.4.1</dependency-check-maven.version>
     </properties>
 
     <dependencyManagement>
