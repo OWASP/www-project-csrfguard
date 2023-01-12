@@ -137,7 +137,7 @@
         <gson.version>2.10</gson.version>
         <slf4j-api.version>2.0.6</slf4j-api.version>
 
-        <junit.version>5.9.1</junit.version>
+        <junit.version>5.9.2</junit.version>
         <mockito.version>4.11.0</mockito.version>
         <logback.version>1.4.5</logback.version>
 
