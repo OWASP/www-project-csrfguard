@@ -31,7 +31,7 @@ package org.owasp.csrfguard.config.properties.javascript;
 
 import org.owasp.csrfguard.config.properties.PropertyUtils;
 
-import javax.servlet.ServletConfig;
+import jakarta.servlet.ServletConfig;
 import java.util.Properties;
 
 public class BooleanJsConfigParameter extends JsConfigParameter<Boolean> {

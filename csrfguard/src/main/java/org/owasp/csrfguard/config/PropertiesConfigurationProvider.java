@@ -45,7 +45,7 @@ import org.owasp.csrfguard.util.RegexValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletConfig;
+import jakarta.servlet.ServletConfig;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.*;

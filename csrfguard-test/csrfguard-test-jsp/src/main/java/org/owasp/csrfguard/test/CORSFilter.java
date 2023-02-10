@@ -30,8 +30,8 @@ package org.owasp.csrfguard.test;
 
 import org.owasp.csrfguard.CsrfGuard;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**

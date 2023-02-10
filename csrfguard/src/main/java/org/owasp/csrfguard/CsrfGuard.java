@@ -43,8 +43,8 @@ import org.owasp.csrfguard.token.storage.TokenHolder;
 import org.owasp.csrfguard.util.CsrfGuardPropertiesToStringBuilder;
 import org.owasp.csrfguard.util.CsrfGuardUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.Duration;
@@ -299,7 +299,7 @@ public final class CsrfGuard {
     /**
      * Method to be called by a logical session implementation when a new session is created. <br>
      * <p>
-     * Example: {@link javax.servlet.http.HttpSessionListener#sessionCreated(javax.servlet.http.HttpSessionEvent)}
+     * Example: {@link jakarta.servlet.http.HttpSessionListener#sessionCreated(jakarta.servlet.http.HttpSessionEvent)}
      *
      * @param logicalSession a logical session implementation
      */
@@ -324,7 +324,7 @@ public final class CsrfGuard {
     /**
      * Method to be called by a logical session implementation when a session is destroyed. <br>
      * <p>
-     * Example: {@link javax.servlet.http.HttpSessionListener#sessionDestroyed(javax.servlet.http.HttpSessionEvent)}
+     * Example: {@link jakarta.servlet.http.HttpSessionListener#sessionDestroyed(jakarta.servlet.http.HttpSessionEvent)}
      *
      * @param logicalSession a logical session implementation
      */

@@ -30,7 +30,7 @@ package org.owasp.csrfguard.config.properties.javascript;
 
 import org.apache.commons.lang3.StringUtils;
 
-import javax.servlet.ServletConfig;
+import jakarta.servlet.ServletConfig;
 import java.util.Properties;
 import java.util.function.Function;
 

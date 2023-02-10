@@ -43,7 +43,7 @@ import org.owasp.csrfguard.token.transferobject.TokenTO;
 import org.owasp.csrfguard.util.CsrfGuardUtils;
 import org.owasp.csrfguard.util.MessageConstants;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;

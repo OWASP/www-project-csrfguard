@@ -31,7 +31,7 @@ package org.owasp.csrfguard.tag;
 
 import org.owasp.csrfguard.CsrfGuard;
 
-import javax.servlet.jsp.tagext.TagSupport;
+import jakarta.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
 public final class TokenNameTag extends TagSupport {

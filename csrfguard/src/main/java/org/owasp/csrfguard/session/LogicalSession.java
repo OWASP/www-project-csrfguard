@@ -28,7 +28,7 @@
  */
 package org.owasp.csrfguard.session;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Represents a logical session that enables decoupling from the container's session implementation in case the client application uses a stateless approach (e.g. token based authentication)
@@ -45,7 +45,7 @@ public interface LogicalSession {
      * Returns <code>true</code> if the client does not yet know about the
      * session or if the client chooses not to join the session.
      *
-     * @see javax.servlet.http.HttpSession#isNew()
+     * @see jakarta.servlet.http.HttpSession#isNew()
      *
      * @return <code>true</code> if the server has created a session, but the client has not yet joined
      */
