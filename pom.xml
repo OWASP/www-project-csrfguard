@@ -115,9 +115,12 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <servlet-api.version>2.5</servlet-api.version>
-        <jsp-api.version>2.2</jsp-api.version>
-        <jstl.version>1.2</jstl.version>
+        <!--<servlet-api.version>2.5</servlet-api.version>-->
+        <servlet-api.version>5.0.0</servlet-api.version>
+        <!-- <jsp-api.version>2.2</jsp-api.version>-->
+        <jsp-api.version>3.1.1</jsp-api.version>
+        <!--<jstl.version>1.2</jstl.version>-->
+        <jstl.version>3.0.0</jstl.version>
 
         <maven-surefire-plugin.version>3.0.0-M8</maven-surefire-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
@@ -147,24 +150,42 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${servlet-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!--<dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
                 <version>${servlet-api.version}</version>
                 <scope>provided</scope>
-            </dependency>
+            </dependency>-->
             <dependency>
+            	<groupId>jakarta.servlet.jsp</groupId>
+			        <artifactId>jakarta.servlet.jsp-api</artifactId>
+			        <version>${jsp-api.version}</version>
+              <scope>provided</scope>
+            </dependency>
+          <!--<dependency>
                 <groupId>javax.servlet.jsp</groupId>
                 <artifactId>jsp-api</artifactId>
                 <version>${jsp-api.version}</version>
                 <scope>provided</scope>
-            </dependency>
+            </dependency>-->
+          
             <dependency>
+            	<groupId>jakarta.servlet.jsp.jstl</groupId>
+		    	    <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+    			    <version>${jstl.version}</version>
+              <scope>provided</scope>
+            </dependency>
+            <!--<dependency>
                 <groupId>javax.servlet.jsp.jstl</groupId>
                 <artifactId>jstl-api</artifactId>
                 <version>${jstl.version}</version>
                 <scope>provided</scope>
-            </dependency>
-
+            </dependency>-->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
