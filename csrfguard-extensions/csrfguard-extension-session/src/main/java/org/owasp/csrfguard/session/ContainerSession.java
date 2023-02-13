@@ -28,7 +28,7 @@
  */
 package org.owasp.csrfguard.session;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import java.util.Objects;
 
 public class ContainerSession implements LogicalSession {

@@ -32,9 +32,9 @@ package org.owasp.csrfguard;
 import org.owasp.csrfguard.session.ContainerSession;
 import org.owasp.csrfguard.session.LogicalSession;
 
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionEvent;
+import jakarta.servlet.http.HttpSessionListener;
 
 public class CsrfGuardHttpSessionListener implements HttpSessionListener {
 

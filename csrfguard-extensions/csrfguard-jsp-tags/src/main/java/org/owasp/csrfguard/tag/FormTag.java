@@ -33,9 +33,9 @@ import org.owasp.csrfguard.CsrfGuard;
 import org.owasp.csrfguard.session.LogicalSession;
 import org.owasp.csrfguard.util.BrowserEncoder;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.DynamicAttributes;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.tagext.DynamicAttributes;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

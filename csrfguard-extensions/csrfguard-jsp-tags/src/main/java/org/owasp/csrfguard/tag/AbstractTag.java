@@ -32,7 +32,7 @@ package org.owasp.csrfguard.tag;
 import org.owasp.csrfguard.CsrfValidator;
 import org.owasp.csrfguard.ProtectionResult;
 
-import javax.servlet.jsp.tagext.TagSupport;
+import jakarta.servlet.jsp.tagext.TagSupport;
 
 public abstract class AbstractTag extends TagSupport {
 

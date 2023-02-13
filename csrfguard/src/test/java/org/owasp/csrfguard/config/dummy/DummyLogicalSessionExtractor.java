@@ -31,7 +31,7 @@ package org.owasp.csrfguard.config.dummy;
 import org.owasp.csrfguard.session.LogicalSession;
 import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class DummyLogicalSessionExtractor implements LogicalSessionExtractor {
 

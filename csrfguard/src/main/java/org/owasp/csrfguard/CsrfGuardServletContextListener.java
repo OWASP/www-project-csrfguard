@@ -32,9 +32,9 @@ package org.owasp.csrfguard;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.csrfguard.config.overlay.ConfigurationOverlayProvider;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -118,7 +118,7 @@ public class CsrfGuardServletContextListener implements ServletContextListener {
 	 * Has no effect unless the CONFIG_PRINT_PARAM init parameter is "true."
 	 * @param context The ServletContext
 	 * @param prefix  The string used as a prefix when printing the configuration to the log
-	 * @see javax.servlet.ServletContext#log(String)
+	 * @see jakarta.servlet.ServletContext#log(String)
 	 */
 	public static void printConfigIfConfigured(final ServletContext context, final String prefix) {
 		final CsrfGuard csrfGuard = CsrfGuard.getInstance();
