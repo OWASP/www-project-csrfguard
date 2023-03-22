@@ -232,6 +232,8 @@ public class CsrfGuardPropertiesToStringBuilder extends ReflectionToStringBuilde
                 result = handleActions((IAction) obj, prefixOffset);
             } else if (className.startsWith("org.owasp.csrfguard")) { // TODO extract and reuse
                 result = className;
+            } else if (className.equals(java.util.regex.Pattern.class.getName())) {
+                result = obj.toString();
             } else {
                 result = obj;
             }
