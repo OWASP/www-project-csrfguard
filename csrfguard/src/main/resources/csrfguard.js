@@ -216,9 +216,18 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
 
         /**
          *  check if valid domain based on domainStrict
+         *  @param target can either be a string or list of domain origins as array
          */
         function isValidDomain(current, target) {
             var result = false;
+
+            if (target && target.constructor === Array) {
+                for (var i = 0; i < target.length; i++) {
+                    if (isValidDomain(current, target[i])) {
+                        return true;
+                    }
+                }
+            }
 
             /* check exact or subdomain match */
             if (current === target) {
@@ -589,7 +598,8 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
          * The token is now removed and fetched using another POST request to solve,
          * the token hijacking problem.
          */
-        if (isValidDomain(document.domain, '%DOMAIN_ORIGIN%')) {
+        var target = '%DOMAIN_ORIGIN%'.split(',')
+        if (isValidDomain(document.domain, target)) {
             var tokenName = '%TOKEN_NAME%';
             var masterTokenValue = '%TOKEN_VALUE%';
             //console.debug('Master token [' + tokenName + ']: ', masterTokenValue);
