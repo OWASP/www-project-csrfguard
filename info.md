@@ -23,22 +23,36 @@ The CSRFGuard project is run by [Azzeddine RAMRAMI](mailto:azzeddine.ramrami@owa
 
 ## License
 
-OWASP CSRFGuard 4.0.0 is offered under the [BSD license](http://www.opensource.org/licenses/bsd-license.php).
+OWASP CSRFGuard 4.x is offered under the [BSD license](http://www.opensource.org/licenses/bsd-license.php).
 
 ## Using with Maven
-OWASP CSRFGuard 4.0.0 will be available on the Maven Central Repository. Add the following dependency to your Maven POM file to use the library:
+OWASP CSRFGuard 4.x is available on the Maven Central Repository. Add the following dependency to your Maven POM file to use the library:
 
-```maven
+```xml
 <dependency>
     <groupId>org.owasp</groupId>
     <artifactId>csrfguard</artifactId>
-    <version>4.0.0</version>
+    <version>4.2.1.</version>
+</dependency>
+
+<!-- Stateful web application support -->
+<dependency>
+	<groupId>org.owasp</groupId>
+	<artifactId>csrfguard-extension-session</artifactId>
+	<version>4.2.1</version>
+</dependency>
+
+<!-- JSP TAG support -->
+<dependency>
+	<groupId>org.owasp</groupId>
+	<artifactId>csrfguard-jsp-tags</artifactId>
+	<version>4.2.1</version>
 </dependency>
 ```
 
 ## Building the code
 
-1. Make sure you have [Apache Maven](http://maven.apache.org/) 3.0.4+ and JDK 1.8+ installed
+1. Make sure you have [Apache Maven](http://maven.apache.org/) 3.0.4+ and JDK 11+ installed
 2. Clone this repository locally
 3. Build the project by running ```mvn clean install``` in the project root directory
 4. Build and run the test JSP web application by running ```mvn pre-integration-test -Pdeploy-jsp-webapp -pl csrfguard-test/csrfguard-test-jsp``` or ```mvn -Pdeploy-jsp-webapp -pl csrfguard-test/csrfguard-test-jsp tomcat7:run```
@@ -87,8 +101,6 @@ If you have questions, would like to share or discuss ideas, please use the offi
 * Heavily refactored, improved and more optimized code-base
 * Documentation update and typo fixes.
 * Copyright update and unification.
-
-The 4.0.0 release candidate can be downloaded from the [releases](https://github.com/OWASP/www-project-csrfguard/releases) section.
 
 
 
