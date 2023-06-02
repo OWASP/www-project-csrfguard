@@ -71,7 +71,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>csrfguard-jsp-tags</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -82,7 +81,6 @@
            <groupId>jakarta.servlet.jsp</groupId>
            <artifactId>jakarta.servlet.jsp-api</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>ch.qos.logback</groupId>

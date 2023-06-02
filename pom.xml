@@ -110,16 +110,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
-        <!--<servlet-api.version>2.5</servlet-api.version>-->
         <servlet-api.version>5.0.0</servlet-api.version>
-        <!-- <jsp-api.version>2.2</jsp-api.version>-->
         <jsp-api.version>3.1.1</jsp-api.version>
-        <!--<jstl.version>1.2</jstl.version>-->
         <jstl.version>3.0.0</jstl.version>
 
         <maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
