@@ -33,7 +33,7 @@
 
     <groupId>org.owasp</groupId>
     <artifactId>csrfguard-parent</artifactId>
-    <version>4.2.2-SNAPSHOT</version>
+    <version>4.3.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>OWASP CSRFGuard Parent POM</name>
