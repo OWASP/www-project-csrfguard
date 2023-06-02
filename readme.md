@@ -28,33 +28,34 @@ The CSRFGuard project is run by [Azzeddine RAMRAMI](mailto:azzeddine.ramrami@owa
 
 ## Using with Maven
 
-Add the following dependency to your Maven POM file to use the library:
+Add the following dependencies to your Maven POM file to use the library:  
+**Note**: for the [Jakarta](https://github.com/OWASP/www-project-csrfguard/tree/jakarta) releases use the `-jakarta` suffix in the `artifactId`s.
 
 ```xml
 <dependency>
     <groupId>org.owasp</groupId>
     <artifactId>csrfguard</artifactId>
-    <version>4.1.3</version>
+    <version>4.2.1</version>
 </dependency>
 
 <!-- Stateful web application support -->
 <dependency>
 	<groupId>org.owasp</groupId>
 	<artifactId>csrfguard-extension-session</artifactId>
-	<version>4.1.3</version>
+	<version>4.2.1</version>
 </dependency>
 
 <!-- JSP TAG support -->
 <dependency>
 	<groupId>org.owasp</groupId>
 	<artifactId>csrfguard-jsp-tags</artifactId>
-	<version>4.1.3</version>
+	<version>4.2.1</version>
 </dependency>
 ```
 
 ## Building the code
 
-1. Make sure you have [Apache Maven](https://maven.apache.org/) 3.0.4+ and JDK 1.8+ installed
+1. Make sure you have [Apache Maven](https://maven.apache.org/) 3.0.4+, JDK 1.8+ and respectively JDK 11+ for Jakarta installed
 2. Clone this repository locally
 3. Build the project by running ```mvn clean install``` in the project root directory
 4. Build and run the test JSP web application by running one of the following commands:
