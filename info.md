@@ -39,14 +39,14 @@ OWASP CSRFGuard 4.x is available on the Maven Central Repository. Add the follow
 <dependency>
 	<groupId>org.owasp</groupId>
 	<artifactId>csrfguard-extension-session</artifactId>
-	<version>4.2.1</version>
+	<version>4.3.0</version>
 </dependency>
 
 <!-- JSP TAG support -->
 <dependency>
 	<groupId>org.owasp</groupId>
 	<artifactId>csrfguard-jsp-tags</artifactId>
-	<version>4.2.1</version>
+	<version>4.3.0</version>
 </dependency>
 ```
 
