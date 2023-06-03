@@ -29,7 +29,7 @@ The CSRFGuard project is run by [Azzeddine RAMRAMI](mailto:azzeddine.ramrami@owa
 ## Using with Maven
 
 Add the following dependencies to your Maven POM file to use the library:  
-**Note**: for the [Jakarta](https://github.com/OWASP/www-project-csrfguard/tree/jakarta) releases use the `-jakarta` suffix in the `artifactId`s.
+**Note**: for the [Jakarta](https://github.com/OWASP/www-project-csrfguard/tree/jakarta) releases use the `-jakarta` suffix in the `version`.
 
 ```xml
 <dependency>
