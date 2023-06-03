@@ -26,13 +26,14 @@ The CSRFGuard project is run by [Azzeddine RAMRAMI](mailto:azzeddine.ramrami@owa
 OWASP CSRFGuard 4.x is offered under the [BSD license](http://www.opensource.org/licenses/bsd-license.php).
 
 ## Using with Maven
-OWASP CSRFGuard 4.x is available on the Maven Central Repository. Add the following dependency to your Maven POM file to use the library:
+Add the following dependencies to your Maven POM file to use the library:  
+**Note**: for the [Jakarta](https://github.com/OWASP/www-project-csrfguard/tree/jakarta) releases use the `-jakarta` suffix in the `version`.
 
 ```xml
 <dependency>
     <groupId>org.owasp</groupId>
     <artifactId>csrfguard</artifactId>
-    <version>4.2.1.</version>
+    <version>4.3.0</version>
 </dependency>
 
 <!-- Stateful web application support -->
