@@ -141,7 +141,7 @@
         <mockito.version>4.11.0</mockito.version>
         <logback.version>1.3.5</logback.version> <!--versions starting from 1.4.x were compiled with Java 11-->
 
-        <dependency-check-maven.version>8.4.2</dependency-check-maven.version>
+        <dependency-check-maven.version>8.4.3</dependency-check-maven.version>
     </properties>
 
     <dependencyManagement>
