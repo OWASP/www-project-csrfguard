@@ -106,7 +106,10 @@ public final class JavaScriptServlet extends HttpServlet {
         JS_REPLACEMENT_MAP.put(SERVLET_PATH_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(request.getContextPath() + request.getServletPath()));
         JS_REPLACEMENT_MAP.put(X_REQUESTED_WITH_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(csrfGuard.getJavascriptXrequestedWith()));
         JS_REPLACEMENT_MAP.put(DYNAMIC_NODE_CREATION_EVENT_NAME_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(csrfGuard.getJavascriptDynamicNodeCreationEventName()));
-        JS_REPLACEMENT_MAP.put(DOMAIN_ORIGIN_IDENTIFIER, (csrfGuard, request) -> ObjectUtils.defaultIfNull(csrfGuard.getDomainOrigin(), StringUtils.defaultString(parseDomain(request.getRequestURL()))));
+        JS_REPLACEMENT_MAP.put(DOMAIN_ORIGIN_IDENTIFIER, (csrfGuard, request) -> ObjectUtils.firstNonNull(
+				csrfGuard.getDomainOrigin(),
+				getHostOrNull_Of_XForwardedHost(request.getHeader("X-Forwarded-Host")),
+				StringUtils.defaultString(JavaScriptServlet.parseDomain(request.getRequestURL()))));
         JS_REPLACEMENT_MAP.put(INJECT_INTO_FORMS_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectIntoForms()));
         JS_REPLACEMENT_MAP.put(INJECT_GET_FORMS_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectGetForms()));
         JS_REPLACEMENT_MAP.put(INJECT_FORM_ATTRIBUTES_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectFormAttributes()));
@@ -241,6 +244,24 @@ public final class JavaScriptServlet extends HttpServlet {
             return "INVALID_URL: " + url;
         }
     }
+
+    private static String getHostOrNull_Of_XForwardedHost(String xForHost) {
+		if (StringUtils.isBlank(xForHost)) { 
+			xForHost = null;
+		}else {
+			xForHost = xForHost.split(",")[0];  // if there are multiple proxyPass in cascade, XForwardedHost became for example : "fox1:443, spring2:444", where fox1:443 is the first proxyPass encountered
+			if(xForHost.toLowerCase().startsWith("http")) {
+				try {
+					xForHost = new URL(xForHost).getHost();
+				} catch (final MalformedURLException e) {
+					xForHost = null;
+				}
+			} else { // apache ProxyPass torna host:port, senza http/https 
+				xForHost =  xForHost.split(":")[0];
+			}
+		}
+		return xForHost;
+	}
 
     private void writeJavaScript(final CsrfGuard csrfGuard, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         final String refererHeader = request.getHeader("referer");
