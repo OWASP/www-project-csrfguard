@@ -256,7 +256,7 @@ public final class JavaScriptServlet extends HttpServlet {
 				} catch (final MalformedURLException e) {
 					xForHost = null;
 				}
-			} else { // apache ProxyPass torna host:port, senza http/https 
+			} else { 
 				xForHost =  xForHost.split(":")[0];
 			}
 		}
