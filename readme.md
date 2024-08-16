@@ -55,7 +55,7 @@ Add the following dependencies to your Maven POM file to use the library:
 
 ## Building the code
 
-1. Make sure you have [Apache Maven](https://maven.apache.org/) 3.0.4+, JDK 1.8+ and respectively JDK 11+ for Jakarta installed
+1. Make sure you have [Apache Maven](https://maven.apache.org/) 3.6.3+, JDK 1.8+ and respectively JDK 11+ for Jakarta installed
 2. Clone this repository locally
 3. Build the project by running ```mvn clean install``` in the project root directory
 4. Build and run the test JSP web application by running one of the following commands:
