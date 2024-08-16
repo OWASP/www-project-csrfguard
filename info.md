@@ -79,8 +79,8 @@ If you have questions, would like to share or discuss ideas, please use the offi
 
 ## CSRFGuard 4.0 Release Notes:
 
-* [Support for stateless web applications](https://github.com/aramrami/OWASP-CSRFGuard/issues/122)
-* [Apply "TokenPerPage" approach to AJAX](https://github.com/aramrami/OWASP-CSRFGuard/issues/123)
+* [Support for stateless web applications](https://github.com/OWASP/www-project-csrfguard/issues/4)
+* [Apply "TokenPerPage" approach to AJAX](https://github.com/OWASP/www-project-csrfguard/issues/2)
 * [Reduced code duplication](https://github.com/aramrami/OWASP-CSRFGuard/issues/127)
 * [Proper multi-module maven project structure](https://github.com/aramrami/OWASP-CSRFGuard/issues/128)
 * [The test JSP web application now relies on the latest development JavaScript code](https://github.com/aramrami/OWASP-CSRFGuard/issues/133)
