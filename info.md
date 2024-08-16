@@ -53,7 +53,7 @@ Add the following dependencies to your Maven POM file to use the library:
 
 ## Building the code
 
-1. Make sure you have [Apache Maven](http://maven.apache.org/) 3.0.4+ and JDK 11+ installed
+1. Make sure you have [Apache Maven](http://maven.apache.org/) 3.6.3+ and JDK 11+ installed
 2. Clone this repository locally
 3. Build the project by running ```mvn clean install``` in the project root directory
 4. Build and run the test JSP web application by running ```mvn pre-integration-test -Pdeploy-jsp-webapp -pl csrfguard-test/csrfguard-test-jsp``` or ```mvn -Pdeploy-jsp-webapp -pl csrfguard-test/csrfguard-test-jsp tomcat7:run```
