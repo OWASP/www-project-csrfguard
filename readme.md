@@ -176,29 +176,3 @@ You can download pre-compiled versions from:
 
 * [Maven Central repository](https://search.maven.org/search?q=csrfguard)
 * [OSS Sonatype Nexus repository](https://oss.sonatype.org/#nexus-search;gav~~csrfguard~~~)
-
-## CSRFGuard 4.0.0 Release Notes
-
-* [Support for stateless web applications](https://github.com/aramrami/OWASP-CSRFGuard/issues/122)
-* [Apply "TokenPerPage" approach to AJAX](https://github.com/aramrami/OWASP-CSRFGuard/issues/123)
-* [Reduced code duplication](https://github.com/aramrami/OWASP-CSRFGuard/issues/127)
-* [Proper multi-module maven project structure](https://github.com/aramrami/OWASP-CSRFGuard/issues/128)
-* [The test JSP web application now relies on the latest development JavaScript code](https://github.com/aramrami/OWASP-CSRFGuard/issues/133)
-* [Improved code quality](https://github.com/aramrami/OWASP-CSRFGuard/issues/134)
-* [Addressing synchronous XMLHttpRequest deprecation](https://github.com/aramrami/OWASP-CSRFGuard/issues/137)
-* [Approach changed for master and page token retrieval](https://github.com/aramrami/OWASP-CSRFGuard/issues/139)
-* [Improved test coverage](https://github.com/aramrami/OWASP-CSRFGuard/issues/140)
-* [Better solution for looking up page tokens in the JS](https://github.com/aramrami/OWASP-CSRFGuard/issues/141)
-* [The javascript template is now parsable and minifiable](https://github.com/aramrami/OWASP-CSRFGuard/issues/142)
-* [Short-circuit the solution logic if CSRFGuard is disabled](https://github.com/aramrami/OWASP-CSRFGuard/issues/143)
-* [Do not generate page tokens for pages that are not protected](https://github.com/aramrami/OWASP-CSRFGuard/issues/144)
-* [Page tokens generated on first use are not sent back to the client](https://github.com/aramrami/OWASP-CSRFGuard/issues/145)
-* [Issue with the token-per-page support for REST endpoint containing path parameters](https://github.com/aramrami/OWASP-CSRFGuard/issues/146)
-* [Possible race condition on first access of endpoints when token-per-page and AJAX request options are enabled](https://github.com/aramrami/OWASP-CSRFGuard/issues/147)
-* [Tokens are not injected into dynamically created DOM elements ](https://github.com/aramrami/OWASP-CSRFGuard/issues/148)
-* [Make the configuration more resilient to errors](https://github.com/aramrami/OWASP-CSRFGuard/issues/149)
-* [Tokens should not be injected into external links if the domainStrict property is set to true](https://github.com/aramrami/OWASP-CSRFGuard/issues/150)
-* [Tokens not injected in dynamic content returned from Ajax](https://github.com/aramrami/OWASP-CSRFGuard/issues/151)
-* Heavily refactored, improved and more optimized code-base
-* Documentation update and typo fixes.
-* Copyright update and unification.

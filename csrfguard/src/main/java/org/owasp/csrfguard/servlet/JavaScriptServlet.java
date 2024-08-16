@@ -106,7 +106,10 @@ public final class JavaScriptServlet extends HttpServlet {
         JS_REPLACEMENT_MAP.put(SERVLET_PATH_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(request.getContextPath() + request.getServletPath()));
         JS_REPLACEMENT_MAP.put(X_REQUESTED_WITH_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(csrfGuard.getJavascriptXrequestedWith()));
         JS_REPLACEMENT_MAP.put(DYNAMIC_NODE_CREATION_EVENT_NAME_IDENTIFIER, (csrfGuard, request) -> StringUtils.defaultString(csrfGuard.getJavascriptDynamicNodeCreationEventName()));
-        JS_REPLACEMENT_MAP.put(DOMAIN_ORIGIN_IDENTIFIER, (csrfGuard, request) -> ObjectUtils.defaultIfNull(csrfGuard.getDomainOrigin(), StringUtils.defaultString(parseDomain(request.getRequestURL()))));
+        JS_REPLACEMENT_MAP.put(DOMAIN_ORIGIN_IDENTIFIER, (csrfGuard, request) -> ObjectUtils.firstNonNull(
+                csrfGuard.getDomainOrigin(),
+                getFirstHost(request.getHeader("X-Forwarded-Host")),
+                StringUtils.defaultString(JavaScriptServlet.parseDomain(request.getRequestURL()))));
         JS_REPLACEMENT_MAP.put(INJECT_INTO_FORMS_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectIntoForms()));
         JS_REPLACEMENT_MAP.put(INJECT_GET_FORMS_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectGetForms()));
         JS_REPLACEMENT_MAP.put(INJECT_FORM_ATTRIBUTES_IDENTIFIER, (csrfGuard, request) -> Boolean.toString(csrfGuard.isJavascriptInjectFormAttributes()));
@@ -240,6 +243,28 @@ public final class JavaScriptServlet extends HttpServlet {
             // Should not occur. jakarta.servlet.http.HttpServletRequest.getRequestURL should only return valid URLs.
             return "INVALID_URL: " + url;
         }
+    }
+
+    /**
+     * @param commaSeparatedHosts (e.g. "fox1:443, spring2:444"). Nullable
+     * @return the first host in the list(e.g. "fox1" without port number). null if commaSeparatedHosts is invalid/null/blank
+     */
+    private static String getFirstHost(String commaSeparatedHosts) {
+        if (StringUtils.isBlank(commaSeparatedHosts)) { 
+            commaSeparatedHosts = null;
+        }else {
+            commaSeparatedHosts = commaSeparatedHosts.split(",")[0];  // if there are multiple proxyPass in cascade, XForwardedHost became for example : "fox1:443, spring2:444", where fox1:443 is the first proxyPass encountered
+            if(commaSeparatedHosts.toLowerCase().startsWith("http")) {
+                try {
+                    commaSeparatedHosts = new URL(commaSeparatedHosts).getHost();
+                } catch (final MalformedURLException e) {
+                    commaSeparatedHosts = null;
+                }
+            } else { 
+                commaSeparatedHosts = commaSeparatedHosts.split(":")[0];
+            }
+        }
+        return commaSeparatedHosts;
     }
 
     private void writeJavaScript(final CsrfGuard csrfGuard, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
