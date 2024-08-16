@@ -132,7 +132,7 @@
         <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
         <maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
 
-        <commons-lang3.version>3.14.0</commons-lang3.version>
+        <commons-lang3.version>3.16.0</commons-lang3.version>
         <commons-io.version>2.16.1</commons-io.version>
         <gson.version>2.11.0</gson.version>
         <slf4j-api.version>2.0.16</slf4j-api.version>
