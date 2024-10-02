@@ -227,6 +227,8 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                         return true;
                     }
                 }
+                // In case none of the domain matches, return false
+                return false;
             }
 
             /* check exact or subdomain match */
