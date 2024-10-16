@@ -15,4 +15,9 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: test --package-manager=maven --file=pom.xml --severity-threshold=medium
+          command: test --package-manager=maven --file=pom.xml --severity-threshold=medium --maven-aggregate-project --sarif-file-output=snyk.sarif
+
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk.sarif
