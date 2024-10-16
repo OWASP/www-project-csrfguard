@@ -50,7 +50,7 @@
 
     <profiles>
         <profile>
-            <id>deploy-jsp-webapp</id>
+            <id>run-jsp-webapp</id>
             <properties>
                 <skip.run.webapp>false</skip.run.webapp>
             </properties>
