@@ -269,7 +269,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                     }
                 }
 
-                result = isValidDomain(document.domain, domain);
+                result = isValidDomain(location.hostname, domain);
                 /* explicitly skip anchors */
             } else if (src.charAt(0) === '#') {
                 result = false;
