@@ -41,6 +41,59 @@
 	<name>OWASP CSRFGuard</name>
 	<description>OWASP CSRFGuard is a library that implements a variant of the synchronizer token pattern to mitigate the risk of Cross-Site Request Forgery (CSRF) attacks.</description>
 
+	<profiles>
+		<profile>
+			<id>minify-js</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<skip.minify-js>false</skip.minify-js>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<configuration>
+							<workingDirectory>${project.basedir}/src/main/resources</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>npm-install</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>npm</executable>
+									<arguments>
+										<argument>install</argument>
+									</arguments>
+									<skip>${skip.minify-js}</skip>
+								</configuration>
+							</execution>
+							<execution>
+								<id>run-webpack</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>npx</executable>
+									<arguments>
+										<argument>webpack</argument>
+									</arguments>
+									<skip>${skip.minify-js}</skip>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<dependencies>
 		<dependency>
 			<groupId>jakarta.servlet</groupId>
@@ -96,6 +149,20 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>src/main/resources</directory>
+							<includes>
+								<include>node_modules/**</include>
+							</includes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
 		</plugins>
 		<resources>
 			<resource>
@@ -103,6 +170,7 @@
 				<filtering>true</filtering>
 				<includes>
 					<include>csrfguard.js</include>
+					<include>csrfguard.min.js</include>
 					<include>csrfguard.tld</include>
 					<include>license.txt</include>
 					<include>csrfguard.properties</include>

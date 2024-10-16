@@ -573,7 +573,7 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 		String result = null;
 
 		if (StringUtils.isBlank(jsSourceFileLocation)) {
-			result = CsrfGuardUtils.readResourceFileContent("META-INF/csrfguard.js");
+			result = CsrfGuardUtils.readResourceFileContent("META-INF/csrfguard.min.js");
 		} else if (jsSourceFileLocation.startsWith("META-INF/")) {
 			result = CsrfGuardUtils.readResourceFileContent(jsSourceFileLocation);
 		} else if (jsSourceFileLocation.startsWith("classpath:")) {
