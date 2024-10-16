@@ -141,7 +141,7 @@
 
         <junit.version>5.11.2</junit.version>
         <mockito.version>4.11.0</mockito.version>
-        <logback.version>1.3.5</logback.version> <!--versions starting from 1.4.x were compiled with Java 11-->
+        <logback.version>1.5.11</logback.version> <!--versions starting from 1.4.x were compiled with Java 11-->
 
         <dependency-check-maven.version>10.0.4</dependency-check-maven.version>
     </properties>
