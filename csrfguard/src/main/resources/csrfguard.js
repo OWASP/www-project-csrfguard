@@ -691,10 +691,8 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                             return index > 0 ? currentUrl.substring(0, index) : currentUrl;
                         }
 
-                        /*
-                         * TODO should other checks be done here like in the isValidUrl?
-                         * Could the url parameter contain full URLs with protocol domain, port etc?
-                         */
+                        let splittedUrl = /^(?:https?:)?\/\/[^\/]*(\/[^#?]*)?.*/.exec(url);
+                        url = (splittedUrl) ? splittedUrl[1] || "/" : url;
                         let normalizedUrl = startsWith(url, '/') ? url : '/' + url;
 
                         normalizedUrl = removeParameters(normalizedUrl, '?');
