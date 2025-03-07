@@ -173,6 +173,10 @@ public final class NullConfigurationProvider implements ConfigurationProvider {
         return null;
     }
 
+    @Override public String getJavascriptTaggedCacheControl() {
+        return null;
+    }
+
     @Override
     public Pattern getJavascriptRefererPattern() {
         return null;

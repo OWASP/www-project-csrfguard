@@ -215,6 +215,10 @@ public final class CsrfGuard {
         return config().getJavascriptCacheControl();
     }
 
+    public String getJavascriptTaggedCacheControl() {
+        return config().getJavascriptTaggedCacheControl();
+    }
+
     public Pattern getJavascriptRefererPattern() {
         return config().getJavascriptRefererPattern();
     }

@@ -38,6 +38,7 @@ import org.owasp.csrfguard.config.properties.javascript.JavaScriptConfigParamete
 import org.owasp.csrfguard.session.LogicalSession;
 import org.owasp.csrfguard.token.storage.LogicalSessionExtractor;
 import org.owasp.csrfguard.token.transferobject.TokenTO;
+import org.owasp.csrfguard.util.ConvertUtil;
 import org.owasp.csrfguard.util.CsrfGuardUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.security.MessageDigest;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.regex.Pattern;
@@ -198,6 +200,12 @@ public final class JavaScriptServlet extends HttpServlet {
         }
     }
 
+    public static String getJavaScriptEtag(final HttpServletRequest request) {
+        final CsrfGuard csrfGuard = CsrfGuard.getInstance();
+        final String[] replacementList = JS_REPLACEMENT_MAP.values().stream().map(v -> v.apply(csrfGuard, request)).toArray(String[]::new);
+        return md5Hex(StringUtils.replaceEach(csrfGuard.getJavascriptTemplateCode(), JS_REPLACEMENT_MAP.keySet().toArray(new String[0]), replacementList));
+    }
+
     private static void writeTokens(final HttpServletResponse response, final TokenTO tokenTO) throws IOException {
         final String jsonTokenTO = tokenTO.toString();
 
@@ -210,22 +218,24 @@ public final class JavaScriptServlet extends HttpServlet {
 
     private static void writeJavaScript(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         final CsrfGuard csrfGuard = CsrfGuard.getInstance();
+        final String[] replacementList = JS_REPLACEMENT_MAP.values().stream().map(v -> v.apply(csrfGuard, request)).toArray(String[]::new);
+        final String code = StringUtils.replaceEach(csrfGuard.getJavascriptTemplateCode(), JS_REPLACEMENT_MAP.keySet().toArray(new String[0]), replacementList);
+        final String etag = md5Hex(code);
+        if (etag != null) response.setHeader("ETag", etag);
+        response.setContentType(JAVASCRIPT_MIME_TYPE);
 
-        /* cannot cache if rotate or token-per-page is enabled */
-        if (csrfGuard.isRotateEnabled() || csrfGuard.isTokenPerPageEnabled()) {
-            response.setHeader("Cache-Control", "no-cache, no-store");
-            response.setHeader("Pragma", "no-cache");
-            response.setHeader("Expires", "0");
+        if (request.getHeader("If-None-Match") != null && request.getHeader("If-None-Match").equals(etag)) {
+            response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+            return;
+        }
+
+        if (request.getParameter("tag") != null && request.getParameter("tag").equals(etag)) {
+            response.setHeader("Cache-Control", csrfGuard.getJavascriptTaggedCacheControl());
+        } else if (csrfGuard.isRotateEnabled() || csrfGuard.isTokenPerPageEnabled()) {
+            response.setHeader("Cache-Control", "private, must-revalidate, max-age=28800");
         } else {
             response.setHeader("Cache-Control", csrfGuard.getJavascriptCacheControl());
         }
-
-        response.setContentType(JAVASCRIPT_MIME_TYPE);
-
-        final String[] replacementList = JS_REPLACEMENT_MAP.values().stream().map(v -> v.apply(csrfGuard, request)).toArray(String[]::new);
-
-        final String code = StringUtils.replaceEach(csrfGuard.getJavascriptTemplateCode(), JS_REPLACEMENT_MAP.keySet().toArray(new String[0]), replacementList);
-
         response.getWriter().write(code);
     }
 
@@ -250,7 +260,7 @@ public final class JavaScriptServlet extends HttpServlet {
      * @return the first host in the list(e.g. "fox1" without port number). null if commaSeparatedHosts is invalid/null/blank
      */
     private static String getFirstHost(String commaSeparatedHosts) {
-        if (StringUtils.isBlank(commaSeparatedHosts)) { 
+        if (StringUtils.isBlank(commaSeparatedHosts)) {
             commaSeparatedHosts = null;
         }else {
             commaSeparatedHosts = commaSeparatedHosts.split(",")[0];  // if there are multiple proxyPass in cascade, XForwardedHost became for example : "fox1:443, spring2:444", where fox1:443 is the first proxyPass encountered
@@ -260,7 +270,7 @@ public final class JavaScriptServlet extends HttpServlet {
                 } catch (final MalformedURLException e) {
                     commaSeparatedHosts = null;
                 }
-            } else { 
+            } else {
                 commaSeparatedHosts = commaSeparatedHosts.split(":")[0];
             }
         }
@@ -310,5 +320,15 @@ public final class JavaScriptServlet extends HttpServlet {
         }
 
         writeJavaScript(request, response);
+    }
+
+    private static String md5Hex(String input) {
+        try {
+            byte[] digest = MessageDigest.getInstance("MD5").digest(input.getBytes());
+            return ConvertUtil.bytesToHex(digest);
+        } catch (Exception e) {
+            LOGGER.debug("Unable to generate ETag", e);
+        }
+        return null;
     }
 }

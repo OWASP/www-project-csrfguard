@@ -184,6 +184,11 @@ public interface ConfigurationProvider {
     String getJavascriptCacheControl();
 
     /**
+     * @return the configured JavaScript cache control when queried using a tag query param
+     */
+    String getJavascriptTaggedCacheControl();
+
+    /**
      * @return the configured JavaScript "Referer" pattern to be used
      */
     Pattern getJavascriptRefererPattern();
