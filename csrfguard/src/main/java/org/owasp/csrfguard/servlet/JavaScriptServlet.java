@@ -232,7 +232,7 @@ public final class JavaScriptServlet extends HttpServlet {
         if (request.getParameter("tag") != null && request.getParameter("tag").equals(etag)) {
             response.setHeader("Cache-Control", csrfGuard.getJavascriptTaggedCacheControl());
         } else if (csrfGuard.isRotateEnabled() || csrfGuard.isTokenPerPageEnabled()) {
-            response.setHeader("Cache-Control", "private, must-revalidate, max-age=28800");
+            response.setHeader("Cache-Control", "private, no-cache, no-store, max-age=0");
         } else {
             response.setHeader("Cache-Control", csrfGuard.getJavascriptCacheControl());
         }
