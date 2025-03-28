@@ -270,7 +270,7 @@ public final class JavaScriptServlet extends HttpServlet {
                 } catch (final MalformedURLException e) {
                     commaSeparatedHosts = null;
                 }
-            } else {
+            } else { 
                 commaSeparatedHosts = commaSeparatedHosts.split(":")[0];
             }
         }
