@@ -683,6 +683,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
 
                     /**
                      * For the library to function correctly, all the URLs must start with a forward slash (/)
+                     * or a full URL (http://example.com, https://example.com, //example.com).
                      * Parameters must be removed from the URL
                      */
                     var normalizeUrl = function(url) {
@@ -691,10 +692,8 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                             return index > 0 ? currentUrl.substring(0, index) : currentUrl;
                         }
 
-                        /*
-                         * TODO should other checks be done here like in the isValidUrl?
-                         * Could the url parameter contain full URLs with protocol domain, port etc?
-                         */
+                        let splittedUrl = /^(?:https?:)?\/\/[^\/]*(\/[^#?]*)?.*/.exec(url);
+                        url = (splittedUrl) ? splittedUrl[1] || "/" : url;
                         let normalizedUrl = startsWith(url, '/') ? url : '/' + url;
 
                         normalizedUrl = removeParameters(normalizedUrl, '?');
