@@ -260,7 +260,7 @@ public final class JavaScriptServlet extends HttpServlet {
      * @return the first host in the list(e.g. "fox1" without port number). null if commaSeparatedHosts is invalid/null/blank
      */
     private static String getFirstHost(String commaSeparatedHosts) {
-        if (StringUtils.isBlank(commaSeparatedHosts)) {
+        if (StringUtils.isBlank(commaSeparatedHosts)) { 
             commaSeparatedHosts = null;
         }else {
             commaSeparatedHosts = commaSeparatedHosts.split(",")[0];  // if there are multiple proxyPass in cascade, XForwardedHost became for example : "fox1:443, spring2:444", where fox1:443 is the first proxyPass encountered
