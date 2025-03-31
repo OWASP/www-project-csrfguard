@@ -117,6 +117,8 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 
 	private String javascriptCacheControl;
 
+	private String javascriptTaggedCacheControl;
+
 	private Pattern javascriptRefererPattern;
 
 	private boolean javascriptInjectIntoForms;
@@ -302,6 +304,10 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 	@Override
 	public String getJavascriptCacheControl() {
 		return this.javascriptCacheControl;
+	}
+
+	@Override public String getJavascriptTaggedCacheControl() {
+		return this.javascriptTaggedCacheControl;
 	}
 
 	@Override
@@ -548,6 +554,7 @@ public class PropertiesConfigurationProvider implements ConfigurationProvider {
 
 			if (servletConfig != null) {
 				this.javascriptCacheControl = getProperty(JavaScriptConfigParameters.CACHE_CONTROL, servletConfig);
+				this.javascriptTaggedCacheControl = getProperty(JavaScriptConfigParameters.CACHE_CONTROL_TAGGED, servletConfig);
 				this.javascriptDomainStrict = getProperty(JavaScriptConfigParameters.DOMAIN_STRICT, servletConfig);
 				this.javascriptInjectIntoAttributes = getProperty(JavaScriptConfigParameters.INJECT_INTO_ATTRIBUTES, servletConfig);
 				this.javascriptInjectGetForms = getProperty(JavaScriptConfigParameters.INJECT_GET_FORMS, servletConfig);
