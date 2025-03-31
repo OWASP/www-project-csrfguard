@@ -34,7 +34,7 @@
     <parent>
         <groupId>org.owasp</groupId>
         <artifactId>csrfguard-extensions</artifactId>
-        <version>4.4.1-jakarta-SNAPSHOT</version>
+        <version>4.5.0-jakarta</version>
     </parent>
 
     <artifactId>csrfguard-extension-session</artifactId>
