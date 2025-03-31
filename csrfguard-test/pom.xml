@@ -34,7 +34,7 @@
     <parent>
         <groupId>org.owasp</groupId>
         <artifactId>csrfguard-parent</artifactId>
-        <version>4.5.0-jakarta</version>
+        <version>4.5.1-jakarta-SNAPSHOT</version>
     </parent>
 
     <artifactId>csrfguard-test</artifactId>
