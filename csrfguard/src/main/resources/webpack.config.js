@@ -24,6 +24,9 @@ module.exports = {
                 terserOptions: {
                     compress: {
                         drop_console: true // Remove console.* statements
+                    },
+		    output: {
+                        quote_style: 1 // Keep original quote style (1 = single where possible)
                     }
                 }
             })

@@ -28,6 +28,27 @@
  */
 
 /**
+ * Issue #341: Minification evaluates verbatim token strings (e.g. `'%MY_TOKEN%'`) to `true` right away if used as constant expression.
+ * Setting them as constant prevents this.
+ */
+const DOMAIN_STRICT = '%DOMAIN_STRICT%';
+const CONTEXT_PATH = '%CONTEXT_PATH%/';
+const UNPROTECTED_EXTENSIONS = '%UNPROTECTED_EXTENSIONS%';
+const INJECT_FORMS = '%INJECT_FORMS%';
+const INJECT_GET_FORMS = '%INJECT_GET_FORMS%';
+const INJECT_FORM_ATTRIBUTES = '%INJECT_FORM_ATTRIBUTES%';
+const INJECT_ATTRIBUTES = '%INJECT_ATTRIBUTES%';
+const TOKENS_PER_PAGE = '%TOKENS_PER_PAGE%';
+const SERVLET_PATH = '%SERVLET_PATH%';
+const ASYNC_XHR = '%ASYNC_XHR%';
+const INJECT_XHR = '%INJECT_XHR%';
+const DYNAMIC_NODE_CREATION_EVENT_NAME = '%DYNAMIC_NODE_CREATION_EVENT_NAME%';
+const DOMAIN_ORIGIN = '%DOMAIN_ORIGIN%';
+const TOKEN_NAME = '%TOKEN_NAME%';
+const TOKEN_VALUE = '%TOKEN_VALUE%';
+const INJECT_DYNAMIC_NODES = '%INJECT_DYNAMIC_NODES%';
+
+/**
  * Issue 92: boolean check to avoid running the function multiple times.
  * Happens if the file is included multiple times which results in
  * Maximum call stack size exceeded
@@ -234,7 +255,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
             /* check exact or subdomain match */
             if (current === target) {
                 result = true;
-            } else if ('%DOMAIN_STRICT%' === false) {
+            } else if (DOMAIN_STRICT === false) {
                 if (target.charAt(0) === '.') {
                     result = endsWith(current, target);
                 } else {
@@ -296,7 +317,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
             if (index > 0) {
                 part = url.substring(index + token.length);
             } else if (url.charAt(0) !== '/') {
-                part = '%CONTEXT_PATH%/' + url;
+                part = CONTEXT_PATH + url;
             } else {
                 part = url;
             }
@@ -470,7 +491,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
          */
         function isUnprotectedExtension(src) {
             var isSupported = false;
-            var exts = '%UNPROTECTED_EXTENSIONS%';/* example(for properties): 'js,css,gif,png,ico,jpg' */
+            var exts = UNPROTECTED_EXTENSIONS;/* example(for properties): 'js,css,gif,png,ico,jpg' */
             if (exts !== '') {
                 var filename = parseUri(src);
                 var ext = getFileExtension(filename).toLowerCase();
@@ -488,10 +509,10 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
         function injectToElements(domElements, tokenName, tokenValue, pageTokens) {
             var len = domElements.length;
 
-            var injectForms = '%INJECT_FORMS%';
-            var injectGetForms = '%INJECT_GET_FORMS%';
-            var injectFormAttributes = '%INJECT_FORM_ATTRIBUTES%';
-            var injectAttributes = '%INJECT_ATTRIBUTES%';
+            var injectForms = INJECT_FORMS;
+            var injectGetForms = INJECT_GET_FORMS;
+            var injectFormAttributes = INJECT_FORM_ATTRIBUTES;
+            var injectAttributes = INJECT_ATTRIBUTES;
 
             for (let i = 0; i < len; i++) {
                 let element = domElements[i];
@@ -521,7 +542,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
             /* obtain reference to page tokens if enabled */
             var pageTokens = {};
 
-            if ('%TOKENS_PER_PAGE%') {
+            if (TOKENS_PER_PAGE) {
                 pageTokens = existingPageTokens;
             }
 
@@ -537,10 +558,10 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
         function requestPageTokens(tokenName, tokenValue, callback) {
             const xhr = window.XMLHttpRequest ? new window.XMLHttpRequest : new window.ActiveXObject('Microsoft.XMLHTTP');
 
-            xhr.open('POST', '%SERVLET_PATH%', '%ASYNC_XHR%');
+            xhr.open('POST', SERVLET_PATH, ASYNC_XHR);
 
             /* if AJAX is enabled, the token header will be automatically added, no need to set it again */
-            if ('%INJECT_XHR%' !== true) {
+            if (INJECT_XHR !== true) {
                 if (tokenName !== undefined && tokenValue !== undefined) {
                     xhr.setRequestHeader(tokenName, tokenValue);
                 }
@@ -562,7 +583,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
         }
 
         function handleDynamicallyCreatedNodes() {
-            const dynamicNodeCreationEventName = '%DYNAMIC_NODE_CREATION_EVENT_NAME%';
+            const dynamicNodeCreationEventName = DYNAMIC_NODE_CREATION_EVENT_NAME;
 
             if (dynamicNodeCreationEventName && dynamicNodeCreationEventName.length > 0) {
                 addEvent(window, dynamicNodeCreationEventName, function (event) {
@@ -600,10 +621,10 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
          * The token is now removed and fetched using another POST request to solve,
          * the token hijacking problem.
          */
-        var target = '%DOMAIN_ORIGIN%'.split(',')
+        var target = DOMAIN_ORIGIN.split(',')
         if (isValidDomain(document.domain, target)) {
-            var tokenName = '%TOKEN_NAME%';
-            var masterTokenValue = '%TOKEN_VALUE%';
+            var tokenName = TOKEN_NAME;
+            var masterTokenValue = TOKEN_VALUE;
             console.debug('Master token [' + tokenName + ']: ', masterTokenValue);
 
             var isLoadedWrapper = {isDomContentLoaded: false};
@@ -620,12 +641,12 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                 }
             });
 
-            if ('%INJECT_DYNAMIC_NODES%') { // TODO should it be invoked only after the DOMContentLoaded?
+            if (INJECT_DYNAMIC_NODES) { // TODO should it be invoked only after the DOMContentLoaded?
                 handleDynamicallyCreatedNodes();
             }
 
             /* optionally include Ajax support */
-            if ('%INJECT_XHR%') {
+            if (INJECT_XHR) {
                 if (navigator.appName === 'Microsoft Internet Explorer') {
                     hijackExplorer();
                 } else {
@@ -727,7 +748,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                 };
             }
 
-            if ('%TOKENS_PER_PAGE%') {
+            if (TOKENS_PER_PAGE) {
                 let pageTokenRequestCallback = function (receivedPageTokens) {
                     pageTokenWrapper.pageTokens = receivedPageTokens;
 
