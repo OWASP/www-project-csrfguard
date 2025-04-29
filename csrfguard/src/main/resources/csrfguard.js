@@ -581,7 +581,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                     });
 
                     formMutationObserver.observe(document, {attributes: false, childList: true, subtree: true});
-                    addEvent(window, 'unload', formMutationObserver.disconnect);
+                    addEvent(window, 'pagehide', formMutationObserver.disconnect);
                 } else {
                     addEvent(window, 'DOMNodeInserted', function (event) {
                         const target = event.target || event.srcElement;
@@ -610,7 +610,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
 
             var pageTokenWrapper = {pageTokens: {}};
 
-            addEvent(window, 'unload', EventCache.flush);
+            addEvent(window, 'pagehide', EventCache.flush);
 
             addEvent(window, 'DOMContentLoaded', function () {
                 isLoadedWrapper.isDomContentLoaded = true;
