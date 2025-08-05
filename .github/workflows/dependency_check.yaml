@@ -13,8 +13,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Cache M2 Repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: maven-
+
+      - name: Cache OWASP Dependency-Check NVD data
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository/org/owasp/dependency-check-data
+          key: owasp-dependency-check-${{ github.run_id }}
+          restore-keys: owasp-dependency-check-
+
       - name: OWASP Dependency Check
-        run: mvn clean --batch-mode --update-snapshots verify -Pdependency-check
+        run: mvn clean --batch-mode --update-snapshots verify -Pdependency-check -Dnvd.api.key=${{ secrets.NVD_API_KEY }}
 
       - name: Upload Test results
         uses: actions/upload-artifact@v4
