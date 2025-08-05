@@ -28,7 +28,7 @@ jobs:
           restore-keys: owasp-dependency-check-
 
       - name: OWASP Dependency Check
-        run: mvn clean --batch-mode --update-snapshots verify -Pdependency-check
+        run: mvn clean --batch-mode --update-snapshots verify -Pdependency-check -Dnvd.api.key=${{ secrets.NVD_API_KEY }}
 
       - name: Upload Test results
         uses: actions/upload-artifact@v4
