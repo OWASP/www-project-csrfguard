@@ -1,0 +1,32 @@
+audience:
+  - breaker
+  - builder
+leaders:
+  - name: Azzeddine RAMRAMI
+    email: azzeddine.ramrami@owasp.org
+    github: aramrami
+  - name: Istvan Albert-Toth
+    email: istvan.alberttoth@owasp.org
+  - name: Sébastien Gioria
+    email: sebastien.gioria@owasp.org
+    github: SPoint42
+level: 4
+license:
+  - BSD-3-Clause
+name: OWASP CSRFGuard
+pitch: OWASP CSRFGuard is a library that implements a variant of the synchronizer token pattern to mitigate the risk of Cross-Site Request Forgery (CSRF)
+  attacks.
+repositories:
+  - name: www-project-csrfguard
+    url: https://github.com/OWASP/www-project-csrfguard
+    description: The aim of this project is to protect Java applications against CSRF attacks with the use of Synchronizer Tokens
+  - name: OWASP-CSRFGuard
+    url: https://github.com/aramrami/OWASP-CSRFGuard
+    description: OWASP CSRFGuard 3.1.0
+tags:
+  - csrfguard
+  - defenders
+  - breakers
+  - vulnerability-management
+type: tool
+website: https://owasp.org/www-project-csrfguard
