@@ -52,6 +52,55 @@ Add the following dependencies to your Maven POM file to use the library:
     <version>4.4.0</version>
 </dependency>
 ```
+----------------------------------------------------------------------------------
+## JavaScript Configuration Parameters
+
+CSRFGuard exposes several JavaScript-related configuration parameters that control
+how the JavaScript servlet behaves. These parameters can be configured in the
+CSRFGuard properties file and may also be overridden using `web.xml` context
+parameters.
+
+The following table lists the available configuration options, their purpose,
+and default values.
+
+### String-based parameters
+
+| Property Name | Description | Default Value |
+|--------------|------------|---------------|
+| `cache-control` | Cache-Control header value for the generated JavaScript response. | `private, max-age=28800` |
+| `cache-control-tagged` | Cache-Control header value when tagged JavaScript responses are used. | `private, max-age=600` |
+| `referer-pattern` | Regular expression used to validate HTTP referer headers. | `.*` |
+| `unprotected-extensions` | File extensions that should not be protected by CSRFGuard. | empty |
+| `source-file` | Custom JavaScript source file location for CSRFGuard. | `null` |
+| `x-requested-with` | Value used for the `X-Requested-With` HTTP header. | `OWASP CSRFGuard Project` |
+| `dynamic-node-creation-event` | Event name used to detect dynamically created DOM nodes. | `null` |
+
+### Boolean-based parameters
+
+| Property Name | Description | Default Value |
+|--------------|------------|---------------|
+| `domain-strict` | Enforces strict domain matching during referer validation. | `true` |
+| `inject-into-attributes` | Enables injection of CSRF tokens into HTML attributes. | `true` |
+| `inject-get-forms` | Enables token injection for HTTP GET forms. | `true` |
+| `inject-form-attributes` | Enables token injection into form attributes. | `true` |
+| `inject-into-forms` | Enables injection of CSRF tokens into HTML forms. | `true` |
+| `inject-into-dynamic` | Enables injection into dynamically created DOM nodes. | `false` |
+| `referer-match-protocol` | Requires protocol matching during referer validation. | `true` |
+| `referer-match-domain` | Requires domain matching during referer validation. | `true` |
+
+### Overriding values using `web.xml`
+
+These configuration options can be overridden using `web.xml` by defining
+corresponding context parameters.
+
+Example:
+
+```xml
+<context-param>
+    <param-name>org.owasp.csrfguard.JavascriptServlet.cacheControl</param-name>
+    <param-value>no-store</param-value>
+</context-param>
+-------------------------------------------------------------------------------
 
 ## Building the code
 
