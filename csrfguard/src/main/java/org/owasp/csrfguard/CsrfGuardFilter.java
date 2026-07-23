@@ -111,8 +111,10 @@ public class CsrfGuardFilter implements Filter {
 
         final String requestURI = httpServletRequest.getRequestURI();
         final String generatedToken = csrfGuard.getTokenService().generateTokensIfAbsent(logicalSessionKey, httpServletRequest.getMethod(), requestURI);
+        final TokenTO tokenTO = csrfGuard.isTokenPerPageEnabled() ? new TokenTO(Collections.singletonMap(requestURI, generatedToken))
+                                                                  : new TokenTO(generatedToken);
 
-        CsrfGuardUtils.addResponseTokenHeader(csrfGuard, httpServletRequest, interceptRedirectResponse, new TokenTO(Collections.singletonMap(requestURI, generatedToken)));
+        CsrfGuardUtils.addResponseTokenHeader(csrfGuard, httpServletRequest, interceptRedirectResponse, tokenTO);
     }
 
     private void handleNoSession(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse, final InterceptRedirectResponse interceptRedirectResponse, final FilterChain filterChain,
