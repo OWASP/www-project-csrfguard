@@ -97,9 +97,9 @@ public class CsrfGuardServletContextListener implements ServletContextListener {
 
 					loadProperties(metaInfInputStream);
 				}
+			} else {
+				loadProperties(configFileInputStream);
 			}
-
-			loadProperties(configFileInputStream);
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
