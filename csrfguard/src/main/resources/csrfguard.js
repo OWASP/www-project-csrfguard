@@ -270,36 +270,20 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
          *  determine if uri/url points to valid domain
          */
         function isValidUrl(src) {
-            var result = false;
-            var urlStartsWithProtocol = /^[a-zA-Z][a-zA-Z0-9.+-]*:/;
-
-            /* parse out domain to make sure it points to our own */
-            if (src.substring(0, 7) === 'http://' || src.substring(0, 8) === 'https://') {
-                var token = '://';
-                var index = src.indexOf(token);
-                var part = src.substring(index + token.length);
-                var domain = '';
-
-                /* parse up to end, first slash, or anchor */
-                for (var i = 0; i < part.length; i++) {
-                    var character = part.charAt(i);
-                    if (character === '/' || character === ':' || character === '#') {
-                        break;
-                    } else {
-                        domain += character;
-                    }
-                }
-
-                result = isValidDomain(location.hostname, domain);
-                /* explicitly skip anchors */
-            } else if (src.charAt(0) === '#') {
-                result = false;
-                /* ensure it is a local resource without a protocol */
-            } else if (!startsWith(src, '//') && (src.charAt(0) === '/' || src.search(urlStartsWithProtocol) === -1)) {
-                result = true;
+            /* Do not inject tokens into anchors or protocol-relative URLs. */
+            if (src.charAt(0) === '#' || startsWith(src, '//')) {
+                return false;
             }
 
-            return result;
+            try {
+                var target = new URL(src, location.href);
+                return (target.protocol === 'http:' || target.protocol === 'https:') &&
+                    target.protocol === location.protocol &&
+                    target.port === location.port &&
+                    isValidDomain(location.hostname, target.hostname);
+            } catch (e) {
+                return false;
+            }
         }
 
         /* parse uri from url */

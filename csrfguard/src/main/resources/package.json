@@ -4,6 +4,7 @@
   "description": "JS minification and transpilation",
   "main": "./csrfguard.js",
   "scripts": {
+    "test": "node --test ../../test/js/csrfguard-url.test.js"
   },
   "private": true,
   "author": "forgedhallpass",
